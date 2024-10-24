@@ -30,7 +30,7 @@ public class VentanaRegistro extends JFrame{
 		//Editar el nombre de la ventana
 		setTitle("SkyMovie");
 		//Ponerle un icono personalizado a la ventana (esquina superior izquierda)
-		ImageIcon imagen = new ImageIcon("img/iconoSkyMovie.png");
+		ImageIcon imagen = new ImageIcon("resources/img/iconoSkyMovie.png");
 		setIconImage(imagen.getImage());
 		
 		//Instanciamos los paneles
