@@ -1,8 +1,5 @@
 package domain;
 
-import java.time.LocalDate;
-import java.util.List;
-
 public class Pelicula {
 	private String titulo;
 	private String director;
