@@ -1,21 +1,24 @@
 package domain;
 
+import java.time.LocalDate;
+import java.util.List;
+
 public class Pelicula {
 	private String titulo;
-	private String directores;
+	private String director;
 	private String sinopsis;
-	private String durante;
+	private String duracion;
 	private String fechaEstreno;
 	private String actores;
 	private String imagen;
 	
-	public Pelicula(String titulo, String directores, String sinopsis, String durante, String fechaEstreno,
+	public Pelicula(String titulo, String director, String sinopsis, String duracion, String fechaEstreno,
 			String actores, String imagen) {
 		super();
 		this.titulo = titulo;
-		this.directores = directores;
+		this.director = director;
 		this.sinopsis = sinopsis;
-		this.durante = durante;
+		this.duracion = duracion;
 		this.fechaEstreno = fechaEstreno;
 		this.actores = actores;
 		this.imagen = imagen;
@@ -29,12 +32,12 @@ public class Pelicula {
 		this.titulo = titulo;
 	}
 	
-	public String getDirectores() {
-		return directores;
+	public String getDirector() {
+		return director;
 	}
 	
-	public void setDirectores(String directores) {
-		this.directores = directores;
+	public void setDirector(String director) {
+		this.director = director;
 	}
 	
 	public String getSinopsis() {
@@ -45,12 +48,12 @@ public class Pelicula {
 		this.sinopsis = sinopsis;
 	}
 	
-	public String getDurante() {
-		return durante;
+	public String getDuracion() {
+		return duracion;
 	}
 	
-	public void setDurante(String durante) {
-		this.durante = durante;
+	public void setDuracion(String duracion) {
+		this.duracion = duracion;
 	}
 	
 	public String getFechaEstreno() {
@@ -76,11 +79,10 @@ public class Pelicula {
 	public void setImagen(String imagen) {
 		this.imagen = imagen;
 	}
-
+	
 	@Override
 	public String toString() {
-		return "Pelicula [titulo=" + titulo + ", directores=" + directores + ", sinopsis=" + sinopsis + ", durante="
-				+ durante + ", fechaEstreno=" + fechaEstreno + ", actores=" + actores + ", imagen=" + imagen + "]";
+		return "Pelicula [titulo=" + titulo + ", director=" + director + ", actores=" + actores + ", sinopsis="
+				+ sinopsis + ", duracion=" + duracion + ", fechaEstreno=" + fechaEstreno + "]";
 	}
-	
 }
