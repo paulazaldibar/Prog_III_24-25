@@ -3,6 +3,7 @@ package gui;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.image.BufferedImage;
 import java.util.List;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -68,21 +69,21 @@ public class VentanaInicial extends JFrame {
     public VentanaInicial() {
         // Configuración de la ventana principal
         setTitle("Ventana Principal");
-        setSize(400, 600);
+        setSize(600, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
 
         // Panel superior con una imagen
         JPanel panelSuperior = new JPanel();
-        panelSuperior.setPreferredSize(new Dimension(400, 150)); // Altura para el panel
+        panelSuperior.setPreferredSize(new Dimension(600, 150)); // Altura para el panel
         JLabel imagenSuperior = new JLabel("Imagen aquí"); // Puedes reemplazar esto con una imagen real
         imagenSuperior.setHorizontalAlignment(JLabel.CENTER);
         panelSuperior.add(imagenSuperior);
 
         // JTabbedPane para las películas
         JTabbedPane tabbedPane = new JTabbedPane();
-        for (int i = 1; i <= 7; i++) { // 7 pestañas (una por película)
-            tabbedPane.addTab("Día " + i, crearPanelPeliculas(i-1)); // Se pasa el índice a crearPanelPeliculas
+        for (int i = 1; i <= 7; i++) { // 7 pestañas
+            tabbedPane.addTab("Día " + i, crearPanelPeliculas()); // Llenamos todas las pestañas con todas las películas
         }
 
         // Añadir los paneles a la ventana principal
@@ -92,40 +93,52 @@ public class VentanaInicial extends JFrame {
         setVisible(true);
     }
 
-    // Método para crear un panel con una película según el índice
-    private JScrollPane crearPanelPeliculas(int index) {
-        // Crear un panel con GridLayout (1 película por panel)
+ // Método para crear un panel con todas las películas en una cuadrícula 3x3
+    private JScrollPane crearPanelPeliculas() {
+        // Panel que contendrá todas las películas en una cuadrícula
         JPanel panelGrid = new JPanel();
-        panelGrid.setLayout(new GridLayout(1, 1, 10, 10)); // Solo una fila
+        panelGrid.setLayout(new GridLayout(0, 3, 10, 10)); // 3 columnas y filas dinámicas
 
-        // Añadir la película al grid
-        JPanel panelPelicula = new JPanel();
-        panelPelicula.setLayout(new BorderLayout());
+        // Añadir cada película al grid
+        for (int i = 0; i < rutasImagenes.size(); i++) {
+            JPanel panelPelicula = new JPanel();
+            panelPelicula.setLayout(new BorderLayout());
 
-        // Cargar la imagen desde la ruta
-        String rutaImagen = rutasImagenes.get(index);
-        ImageIcon imagenIcono = new ImageIcon(rutaImagen);
+            // Cargar la imagen desde la ruta
+            String rutaImagen = rutasImagenes.get(i);
+            java.net.URL imgURL = getClass().getResource(rutaImagen);
+            
+            // Verificar si la imagen existe antes de crear el ImageIcon
+            ImageIcon imagenIcono;
+            if (imgURL != null) {
+                imagenIcono = new ImageIcon(imgURL);
+            } else {
+                System.out.println("Imagen no encontrada en la ruta: " + rutaImagen);
+                // Usar una imagen de reemplazo o continuar sin imagen
+                imagenIcono = new ImageIcon(new BufferedImage(100, 100, BufferedImage.TYPE_INT_ARGB));
+            }
 
-        // Escalar la imagen si es necesario
-        ImageIcon imagenEscalada = new ImageIcon(
-            imagenIcono.getImage().getScaledInstance(100, 100, java.awt.Image.SCALE_SMOOTH));
+            // Escalar la imagen
+            ImageIcon imagenEscalada = new ImageIcon(
+                imagenIcono.getImage().getScaledInstance(100, 100, java.awt.Image.SCALE_SMOOTH));
+            JLabel imagenPelicula = new JLabel(imagenEscalada, JLabel.CENTER);
+            imagenPelicula.setPreferredSize(new Dimension(100, 100));
 
-        JLabel imagenPelicula = new JLabel(imagenEscalada, JLabel.CENTER);
-        imagenPelicula.setPreferredSize(new Dimension(100, 100));
+            // Título de la película
+            String titulo = titulosPeliculas.get(i);
+            JLabel tituloPelicula = new JLabel(titulo, JLabel.CENTER);
 
-        // Título de la película
-        String titulo = titulosPeliculas.get(index);
-        JLabel tituloPelicula = new JLabel(titulo, JLabel.CENTER);
+            // Añadir la imagen y el título al panel
+            panelPelicula.add(imagenPelicula, BorderLayout.CENTER);
+            panelPelicula.add(tituloPelicula, BorderLayout.SOUTH);
 
-        // Añadir la imagen y el título al panel
-        panelPelicula.add(imagenPelicula, BorderLayout.CENTER);
-        panelPelicula.add(tituloPelicula, BorderLayout.SOUTH);
+            // Añadir el panel de la película al grid
+            panelGrid.add(panelPelicula);
+        }
 
-        // Añadir el panel de la película al grid
-        panelGrid.add(panelPelicula);
-
-        // Devolver el panel dentro de un JScrollPane
+        // Devolver el panel dentro de un JScrollPane para hacer scroll si es necesario
         JScrollPane scrollPane = new JScrollPane(panelGrid);
+        scrollPane.setPreferredSize(new Dimension(600, 400));
         return scrollPane;
     }
 
