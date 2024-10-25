@@ -15,7 +15,7 @@ import javax.swing.JTextField;
 
 public class VentanaPagar extends JFrame{
 	private JButton btnPagar; 
-	private JPanel pCentro, pNorte, pEste, pOeste, pSur; 
+	private JPanel pCentro, pNorte, pSur; 
 	private JLabel lblTitulo, lblNombre, lblTarjeta, lblFecha, lblCVV;
 	private JTextField txtNombre, txtTarjeta, txtFecha, txtCVV; 
 	private JCheckBox checkTerminos;
@@ -33,16 +33,13 @@ public class VentanaPagar extends JFrame{
 		pCentro = new JPanel();
 		pNorte = new JPanel(); 
 		pSur = new JPanel(); 
-		//pEste = new JPanel();
-		//pOeste = new JPanel(); 
+		
 		
 		getContentPane().add(pCentro, BorderLayout.CENTER);
 		getContentPane().add(pNorte, BorderLayout.NORTH);
-		//getContentPane().add(pEste, BorderLayout.EAST);
-		//getContentPane().add(pOeste, BorderLayout.WEST);
 		getContentPane().add(pSur, BorderLayout.SOUTH);
 		
-		pCentro.setLayout(new GridLayout(4, 2, 10, 10)); // 4 filas, 2 columnas
+		pCentro.setLayout(new GridLayout(6, 2, 10, 10)); // 6 filas, 2 columnas
 		pCentro.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20)); // para dejar espacio en los bordes
 
 		btnPagar = new JButton("PAGAR");
@@ -59,16 +56,21 @@ public class VentanaPagar extends JFrame{
 		txtTarjeta = new JTextField(20);
 		txtFecha = new JTextField("MM/AA", 5);
 		txtCVV = new JTextField(3);
-		/*
+		
 		checkTerminos = new JCheckBox("Aceptar términos y condiciones");
 		
-		txtCondiciones = new JTextArea("Al proceder con la compra, usted acepta los términos y condiciones, así como el uso de sus datos personales para fines de gestión de compra y entrega de servicios. La información será tratada de acuerdo con la legislación vigente en materia de protección de datos y nuestra política de privacidad, la cual puede consultar en nuestra página web.");
+		txtCondiciones = new JTextArea("Al proceder con la compra, usted acepta los términos y condiciones," 
+									+ "así como el uso de sus datos personales para fines de gestión de compra "
+									+ "y entrega de servicios. La información será tratada de acuerdo con la "
+									+ "legislación vigente en materia de protección de datos y nuestra política"
+									+ " de privacidad, la cual puede consultar en nuestra página web.");
 		txtCondiciones.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 10)); 
-		txtCondiciones.setLineWrap(true);
-        txtCondiciones.setWrapStyleWord(true);
+		
+		//txtCondiciones.setLineWrap(true);
+       // txtCondiciones.setWrapStyleWord(true);
         txtCondiciones.setEditable(false); // Solo lectura
         txtCondiciones.setBackground(getBackground()); // Sin fondo visible
-*/
+		 
 		
 		
 		pSur.add(btnPagar);
@@ -81,8 +83,8 @@ public class VentanaPagar extends JFrame{
 		pCentro.add(txtFecha);
 		pCentro.add(lblCVV); 
 		pCentro.add(txtCVV);
-		//pCentro.add(checkTerminos);
-		//pCentro.add(txtCondiciones);
+		pCentro.add(checkTerminos);
+		pCentro.add(txtCondiciones);
 		
 		setVisible(true);
 		
