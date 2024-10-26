@@ -3,6 +3,7 @@ package gui;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
 import java.util.List;
 import javax.swing.ImageIcon;
@@ -14,7 +15,6 @@ import javax.swing.JTabbedPane;
 
 public class VentanaInicial extends JFrame {
 
-    // Lista de rutas de las imágenes de las películas
     private List<String> rutasImagenes = List.of(
         "/resources/img/portadas/12 Años de Esclavitud.jpg",
         "/resources/img/portadas/Alien El Octavo Pasajero.jpg",
@@ -53,7 +53,6 @@ public class VentanaInicial extends JFrame {
         "/resources/img/portadas/Volver al Futuro.jpg"
     );
 
-    // Lista de títulos de las películas
     private List<String> titulosPeliculas = List.of(
         "12 Años de Esclavitud", "Alien El Octavo Pasajero", "Barbie", 
         "Blade Runner", "Casablanca", "Dune Parte uno", "El Caballero Oscuro",
@@ -67,23 +66,23 @@ public class VentanaInicial extends JFrame {
     );
 
     public VentanaInicial() {
-        // Configuración de la ventana principal
-        setTitle("Ventana Principal");
-        setSize(600, 600);
+    	
+        setTitle("SkyMovie");
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        setSize(screenSize); 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
 
-        // Panel superior con una imagen
         JPanel panelSuperior = new JPanel();
-        panelSuperior.setPreferredSize(new Dimension(600, 150)); // Altura para el panel
-        JLabel imagenSuperior = new JLabel("Imagen aquí"); // Puedes reemplazar esto con una imagen real
+        panelSuperior.setPreferredSize(new Dimension(screenSize.width, 150)); 
+        JLabel imagenSuperior = new JLabel("resources/img/iconoSkyMovie.png"); 
         imagenSuperior.setHorizontalAlignment(JLabel.CENTER);
         panelSuperior.add(imagenSuperior);
 
         // JTabbedPane para las películas
         JTabbedPane tabbedPane = new JTabbedPane();
         for (int i = 1; i <= 7; i++) { // 7 pestañas
-            tabbedPane.addTab("Día " + i, crearPanelPeliculas()); // Llenamos todas las pestañas con todas las películas
+            tabbedPane.addTab("Día " + i, crearPanelPeliculas()); 
         }
 
         // Añadir los paneles a la ventana principal
@@ -136,7 +135,6 @@ public class VentanaInicial extends JFrame {
             panelGrid.add(panelPelicula);
         }
 
-        // Devolver el panel dentro de un JScrollPane para hacer scroll si es necesario
         JScrollPane scrollPane = new JScrollPane(panelGrid);
         scrollPane.setPreferredSize(new Dimension(600, 400));
         return scrollPane;

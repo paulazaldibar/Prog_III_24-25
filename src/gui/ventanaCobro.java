@@ -19,23 +19,20 @@ public class ventanaCobro extends JFrame {
         ImageIcon imagen = new ImageIcon("resources/img/iconoSkyMovie.png");
         setIconImage(imagen.getImage());
 
-        // Crear los paneles
         pCentro = new JPanel();
-        pCentro.setLayout(new BoxLayout(pCentro, BoxLayout.Y_AXIS)); // Disposición vertical
+        pCentro.setLayout(new BoxLayout(pCentro, BoxLayout.Y_AXIS)); 
         pNorte = new JPanel(); 
-        pSur = new JPanel(); // Solo para el botón de pagar
+        pSur = new JPanel(); 
 
         getContentPane().add(pCentro, BorderLayout.CENTER);
         getContentPane().add(pNorte, BorderLayout.NORTH);
         getContentPane().add(pSur, BorderLayout.SOUTH);
 
-        // Configuración del botón de pago
         btnPagar = new JButton("PAGAR");
         btnPagar.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 18));
 		pCentro.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20)); // para dejar espacio en los bordes
 
 
-        // Crear etiquetas y campos de texto
         lblTitulo = new JLabel("Introduzca sus datos para realizar el pago:");
         lblNombre = new JLabel("Nombre: ");
         lblTarjeta = new JLabel("Número de tarjeta: ");
@@ -46,7 +43,6 @@ public class ventanaCobro extends JFrame {
         txtFecha = new JTextField("MM/AA", 5);
         txtCVV = new JTextField(3);
 
-        // Checkbox para aceptar términos
         chkTerminos = new JCheckBox("Aceptar términos y condiciones");
 
         // Texto de condiciones en un JTextArea solo lectura con ajuste de línea
@@ -56,11 +52,10 @@ public class ventanaCobro extends JFrame {
         txtCondiciones.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 10));
         txtCondiciones.setLineWrap(true);
         txtCondiciones.setWrapStyleWord(true);
-        txtCondiciones.setEditable(false);  // Solo lectura
+        txtCondiciones.setEditable(false);  
         txtCondiciones.setOpaque(false);    // Fondo transparente para que parezca una etiqueta
-        txtCondiciones.setAlignmentX(Component.LEFT_ALIGNMENT); // Alinear a la izquierda
+        txtCondiciones.setAlignmentX(Component.LEFT_ALIGNMENT); 
 
-        // Añadir componentes al panel de encabezado
         pNorte.add(lblTitulo);
 
         // Añadir componentes al panel central con BoxLayout (disposición vertical)
@@ -75,7 +70,6 @@ public class ventanaCobro extends JFrame {
         pCentro.add(chkTerminos);
         pCentro.add(txtCondiciones); // Añadir el JTextArea justo debajo del checkbox
 
-        // Añadir botón pagar al panel sur
         pSur.add(btnPagar);
 
         setVisible(true);

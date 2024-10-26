@@ -7,10 +7,9 @@ public class Pelicula {
 	private String duracion;
 	private String fechaEstreno;
 	private String actores;
-	private String imagen;
 	
 	public Pelicula(String titulo, String director, String sinopsis, String duracion, String fechaEstreno,
-			String actores, String imagen) {
+			String actores) {
 		super();
 		this.titulo = titulo;
 		this.director = director;
@@ -18,7 +17,6 @@ public class Pelicula {
 		this.duracion = duracion;
 		this.fechaEstreno = fechaEstreno;
 		this.actores = actores;
-		this.imagen = imagen;
 	}
 	
 	public String getTitulo() {
@@ -69,13 +67,6 @@ public class Pelicula {
 		this.actores = actores;
 	}
 	
-	public String getImagen() {
-		return imagen;
-	}
-	
-	public void setImagen(String imagen) {
-		this.imagen = imagen;
-	}
 	
 	@Override
 	public String toString() {
