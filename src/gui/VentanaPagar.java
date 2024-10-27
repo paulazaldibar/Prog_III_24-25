@@ -14,7 +14,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 public class VentanaPagar extends JFrame {
-    private JButton btnPagar;
+    private JButton btnPagar, btnVolver;
     private JPanel pCentro, pNorte, pSur, pCentroDatos;
     private JLabel lblTitulo, lblNombre, lblTarjeta, lblFecha, lblCVV;
     private JTextField txtNombre, txtTarjeta, txtFecha, txtCVV;
@@ -43,6 +43,9 @@ public class VentanaPagar extends JFrame {
 
         btnPagar = new JButton("PAGAR");
         btnPagar.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 18));
+        
+        btnVolver = new JButton("VOLVER"); // Este botón cerrará la ventanaPagar y nos devolverá a la ventanaSeleccionAsientos
+        btnVolver.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 18));
 
         lblTitulo = new JLabel("Introduzca sus datos para realizar el pago:");
         lblNombre = new JLabel("Nombre: ");
@@ -87,6 +90,7 @@ public class VentanaPagar extends JFrame {
         pCentro.add(txtCondiciones, BorderLayout.CENTER);
 
         // Añadimos el botón al panel sur dejando un pequeño borde
+        pSur.add(btnVolver); 
         pSur.add(btnPagar);
         pSur.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
 
