@@ -144,3 +144,4 @@ public class VentanaInicial extends JFrame {
         new VentanaInicial();
     }
 }
+
