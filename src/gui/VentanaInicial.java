@@ -3,8 +3,8 @@ package gui;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.Toolkit;
-import java.awt.image.BufferedImage;
 import java.util.List;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -104,33 +104,12 @@ public class VentanaInicial extends JFrame {
         for (int i = 0; i < rutasImagenes.size(); i++) {
             JPanel panelPelicula = new JPanel();
             panelPelicula.setLayout(new BorderLayout());
-
-            // Cargar la imagen desde la ruta
-          /*  String rutaImagen = rutasImagenes.get(i);
-            java.net.URL imgURL = getClass().getResource(rutaImagen);
             
-            // Verificar si la imagen existe antes de crear el ImageIcon
-            ImageIcon imagenIcono;
-            if (imgURL != null) {
-                imagenIcono = new ImageIcon(imgURL);
-            } else {
-                System.out.println("Imagen no encontrada en la ruta: " + rutaImagen);
-                // Usar una imagen de reemplazo o continuar sin imagen
-                imagenIcono = new ImageIcon(new BufferedImage(100, 100, BufferedImage.TYPE_INT_ARGB));
-            }
-            
-            // Escalar la imagen
-            ImageIcon imagenEscalada = new ImageIcon(
-                imagenIcono.getImage().getScaledInstance(100, 100, java.awt.Image.SCALE_SMOOTH));
-           
-            
-            //ROBERTO ES AQUI
-            JLabel imagenPelicula = new JLabel("", JLabel.CENTER);
-            imagenPelicula.setIcon(imagenEscalada);
-            imagenPelicula.setPreferredSize(new Dimension(100, 100));
-           */
             // Arreglo para visualizar las fotos:
-            JLabel imagenPelicula = new JLabel(new ImageIcon(rutasImagenes.get(i)));
+            String rutaImagen = rutasImagenes.get(i);
+            ImageIcon imagenIcono = new ImageIcon(rutaImagen);
+            Image imagenEscalada = imagenIcono.getImage().getScaledInstance(150, 200, Image.SCALE_SMOOTH);
+            JLabel imagenPelicula = new JLabel(new ImageIcon(imagenEscalada));
             imagenPelicula.setHorizontalAlignment(JLabel.CENTER);
             
             // Título de la película
