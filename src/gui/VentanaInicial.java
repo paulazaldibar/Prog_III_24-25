@@ -70,6 +70,8 @@ public class VentanaInicial extends JFrame {
         setTitle("SkyMovie");
         ImageIcon imagen = new ImageIcon("resources/img/iconoSkyMovie.png");
         setIconImage(imagen.getImage());
+
+        setTitle("SkyMovie");
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         setSize(screenSize); 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -104,7 +106,7 @@ public class VentanaInicial extends JFrame {
             panelPelicula.setLayout(new BorderLayout());
 
             // Cargar la imagen desde la ruta
-            String rutaImagen = rutasImagenes.get(i);
+          /*  String rutaImagen = rutasImagenes.get(i);
             java.net.URL imgURL = getClass().getResource(rutaImagen);
             
             // Verificar si la imagen existe antes de crear el ImageIcon
@@ -126,7 +128,11 @@ public class VentanaInicial extends JFrame {
             JLabel imagenPelicula = new JLabel("", JLabel.CENTER);
             imagenPelicula.setIcon(imagenEscalada);
             imagenPelicula.setPreferredSize(new Dimension(100, 100));
-
+           */
+            // Arreglo para visualizar las fotos:
+            JLabel imagenPelicula = new JLabel(new ImageIcon(rutasImagenes.get(i)));
+            imagenPelicula.setHorizontalAlignment(JLabel.CENTER);
+            
             // Título de la película
             String titulo = titulosPeliculas.get(i);
             JLabel tituloPelicula = new JLabel(titulo, JLabel.CENTER);
