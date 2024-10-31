@@ -17,7 +17,7 @@ import javax.swing.JTextField;
 
 public class VentanaRegistro extends JFrame{
 
-	 private JButton btnInicioSesion, btnRegistro;
+	 	private JButton btnInicioSesion, btnRegistro;
 	    private JPanel pCentro, pNorte, pEste, pOeste, pSur;
 	    private JLabel lblTitulo, lblNombreUsuario, lblContraseniaUsuario;
 	    private JTextField txtNombreUsuario;
