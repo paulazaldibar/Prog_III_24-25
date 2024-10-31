@@ -68,6 +68,8 @@ public class VentanaInicial extends JFrame {
     public VentanaInicial() {
     	
         setTitle("SkyMovie");
+        ImageIcon imagen = new ImageIcon("resources/img/iconoSkyMovie.png");
+        setIconImage(imagen.getImage());
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         setSize(screenSize); 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -75,9 +77,7 @@ public class VentanaInicial extends JFrame {
 
         JPanel panelSuperior = new JPanel();
         panelSuperior.setPreferredSize(new Dimension(screenSize.width, 150)); 
-        JLabel imagenSuperior = new JLabel("resources/img/iconoSkyMovie.png"); 
-        imagenSuperior.setHorizontalAlignment(JLabel.CENTER);
-        panelSuperior.add(imagenSuperior);
+        
 
         // JTabbedPane para las películas
         JTabbedPane tabbedPane = new JTabbedPane();
