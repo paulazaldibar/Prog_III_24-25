@@ -6,8 +6,12 @@ import java.awt.*;
 public class VentanaPelicula extends JFrame {
 
     public VentanaPelicula() {
+    	
+    	setTitle("SkyMovie");
+        ImageIcon imagen = new ImageIcon("resources/img/iconoSkyMovie.png");
+        setIconImage(imagen.getImage());
+
         // Configuración de la ventana principal
-        setTitle("Información de la Película");
         setSize(400, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
