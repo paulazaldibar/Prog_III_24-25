@@ -1,6 +1,7 @@
 package gui;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.Image;
@@ -71,7 +72,6 @@ public class VentanaInicial extends JFrame {
         ImageIcon imagen = new ImageIcon("resources/img/iconoSkyMovie.png");
         setIconImage(imagen.getImage());
 
-        setTitle("SkyMovie");
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         setSize(screenSize); 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -80,6 +80,11 @@ public class VentanaInicial extends JFrame {
         JPanel panelSuperior = new JPanel();
         panelSuperior.setPreferredSize(new Dimension(screenSize.width, 150)); 
         
+        //Añadir imagen al panel superior
+        ImageIcon imagenSuperiorIcono = new ImageIcon("resources/img/foto cabecera.jpg"); // Cambia esta ruta a la imagen que quieras usar
+        Image imagenEscalada = imagenSuperiorIcono.getImage().getScaledInstance(screenSize.width, 150, Image.SCALE_SMOOTH);
+        JLabel imagenSuperior = new JLabel(new ImageIcon(imagenEscalada));
+        panelSuperior.add(imagenSuperior);
 
         // JTabbedPane para las películas
         JTabbedPane tabbedPane = new JTabbedPane();
@@ -104,6 +109,8 @@ public class VentanaInicial extends JFrame {
         for (int i = 0; i < rutasImagenes.size(); i++) {
             JPanel panelPelicula = new JPanel();
             panelPelicula.setLayout(new BorderLayout());
+            panelGrid.setBackground(Color.WHITE);
+            panelPelicula.setBackground(Color.WHITE);
             
             // Arreglo para visualizar las fotos:
             String rutaImagen = rutasImagenes.get(i);
