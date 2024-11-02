@@ -95,9 +95,11 @@ public class VentanaPagar extends JFrame {
         pSur.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
 
         setVisible(true);
+        
+        btnVolver.addActionListener((e) ->{
+        	new VentanaSeleccionAsientos();
+        	this.dispose();
+        });
     }
 
-    public static void main(String[] args) {
-    	VentanaPagar vPagar = new VentanaPagar();
-    }
 }
