@@ -1,3 +1,5 @@
+// El for para recorrer las lista de los botones de los asientos y el método para actualizar el precio total
+// esta hecho con ayuda de chat GPT
 package gui;
 
 import java.awt.BorderLayout;
@@ -20,9 +22,9 @@ public class VentanaSeleccionAsientos extends JFrame {
     private static double precioEntrada = 10.0; 
     private static int totalAsientosSeleccionados = 0; 
     private ArrayList<JButton> asientos; 
-    private JButton btnAsiento, btnContinuar, btnVolver;
+    private JButton btnContinuar, btnVolver;
     private JLabel lblTotal, lblTitulo, lblSubtitulo; 
-    private JPanel pTitulo, pAsientos, pSur; 
+    private JPanel pTitulo, pAsientos, pTotal, pBotones, pSur; 
     
     
     public VentanaSeleccionAsientos() {
@@ -54,7 +56,7 @@ public class VentanaSeleccionAsientos extends JFrame {
         		if(j==4 || j==15) { // Las columnas 4 y 15 son los pasillos
         			pAsientos.add(new JLabel("")); // Añadimos un espacio en blanco para simular el pasillo
         		}else {
-        			btnAsiento = new JButton();
+        			JButton btnAsiento = new JButton();
         			btnAsiento.setBackground(Color.GREEN);
         			btnAsiento.addActionListener(new ActionListener() {
 						
@@ -80,16 +82,42 @@ public class VentanaSeleccionAsientos extends JFrame {
         
         
         // Panel al sur de la ventana para mostrar el total a pagar por las entradas
+        pSur = new JPanel(); 
+        pSur.setLayout(new BorderLayout());
         
+        pTotal = new JPanel();
+        lblTotal = new JLabel("Total: €0.00"); 
+        lblTotal.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 16));
+        pTotal.add(lblTotal);
+        pSur.add(pTotal, BorderLayout.NORTH);
         
+        pBotones = new JPanel();
+        pBotones.setLayout(new GridLayout(1, 2, 10, 0));  // Al panel botones podemos un gridLayout para que los separe en 1 fila y 2 columnas   
+        btnContinuar = new JButton("CONTINUAR");
+        btnContinuar.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 18));
+        btnVolver = new JButton("VOLVER");
+        btnVolver.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 18));
+        pBotones.add(btnVolver);
+        pBotones.add(btnContinuar);
+        pSur.add(pBotones, BorderLayout.SOUTH);
         
+        pBotones.setBorder(BorderFactory.createEmptyBorder(10, 50, 10, 50));
+        
+        //Añadimos los paneles a la ventana
+        this.add(pAsientos, BorderLayout.CENTER);
+        this.add(pSur, BorderLayout.SOUTH);
+        
+        btnVolver.addActionListener((e) ->{
+        	new VentanaPelicula();
+        	this.dispose();
+        });
         
         setVisible(true);
     }
     
     private void actualizarTotal() {
-		// TODO Auto-generated method stub
-		
+    	double total = totalAsientosSeleccionados * precioEntrada;
+    	lblTotal.setText("Total: €" + String.format("%.2f", total));
 	}
     
     public static void main(String[] args) {
