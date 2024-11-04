@@ -5,12 +5,20 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
@@ -97,8 +105,83 @@ public class VentanaRegistro extends JFrame{
 	        pCentro.add(lblContraseniaUsuario);
 	        pCentro.add(txtContraseniaUsuario);
 
+	        btnRegistro.addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					registrarUsuario();					
+				}
+			});
+	        
+	        btnInicioSesion.addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					iniciarSesion();
+					
+				}
+			});
+	        
 	        setVisible(true);
 	}
+	    
+	private void registrarUsuario() {
+		String usuario = txtNombreUsuario.getText();
+	    String contrasenia = new String(txtContraseniaUsuario.getPassword());
+
+	    if (usuario.isEmpty() || contrasenia.isEmpty()) {
+	    	JOptionPane.showMessageDialog(this, "Por favor, complete todos los campos", "Error", JOptionPane.ERROR_MESSAGE);
+	        return;
+	    }
+
+	    try (BufferedWriter writer = new BufferedWriter(new FileWriter("ficheros/usuarios.txt", true))) {
+	    	writer.write(usuario + ":" + contrasenia);
+	        writer.newLine();
+	        JOptionPane.showMessageDialog(this, "Usuario registrado con éxito");
+	        redirigirVentanaInicial();
+	    } catch (IOException ex) {
+	    	ex.printStackTrace();
+	    	JOptionPane.showMessageDialog(this, "Error al registrar el usuario", "Error", JOptionPane.ERROR_MESSAGE);
+	    }
+     }
+	
+	private void iniciarSesion() {
+        String usuario = txtNombreUsuario.getText();
+        String contrasenia = new String(txtContraseniaUsuario.getPassword());
+
+        if (usuario.isEmpty() || contrasenia.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Por favor, complete todos los campos", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        try (BufferedReader reader = new BufferedReader(new FileReader("ficheros/usuarios.txt"))) {
+            String linea;
+            boolean encontrado = false;
+
+            while ((linea = reader.readLine()) != null) {
+                String[] partes = linea.split(":");
+                if (partes[0].equals(usuario) && partes[1].equals(contrasenia)) {
+                    encontrado = true;
+                    JOptionPane.showMessageDialog(this, "Inicio de sesión exitoso");
+                    redirigirVentanaInicial();
+                    break;
+                }
+            }
+
+            if (!encontrado) {
+                JOptionPane.showMessageDialog(this, "Usuario no registrado o contraseña incorrecta", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Error al iniciar sesión", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+	
+	private void redirigirVentanaInicial() {
+        this.dispose(); 
+        new VentanaInicial();
+    }
+	    
 	public static void main(String[] args) {
 		VentanaRegistro v = new VentanaRegistro();
 	}
