@@ -5,20 +5,22 @@ import java.awt.*;
 
 public class VentanaPelicula extends JFrame {
 
-    public VentanaPelicula() {
+	private JLabel portadaLabel;
+	private JLabel tituloLabel;
+	
+    public VentanaPelicula(String titulo, String rutaPortada) {
     	
     	setTitle("SkyMovie");
         ImageIcon imagen = new ImageIcon("resources/img/iconoSkyMovie.png");
         setIconImage(imagen.getImage());
 
-        // Configuración de la ventana principal
-        setSize(400, 600);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLocationRelativeTo(null);
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        setSize(screenSize); 
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setLayout(new BorderLayout());
         
         // Panel principal
-        JPanel mainPanel = new JPanel();
-        mainPanel.setLayout(new BorderLayout());
+        JPanel mainPanel = new JPanel(new BorderLayout());
         
         // Panel superior para el trailer/fondo
         JPanel trailerPanel = new JPanel();
@@ -27,36 +29,44 @@ public class VentanaPelicula extends JFrame {
         mainPanel.add(trailerPanel, BorderLayout.NORTH);
         
         // Panel central para la información de la película
-        JPanel infoPanel = new JPanel();
-        infoPanel.setLayout(new BorderLayout());
+        JPanel infoPanel = new JPanel(new BorderLayout());
+
+        //Imagen de portada
+        portadaLabel = new JLabel();
+        portadaLabel.setHorizontalAlignment(JLabel.CENTER);
+        portadaLabel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        portadaLabel.setPreferredSize(new Dimension(100, 150));
+        infoPanel.add(portadaLabel, BorderLayout.WEST);
         
-        // Panel para la portada
-        JLabel portada = new JLabel("Portada");
-        portada.setHorizontalAlignment(JLabel.CENTER);
-        portada.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        portada.setPreferredSize(new Dimension(100, 150));
-        infoPanel.add(portada, BorderLayout.WEST);
+        actualizarPortada(rutaPortada);
         
         // Panel de texto con la información de la película
-        JPanel textPanel = new JPanel();
-        textPanel.setLayout(new GridLayout(6, 1));
-        textPanel.add(new JLabel("Título: "));
-        textPanel.add(new JLabel("Director: "));
+        JPanel textPanel = new JPanel(new GridLayout(6, 1));
+        tituloLabel = new JLabel("Título: " + titulo, JLabel.LEFT);
+        textPanel.add(tituloLabel);
+        textPanel.add(new JLabel("Director: ")); 
         textPanel.add(new JLabel("Actores: "));
         textPanel.add(new JLabel("Sinopsis: "));
         textPanel.add(new JLabel("Duración: "));
         textPanel.add(new JLabel("Estreno: "));
         infoPanel.add(textPanel, BorderLayout.CENTER);
-        
+
         mainPanel.add(infoPanel, BorderLayout.CENTER);
         
+        /*
+        // Panel para la portada MIRAR
+        JLabel portada = new JLabel("Portada");
+        portada.setHorizontalAlignment(JLabel.CENTER);
+        portada.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        portada.setPreferredSize(new Dimension(100, 150));
+        infoPanel.add(portada, BorderLayout.WEST);
+        */
+        
         // Panel para los días y horarios
-        JPanel schedulePanel = new JPanel();
-        schedulePanel.setLayout(new GridLayout(2, 1));
+        JPanel schedulePanel = new JPanel(new GridLayout(2, 1));
         
         // Panel de días
-        JPanel daysPanel = new JPanel();
-        daysPanel.setLayout(new GridLayout(1, 5));
+        JPanel daysPanel = new JPanel(new GridLayout(1, 5));
         for (int i = 0; i < 5; i++) {
             JButton dayButton = new JButton("Día " + (i + 1));
             daysPanel.add(dayButton);
@@ -64,8 +74,7 @@ public class VentanaPelicula extends JFrame {
         schedulePanel.add(daysPanel);
         
         // Panel de horarios
-        JPanel timePanel = new JPanel();
-        timePanel.setLayout(new GridLayout(2, 2));
+        JPanel timePanel = new JPanel(new GridLayout(2, 2));
         for (int i = 0; i < 4; i++) {
             JButton timeButton = new JButton("15:30");
             timePanel.add(timeButton);
@@ -73,15 +82,26 @@ public class VentanaPelicula extends JFrame {
         schedulePanel.add(timePanel);
         
         mainPanel.add(schedulePanel, BorderLayout.SOUTH);
-        
-        // Añadir el panel principal a la ventana
         add(mainPanel);
     }
 
+    private void actualizarPortada(String rutaPortada) {
+        // Cargar la imagen desde la ruta proporcionada
+        ImageIcon portadaIcono = new ImageIcon(rutaPortada);
+
+        // Verificar si la imagen existe o es válida
+        if (portadaIcono.getIconWidth() == -1) {
+            portadaLabel.setText("Imagen no disponible");
+            portadaLabel.setIcon(null); // No mostrar icono si la imagen no se encuentra
+        } else {
+            // Escalar la imagen si es válida
+            Image portadaEscalada = portadaIcono.getImage().getScaledInstance(100, 150, Image.SCALE_SMOOTH);
+            portadaLabel.setIcon(new ImageIcon(portadaEscalada));
+            portadaLabel.setText(""); // Limpiar el texto en caso de imagen válida
+        }
+    }
+    
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-            VentanaPelicula ventana = new VentanaPelicula();
-            ventana.setVisible(true);
-        });
+        
     }
 }

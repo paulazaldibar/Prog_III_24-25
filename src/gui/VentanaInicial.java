@@ -6,6 +6,8 @@ import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.List;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -74,7 +76,7 @@ public class VentanaInicial extends JFrame {
 
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         setSize(screenSize); 
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLayout(new BorderLayout());
 
         JPanel panelSuperior = new JPanel();
@@ -101,10 +103,9 @@ public class VentanaInicial extends JFrame {
 
  // Método para crear un panel con todas las películas en una cuadrícula 3x3
     private JScrollPane crearPanelPeliculas() {
-        // Panel que contendrá todas las películas en una cuadrícula
-        JPanel panelGrid = new JPanel();
-        panelGrid.setLayout(new GridLayout(0, 3, 10, 10)); // 3 columnas y filas dinámicas
-
+        JPanel panelGrid = new JPanel(new GridLayout(0,  3, 10, 10));
+        panelGrid.setBackground(Color.WHITE);
+        
         // Añadir cada película al grid
         for (int i = 0; i < rutasImagenes.size(); i++) {
             JPanel panelPelicula = new JPanel();
@@ -122,18 +123,34 @@ public class VentanaInicial extends JFrame {
             // Título de la película
             String titulo = titulosPeliculas.get(i);
             JLabel tituloPelicula = new JLabel(titulo, JLabel.CENTER);
+            
+            //Guardar la ventana inicial como una variable
+            JFrame ventanaIni = this;
 
+            imagenPelicula.addMouseListener(new MouseAdapter() {
+                public void mouseClicked(MouseEvent e) {
+                    new VentanaPelicula(titulo, rutaImagen).setVisible(true);
+                    ventanaIni.dispose();
+                }
+            });
+            
             // Añadir la imagen y el título al panel
             panelPelicula.add(imagenPelicula, BorderLayout.CENTER);
             panelPelicula.add(tituloPelicula, BorderLayout.SOUTH);
-
-            // Añadir el panel de la película al grid
             panelGrid.add(panelPelicula);
         }
 
         JScrollPane scrollPane = new JScrollPane(panelGrid);
         scrollPane.setPreferredSize(new Dimension(600, 400));
         return scrollPane;
+    }
+    
+    private void abrirVentanaPelicula(int indice) {
+        String titulo = titulosPeliculas.get(indice);
+        String rutaImagen = rutasImagenes.get(indice);
+        VentanaPelicula ventanaPelicula = new VentanaPelicula(titulo, rutaImagen);
+        ventanaPelicula.setVisible(true);
+        
     }
 
     public static void main(String[] args) {
