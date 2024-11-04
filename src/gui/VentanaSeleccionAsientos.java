@@ -4,13 +4,16 @@ package gui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -28,10 +31,13 @@ public class VentanaSeleccionAsientos extends JFrame {
     
     
     public VentanaSeleccionAsientos() {
-        setTitle("Seleccione sus asientos"); 
-        setBounds(300, 200, 600, 400);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setLocationRelativeTo(null); // posición de la ventana en el centro de la pantalla
+        setTitle("SkyMovie"); 
+        ImageIcon imagen = new ImageIcon("resources/img/iconoSkyMovie.png");
+        setIconImage(imagen.getImage());
+        
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        setSize(screenSize); 
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
         
         pTitulo = new JPanel();
