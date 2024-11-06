@@ -76,9 +76,15 @@ public class VentanaInicial extends JFrame {
     );
     
 
-    private static List<Pelicula> peliculas;
+    private List<Pelicula> peliculas;
     
+    public VentanaInicial() {
+        this(PeliculasData.cargarPeliculas("ficheros/Peliculas.csv"));
+    }
+
     public VentanaInicial(List<Pelicula> peliculas) {
+    	
+    	this.peliculas = peliculas;
     	
         setTitle("SkyMovie");
         ImageIcon imagen = new ImageIcon("resources/img/iconoSkyMovie.png");
@@ -93,16 +99,15 @@ public class VentanaInicial extends JFrame {
         panelSuperior.setPreferredSize(new Dimension(screenSize.width, 150)); 
         
         //Añadir imagen al panel superior
-        ImageIcon imagenSuperiorIcono = new ImageIcon("resources/img/foto cabecera.jpg"); // Cambia esta ruta a la imagen que quieras usar
+        ImageIcon imagenSuperiorIcono = new ImageIcon("resources/img/foto cabecera.jpg");
         Image imagenEscalada = imagenSuperiorIcono.getImage().getScaledInstance(screenSize.width, 150, Image.SCALE_SMOOTH);
         JLabel imagenSuperior = new JLabel(new ImageIcon(imagenEscalada));
         panelSuperior.add(imagenSuperior);
 
         // JTabbedPane para las películas
-        
         JTabbedPane tabbedPane = new JTabbedPane();
-        for (int i = 0; i < 7; i++) { // 7 pestañas
-            String fechaPestana = fechaActual.plusDays(i).format(formatter); // Incrementa la fecha para cada pestaña
+        for (int i = 0; i < 7; i++) {
+            String fechaPestana = fechaActual.plusDays(i).format(formatter); 
             tabbedPane.addTab(fechaPestana, crearPanelPeliculas());
         }
 
@@ -113,20 +118,14 @@ public class VentanaInicial extends JFrame {
         setVisible(true);
     }
 
-    
-    public VentanaInicial() {
-		// TODO Auto-generated constructor stub
-	}
-
 	// Método para crear un panel con todas las películas en una cuadrícula 3x3
     private JScrollPane crearPanelPeliculas() {
         JPanel panelGrid = new JPanel(new GridLayout(0,  3, 10, 10));
         panelGrid.setBackground(Color.WHITE);
-        
-        // Añadir cada película al grid
-        //for (int i = 0; i < rutasImagenes.size(); i++) {ç        
+             
         for (int i = 0; i < peliculas.size(); i++) {
-
+        	final int indice = i;
+        	
             JPanel panelPelicula = new JPanel();
             panelPelicula.setLayout(new BorderLayout());
             panelGrid.setBackground(Color.WHITE);
@@ -148,8 +147,13 @@ public class VentanaInicial extends JFrame {
 
             imagenPelicula.addMouseListener(new MouseAdapter() {
                 public void mouseClicked(MouseEvent e) {
-                    new VentanaPelicula().setVisible(true);
+                	Pelicula peliculaSeleccionada = peliculas.get(indice); 
+                    VentanaPelicula ventanaPelicula = new VentanaPelicula();
+                    ventanaPelicula.setPelicula(peliculaSeleccionada); 
+                    ventanaPelicula.setVisible(true);
+
                     ventanaIni.dispose();
+                	
                 }
             });
             
@@ -173,14 +177,13 @@ public class VentanaInicial extends JFrame {
     }
 
     public static void main(String[] args) {
-        new VentanaInicial();
-        
-        List<Pelicula> peliculas = PeliculasData.cargarPeliculas("ficheros/Peliculas.csv");
+    	List<Pelicula> peliculas = PeliculasData.cargarPeliculas("ficheros/Peliculas.csv");
 
-        if (!peliculas.isEmpty()) {
-            VentanaPelicula ventana = new VentanaPelicula();
-            ventana.setPelicula(peliculas.get(0)); 
-            ventana.setVisible(true);
+    	if (peliculas != null && !peliculas.isEmpty()) {
+            VentanaInicial ventanaInicial = new VentanaInicial(peliculas);
+            ventanaInicial.setVisible(true);
+        } else {
+            System.out.println("No se pudo cargar ninguna película.");
         }
     }
 }

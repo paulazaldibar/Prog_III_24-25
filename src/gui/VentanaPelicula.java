@@ -19,10 +19,12 @@ public class VentanaPelicula extends JFrame {
     private JLabel estrenoLabel;
     
 	private JButton btnDia; 
+	private JButton btnVolver;
 	private LocalDate fechaActual = LocalDate.now(); // Fecha actual del sistema
     private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d MMM"); // Formato de fecha (6 Oct, 7 Oct...)
 
-    
+    // Para mantener el botón seleccionado
+    private JButton selectedDayButton = null;
 	
     public VentanaPelicula() {
     	
@@ -39,12 +41,19 @@ public class VentanaPelicula extends JFrame {
         JPanel mainPanel = new JPanel(new BorderLayout());
         
         // Panel superior para el trailer/fondo
-        JPanel trailerPanel = new JPanel();
+        JPanel trailerPanel = new JPanel(new BorderLayout());
         trailerPanel.setPreferredSize(new Dimension(400, 100));
         trailerPanel.setBorder(BorderFactory.createTitledBorder("Trailer / Fondo"));
+                
+        btnVolver = new JButton("←");
+        btnVolver.setPreferredSize(new Dimension(50, 50));
+        btnVolver.addActionListener(e -> {
+            new VentanaInicial();
+            this.dispose();
+        });
+        trailerPanel.add(btnVolver, BorderLayout.WEST);
         mainPanel.add(trailerPanel, BorderLayout.NORTH);
         
-        // Panel central para la información de la película
         JPanel infoPanel = new JPanel(new BorderLayout());
 
         //Imagen de portada
@@ -54,8 +63,6 @@ public class VentanaPelicula extends JFrame {
         portadaLabel.setPreferredSize(new Dimension(100, 150));
         infoPanel.add(portadaLabel, BorderLayout.WEST);
         
-                
-        // Panel de texto con la información de la película
         JPanel textPanel = new JPanel(new GridLayout(6, 1));
         tituloLabel = new JLabel();
         directorLabel = new JLabel();
@@ -74,35 +81,32 @@ public class VentanaPelicula extends JFrame {
         infoPanel.add(textPanel, BorderLayout.CENTER);
         mainPanel.add(infoPanel, BorderLayout.CENTER);
         
-        /*
-        // Panel para la portada MIRAR
-        JLabel portada = new JLabel("Portada");
-        portada.setHorizontalAlignment(JLabel.CENTER);
-        portada.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        portada.setPreferredSize(new Dimension(100, 150));
-        infoPanel.add(portada, BorderLayout.WEST);
-        */
-        
-        // Panel para los días y horarios
         JPanel schedulePanel = new JPanel(new GridLayout(2, 1));
         
         // Panel de días
+        //EL PUNTERO AL SELECCIONAR UN DIA NO FUNCIONA
         JPanel daysPanel = new JPanel(new GridLayout(1, 5));
-        
         for(int i=0; i<5; i++) {
         	btnDia = new JButton(fechaActual.plusDays(i).format(formatter));
+        	btnDia.setFocusable(false);
+        	btnDia.addActionListener(e -> {
+                if (selectedDayButton != null) {
+                    selectedDayButton.setBackground(new Color(238, 238, 238)); // Restaurar color original
+                }
+                btnDia.setBackground(Color.WHITE); 
+                selectedDayButton = btnDia; 
+            });
         	daysPanel.add(btnDia);
         	
         };
-        
         schedulePanel.add(daysPanel);
         
         // Panel de horarios
         JPanel timePanel = new JPanel(new GridLayout(2, 2));
-        for (int i = 0; i < 4; i++) {
-            JButton timeButton = new JButton("15:30");
+        String[] horarios = {"15:00", "18:00", "21:00", "23:00"};
+        for (String horario : horarios) {
+            JButton timeButton = new JButton(horario);
             timeButton.addActionListener(e -> {
-                // Crea una nueva instancia de VentanaSeleccionAsientos y cierra esta ventana
                 new VentanaSeleccionAsientos();
                 this.dispose();
             });
@@ -113,12 +117,8 @@ public class VentanaPelicula extends JFrame {
         mainPanel.add(schedulePanel, BorderLayout.SOUTH);
         add(mainPanel);
         
-        
-        btnDia.addActionListener((e)->{
-        	new VentanaSeleccionAsientos();
-        	this.dispose();
-        });
-      
+       
+        setVisible(true);
     }
     
     public void setPelicula(Pelicula pelicula) {
@@ -129,26 +129,23 @@ public class VentanaPelicula extends JFrame {
          estrenoLabel.setText("Estreno: " + pelicula.getFechaEstreno());
          actoresLabel.setText("Actores: " + String.join(", ", pelicula.getActores()));
 
-
          actualizarPortada(pelicula.getRutaPortada());
     }
 
     private void actualizarPortada(String rutaPortada) {
-        // Cargar la imagen desde la ruta proporcionada
         ImageIcon portadaIcono = new ImageIcon(rutaPortada);
 
-        // Verificar si la imagen existe o es válida
         if (portadaIcono.getIconWidth() == -1) {
             portadaLabel.setText("Imagen no disponible");
             portadaLabel.setIcon(null); // No mostrar icono si la imagen no se encuentra
         } else {
-            // Escalar la imagen si es válida
             Image portadaEscalada = portadaIcono.getImage().getScaledInstance(100, 150, Image.SCALE_SMOOTH);
             portadaLabel.setIcon(new ImageIcon(portadaEscalada));
-            portadaLabel.setText(""); // Limpiar el texto en caso de imagen válida
+            portadaLabel.setText("");
         }
     }
     
     public static void main(String[] args) {
+    	new VentanaPelicula();
     }
 }

@@ -12,8 +12,6 @@ import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.List;
-
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -46,10 +44,6 @@ public class VentanaRegistro extends JFrame{
 	        pEste = new JPanel();
 	        pOeste = new JPanel();
 
-	        // Colores de fondo para hacerlo más moderno
-	        pCentro.setBackground(Color.decode("#F2F2F2"));
-	        pNorte.setBackground(Color.decode("#F2F2F2"));
-	        pSur.setBackground(Color.decode("#F2F2F2"));
 	        
 	        getContentPane().add(pNorte, BorderLayout.NORTH);
 	        getContentPane().add(pEste, BorderLayout.EAST);
