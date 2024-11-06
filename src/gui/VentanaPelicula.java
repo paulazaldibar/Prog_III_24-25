@@ -1,22 +1,30 @@
 package gui;
 
 import javax.swing.*;
+
+import domain.Pelicula;
+
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class VentanaPelicula extends JFrame {
 
 	private JLabel portadaLabel;
-	private JLabel tituloLabel;
+    private JLabel tituloLabel;
+    private JLabel directorLabel;
+    private JLabel actoresLabel;
+    private JLabel sinopsisLabel;
+    private JLabel duracionLabel;
+    private JLabel estrenoLabel;
+    
 	private JButton btnDia; 
 	private LocalDate fechaActual = LocalDate.now(); // Fecha actual del sistema
     private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d MMM"); // Formato de fecha (6 Oct, 7 Oct...)
 
+    
 	
-    public VentanaPelicula(String titulo, String rutaPortada) {
+    public VentanaPelicula() {
     	
     	setTitle("SkyMovie");
         ImageIcon imagen = new ImageIcon("resources/img/iconoSkyMovie.png");
@@ -46,19 +54,24 @@ public class VentanaPelicula extends JFrame {
         portadaLabel.setPreferredSize(new Dimension(100, 150));
         infoPanel.add(portadaLabel, BorderLayout.WEST);
         
-        actualizarPortada(rutaPortada);
-        
+                
         // Panel de texto con la información de la película
         JPanel textPanel = new JPanel(new GridLayout(6, 1));
-        tituloLabel = new JLabel("Título: " + titulo, JLabel.LEFT);
+        tituloLabel = new JLabel();
+        directorLabel = new JLabel();
+        actoresLabel = new JLabel();
+        sinopsisLabel = new JLabel();
+        duracionLabel = new JLabel();
+        estrenoLabel = new JLabel();
+        
         textPanel.add(tituloLabel);
-        textPanel.add(new JLabel("Director: ")); 
-        textPanel.add(new JLabel("Actores: "));
-        textPanel.add(new JLabel("Sinopsis: "));
-        textPanel.add(new JLabel("Duración: "));
-        textPanel.add(new JLabel("Estreno: "));
-        infoPanel.add(textPanel, BorderLayout.CENTER);
+        textPanel.add(directorLabel);
+        textPanel.add(actoresLabel);
+        textPanel.add(sinopsisLabel);
+        textPanel.add(duracionLabel);
+        textPanel.add(estrenoLabel);
 
+        infoPanel.add(textPanel, BorderLayout.CENTER);
         mainPanel.add(infoPanel, BorderLayout.CENTER);
         
         /*
@@ -88,6 +101,11 @@ public class VentanaPelicula extends JFrame {
         JPanel timePanel = new JPanel(new GridLayout(2, 2));
         for (int i = 0; i < 4; i++) {
             JButton timeButton = new JButton("15:30");
+            timeButton.addActionListener(e -> {
+                // Crea una nueva instancia de VentanaSeleccionAsientos y cierra esta ventana
+                new VentanaSeleccionAsientos();
+                this.dispose();
+            });
             timePanel.add(timeButton);
         }
         schedulePanel.add(timePanel);
@@ -101,6 +119,17 @@ public class VentanaPelicula extends JFrame {
         	this.dispose();
         });
       
+    }
+    
+    public void setPelicula(Pelicula pelicula) {
+    	 tituloLabel.setText("Título: " + pelicula.getTitulo());
+         directorLabel.setText("Director: " + pelicula.getDirector());
+         actoresLabel.setText("Actores: " + String.join(", ", pelicula.getActores()));
+         sinopsisLabel.setText("Sinopsis: " + pelicula.getSinopsis());
+         duracionLabel.setText("Duración: " + pelicula.getDuracion());
+         estrenoLabel.setText("Estreno: " + pelicula.getFechaEstreno());
+
+         actualizarPortada(pelicula.getRutaPortada());
     }
 
     private void actualizarPortada(String rutaPortada) {
@@ -120,6 +149,5 @@ public class VentanaPelicula extends JFrame {
     }
     
     public static void main(String[] args) {
-        
     }
 }

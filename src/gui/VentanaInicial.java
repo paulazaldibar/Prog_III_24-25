@@ -18,6 +18,9 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 
+import domain.Pelicula;
+import domain.PeliculasData;
+
 public class VentanaInicial extends JFrame {
 	private LocalDate fechaActual = LocalDate.now(); // Fecha actual del sistema
     private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d MMM"); // Formato de fecha (6 Oct, 7 Oct...)
@@ -136,7 +139,7 @@ public class VentanaInicial extends JFrame {
 
             imagenPelicula.addMouseListener(new MouseAdapter() {
                 public void mouseClicked(MouseEvent e) {
-                    new VentanaPelicula(titulo, rutaImagen).setVisible(true);
+                    new VentanaPelicula().setVisible(true);
                     ventanaIni.dispose();
                 }
             });
@@ -155,13 +158,20 @@ public class VentanaInicial extends JFrame {
     private void abrirVentanaPelicula(int indice) {
         String titulo = titulosPeliculas.get(indice);
         String rutaImagen = rutasImagenes.get(indice);
-        VentanaPelicula ventanaPelicula = new VentanaPelicula(titulo, rutaImagen);
+        VentanaPelicula ventanaPelicula = new VentanaPelicula();
         ventanaPelicula.setVisible(true);
         
     }
 
     public static void main(String[] args) {
         new VentanaInicial();
+        List<Pelicula> peliculas = PeliculasData.cargarPeliculas("ficheros/Peliculas.csv");
+
+        if (!peliculas.isEmpty()) {
+            VentanaPelicula ventana = new VentanaPelicula();
+            ventana.setPelicula(peliculas.get(0)); 
+            ventana.setVisible(true);
+        }
     }
 }
 
