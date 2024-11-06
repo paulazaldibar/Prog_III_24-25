@@ -173,7 +173,8 @@ public class VentanaInicial extends JFrame {
     }
 
     public static void main(String[] args) {
-        new VentanaInicial(peliculas);
+        new VentanaInicial();
+        
         List<Pelicula> peliculas = PeliculasData.cargarPeliculas("ficheros/Peliculas.csv");
 
         if (!peliculas.isEmpty()) {
