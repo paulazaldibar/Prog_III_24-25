@@ -8,6 +8,8 @@ import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -17,6 +19,9 @@ import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 
 public class VentanaInicial extends JFrame {
+	private LocalDate fechaActual = LocalDate.now(); // Fecha actual del sistema
+    private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d MMM"); // Formato de fecha (6 Oct, 7 Oct...)
+
 
     private List<String> rutasImagenes = List.of(
         "resources/img/portadas/12 Años de Esclavitud.jpg",
@@ -89,9 +94,11 @@ public class VentanaInicial extends JFrame {
         panelSuperior.add(imagenSuperior);
 
         // JTabbedPane para las películas
+        
         JTabbedPane tabbedPane = new JTabbedPane();
-        for (int i = 1; i <= 7; i++) { // 7 pestañas
-            tabbedPane.addTab("Día " + i, crearPanelPeliculas()); 
+        for (int i = 0; i < 7; i++) { // 7 pestañas
+            String fechaPestana = fechaActual.plusDays(i).format(formatter); // Incrementa la fecha para cada pestaña
+            tabbedPane.addTab(fechaPestana, crearPanelPeliculas());
         }
 
         // Añadir los paneles a la ventana principal
