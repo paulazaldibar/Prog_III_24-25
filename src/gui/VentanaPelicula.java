@@ -32,6 +32,10 @@ public class VentanaPelicula extends JFrame {
         ImageIcon imagen = new ImageIcon("resources/img/iconoSkyMovie.png");
         setIconImage(imagen.getImage());
 
+        // Conseguir que la ventana ocupe toda la pantalla, teniendo en cuenta el espacio de la barra de tareas para evitarlo. (Chat GPT)
+        setExtendedState(JFrame.MAXIMIZED_BOTH); // Maximiza la ventana automáticamente
+        setUndecorated(false); // Asegura que se vea la barra de título y controles de la ventana
+        
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         setSize(screenSize); 
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -83,15 +87,19 @@ public class VentanaPelicula extends JFrame {
         
         JPanel schedulePanel = new JPanel(new GridLayout(2, 1));
         
+        // Para restaurar el color original del boton al cambiar la seleccion
+        Color originalColor = new JButton().getBackground();
+        
         // Panel de días
         //EL PUNTERO AL SELECCIONAR UN DIA NO FUNCIONA
         JPanel daysPanel = new JPanel(new GridLayout(1, 5));
         for(int i=0; i<5; i++) {
-        	btnDia = new JButton(fechaActual.plusDays(i).format(formatter));
+        	JButton btnDia = new JButton(fechaActual.plusDays(i).format(formatter));
         	btnDia.setFocusable(false);
+        	
         	btnDia.addActionListener(e -> {
                 if (selectedDayButton != null) {
-                    selectedDayButton.setBackground(new Color(238, 238, 238)); // Restaurar color original
+                    selectedDayButton.setBackground(originalColor); // Restaurar color original
                 }
                 btnDia.setBackground(Color.WHITE); 
                 selectedDayButton = btnDia; 
@@ -100,6 +108,7 @@ public class VentanaPelicula extends JFrame {
         	
         };
         schedulePanel.add(daysPanel);
+        
         
         // Panel de horarios
         JPanel timePanel = new JPanel(new GridLayout(2, 2));

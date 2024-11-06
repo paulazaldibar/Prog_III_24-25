@@ -90,6 +90,10 @@ public class VentanaInicial extends JFrame {
         ImageIcon imagen = new ImageIcon("resources/img/iconoSkyMovie.png");
         setIconImage(imagen.getImage());
 
+        // Conseguir que la ventana ocupe toda la pantalla, teniendo en cuenta el espacio de la barra de tareas para evitarlo. (Chat GPT)
+        setExtendedState(JFrame.MAXIMIZED_BOTH); // Maximiza la ventana automáticamente
+        setUndecorated(false); // Asegura que se vea la barra de título y controles de la ventana
+  
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         setSize(screenSize); 
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
