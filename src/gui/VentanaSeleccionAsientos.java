@@ -114,10 +114,14 @@ public class VentanaSeleccionAsientos extends JFrame {
         this.add(pSur, BorderLayout.SOUTH);
         
         btnVolver.addActionListener((e) ->{
-        	//new VentanaPelicula();
+        	new VentanaPelicula(getTitle(), getName());
         	this.dispose();
         });
         
+        btnContinuar.addActionListener((e)->{
+        	new VentanaPagar();
+        	this.dispose();
+        });
         setVisible(true);
     }
     

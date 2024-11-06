@@ -2,6 +2,8 @@ package gui;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
@@ -9,6 +11,7 @@ public class VentanaPelicula extends JFrame {
 
 	private JLabel portadaLabel;
 	private JLabel tituloLabel;
+	private JButton btnDia; 
 	private LocalDate fechaActual = LocalDate.now(); // Fecha actual del sistema
     private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d MMM"); // Formato de fecha (6 Oct, 7 Oct...)
 
@@ -74,8 +77,8 @@ public class VentanaPelicula extends JFrame {
         JPanel daysPanel = new JPanel(new GridLayout(1, 5));
         
         for(int i=0; i<5; i++) {
-        	JButton botonDia = new JButton(fechaActual.plusDays(i).format(formatter));
-        	daysPanel.add(botonDia);
+        	btnDia = new JButton(fechaActual.plusDays(i).format(formatter));
+        	daysPanel.add(btnDia);
         	
         };
         
@@ -91,6 +94,13 @@ public class VentanaPelicula extends JFrame {
         
         mainPanel.add(schedulePanel, BorderLayout.SOUTH);
         add(mainPanel);
+        
+        
+        btnDia.addActionListener((e)->{
+        	new VentanaSeleccionAsientos();
+        	this.dispose();
+        });
+      
     }
 
     private void actualizarPortada(String rutaPortada) {
