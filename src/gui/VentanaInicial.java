@@ -25,7 +25,6 @@ public class VentanaInicial extends JFrame {
 	private LocalDate fechaActual = LocalDate.now(); // Fecha actual del sistema
     private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d MMM"); // Formato de fecha (6 Oct, 7 Oct...)
 
-
     private List<String> rutasImagenes = List.of(
         "resources/img/portadas/12 Años de Esclavitud.jpg",
         "resources/img/portadas/Alien El Octavo Pasajero.jpg",
@@ -75,8 +74,11 @@ public class VentanaInicial extends JFrame {
         "Oppenheimer", "Slumdog Millionaire", "Soul", "Spider Man Cruzando el multiverso", "Tiempos Modernos",
         "Titanic", "Toy Story 4", "Volver al Futuro"
     );
+    
 
-    public VentanaInicial() {
+    private static List<Pelicula> peliculas;
+    
+    public VentanaInicial(List<Pelicula> peliculas) {
     	
         setTitle("SkyMovie");
         ImageIcon imagen = new ImageIcon("resources/img/iconoSkyMovie.png");
@@ -111,13 +113,20 @@ public class VentanaInicial extends JFrame {
         setVisible(true);
     }
 
- // Método para crear un panel con todas las películas en una cuadrícula 3x3
+    
+    public VentanaInicial() {
+		// TODO Auto-generated constructor stub
+	}
+
+	// Método para crear un panel con todas las películas en una cuadrícula 3x3
     private JScrollPane crearPanelPeliculas() {
         JPanel panelGrid = new JPanel(new GridLayout(0,  3, 10, 10));
         panelGrid.setBackground(Color.WHITE);
         
         // Añadir cada película al grid
-        for (int i = 0; i < rutasImagenes.size(); i++) {
+        //for (int i = 0; i < rutasImagenes.size(); i++) {ç        
+        for (int i = 0; i < peliculas.size(); i++) {
+
             JPanel panelPelicula = new JPanel();
             panelPelicula.setLayout(new BorderLayout());
             panelGrid.setBackground(Color.WHITE);
@@ -164,7 +173,7 @@ public class VentanaInicial extends JFrame {
     }
 
     public static void main(String[] args) {
-        new VentanaInicial();
+        new VentanaInicial(peliculas);
         List<Pelicula> peliculas = PeliculasData.cargarPeliculas("ficheros/Peliculas.csv");
 
         if (!peliculas.isEmpty()) {

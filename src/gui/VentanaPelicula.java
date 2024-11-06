@@ -124,10 +124,11 @@ public class VentanaPelicula extends JFrame {
     public void setPelicula(Pelicula pelicula) {
     	 tituloLabel.setText("Título: " + pelicula.getTitulo());
          directorLabel.setText("Director: " + pelicula.getDirector());
-         actoresLabel.setText("Actores: " + String.join(", ", pelicula.getActores()));
          sinopsisLabel.setText("Sinopsis: " + pelicula.getSinopsis());
          duracionLabel.setText("Duración: " + pelicula.getDuracion());
          estrenoLabel.setText("Estreno: " + pelicula.getFechaEstreno());
+         actoresLabel.setText("Actores: " + String.join(", ", pelicula.getActores()));
+
 
          actualizarPortada(pelicula.getRutaPortada());
     }
