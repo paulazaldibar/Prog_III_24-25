@@ -1,3 +1,6 @@
+/*
+ * Ventana realizada con la base de otra ventana similar
+ */
 package gui;
 
 import java.awt.BorderLayout;

@@ -122,6 +122,7 @@ public class VentanaInicial extends JFrame {
         setVisible(true);
     }
 
+    //Metodo con base nuestra pero resuelto por chat al final
 	// Método para crear un panel con todas las películas en una cuadrícula 3x3
     private JScrollPane crearPanelPeliculas() {
         JPanel panelGrid = new JPanel(new GridLayout(0,  3, 10, 10));
