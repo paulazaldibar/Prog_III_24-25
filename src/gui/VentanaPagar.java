@@ -102,7 +102,15 @@ public class VentanaPagar extends JFrame {
         	this.dispose();
         });
         
-        
+     // Añadimos un action listener que compruebe que todos los datos se han rellenado para poder realizar la compra
+        btnPagar.addActionListener(e ->{
+        	if(txtNombre.getText().isEmpty() || txtTarjeta.getText().isEmpty() || txtFecha.getText().isEmpty() || txtCVV.getText().isEmpty() || !checkTerminos.isSelected()) {
+        		JOptionPane.showMessageDialog(this, "Por favor, complete todos los campos y acepte los términos y condiciones.", "No se ha podido realizar el pago", JOptionPane.WARNING_MESSAGE);
+        	}else {
+        		JOptionPane.showMessageDialog(this, "Su compra se ha realizado con éxito", "Pago completado", JOptionPane.INFORMATION_MESSAGE);
+        		this.dispose();
+        	}
+        });
         
     }
 
