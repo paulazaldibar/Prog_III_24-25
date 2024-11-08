@@ -18,6 +18,7 @@ import java.io.IOException;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -25,7 +26,7 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
-public class VentanaRegistro extends JFrame{
+public class VentanaRegistro extends JDialog{
 
 	 	private JButton btnInicioSesion, btnRegistro;
 	    private JPanel pCentro, pNorte, pEste, pOeste, pSur;
@@ -33,11 +34,10 @@ public class VentanaRegistro extends JFrame{
 	    private JTextField txtNombreUsuario;
 	    private JPasswordField txtContraseniaUsuario;
 
-	    public VentanaRegistro() {
-	        super();
+	    public VentanaRegistro(JFrame parent) {
+	        super(parent, "SkyMovie", true);
 	        setBounds(300, 200, 600, 400);
 
-	        setTitle("SkyMovie");
 	        ImageIcon imagen = new ImageIcon("resources/img/iconoSkyMovie.png");
 	        setIconImage(imagen.getImage());
 
@@ -181,6 +181,9 @@ public class VentanaRegistro extends JFrame{
     }
 	    
 	public static void main(String[] args) {
-		VentanaRegistro v = new VentanaRegistro();
+		JFrame parent = new JFrame();
+		
+		VentanaRegistro dialog  = new VentanaRegistro(parent);
+		//dialog.setVisible(true);
 	}
 }
