@@ -16,7 +16,7 @@ public class PeliculasData {
 	        try (BufferedReader br = new BufferedReader(new FileReader(rutaArchivo))) {
 	            String linea;
 	            while ((linea = br.readLine()) != null) {
-	                String[] datos = linea.split(","); // Asume que los campos están separados por comas
+	                String[] datos = linea.split(";"); // Asume que los campos están separados por comas
 	                if (datos.length >= 7) {
 	                    List<String> actores = Arrays.stream(datos[5].split(";"))
 	                                                 .map(String::trim)

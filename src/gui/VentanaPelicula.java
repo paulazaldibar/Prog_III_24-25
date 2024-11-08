@@ -77,11 +77,12 @@ public class VentanaPelicula extends JFrame {
         
         textPanel.add(tituloLabel);
         textPanel.add(directorLabel);
-        textPanel.add(actoresLabel);
         textPanel.add(sinopsisLabel);
         textPanel.add(duracionLabel);
         textPanel.add(estrenoLabel);
+        textPanel.add(actoresLabel);
 
+        
         infoPanel.add(textPanel, BorderLayout.CENTER);
         mainPanel.add(infoPanel, BorderLayout.CENTER);
         
