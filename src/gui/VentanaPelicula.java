@@ -26,6 +26,11 @@ public class VentanaPelicula extends JFrame {
     // Para mantener el botón seleccionado
     private JButton selectedDayButton = null;
 	
+    
+    public VentanaPelicula(Pelicula pelicula) {
+        this(); // Llama al constructor sin parámetros para inicializar la interfaz
+        setPelicula(pelicula); // Establece la película en la ventana
+    }
     public VentanaPelicula() {
     	
     	setTitle("SkyMovie");

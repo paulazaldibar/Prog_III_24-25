@@ -85,6 +85,9 @@ public class VentanaInicial extends JFrame {
     public VentanaInicial(List<Pelicula> peliculas) {
     	
     	this.peliculas = peliculas;
+    	for (Pelicula p : peliculas) {
+            System.out.println(p); // Confirmar que cada película tiene los datos esperados
+        }
     	
         setTitle("SkyMovie");
         ImageIcon imagen = new ImageIcon("resources/img/iconoSkyMovie.png");
@@ -153,8 +156,8 @@ public class VentanaInicial extends JFrame {
             imagenPelicula.addMouseListener(new MouseAdapter() {
                 public void mouseClicked(MouseEvent e) {
                 	Pelicula peliculaSeleccionada = peliculas.get(indice); 
-                    VentanaPelicula ventanaPelicula = new VentanaPelicula();
-                    ventanaPelicula.setPelicula(peliculaSeleccionada); 
+                    VentanaPelicula ventanaPelicula = new VentanaPelicula(peliculaSeleccionada);
+                    //ventanaPelicula.setPelicula(peliculaSeleccionada); 
                     ventanaPelicula.setVisible(true);
 
                     ventanaIni.dispose();

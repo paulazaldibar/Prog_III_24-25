@@ -23,20 +23,26 @@ public class PeliculasData {
 	                                                 .collect(Collectors.toList());
 
 	                    Pelicula pelicula = new Pelicula(
-	                        datos[0], // título
-	                        datos[1], // director
-	                        datos[2], // sinopsis
-	                        datos[3], // duracion
-	                        datos[4], // fecha de estreno
-	                        actores,   // lista de actores
-	                        datos[6] //ruta de portada
+	                        datos[0].trim(), // título
+	                        datos[1].trim(), // director
+	                        datos[2].trim(), // sinopsis
+	                        datos[3].trim(), // duracion
+	                        datos[4].trim(), // fecha de estreno
+	                        Arrays.asList(datos[5].trim().split(",")),   // lista de actores
+	                        datos[6].trim() //ruta de portada
 	                    );
 	                    peliculas.add(pelicula);
 	                }
 	            }
 	        } catch (IOException e) {
 	            e.printStackTrace();
+	            System.out.println("Error al leer el archivo CSV.");
 	        }
+	        
+	        for (Pelicula p : peliculas) {
+	            System.out.println(p); // Asegúrate de que Pelicula tenga un método toString para visualizar los datos
+	        }
+	        
 	        return peliculas;
 	    }
 }
