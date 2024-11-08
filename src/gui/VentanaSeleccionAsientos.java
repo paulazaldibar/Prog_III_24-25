@@ -61,23 +61,26 @@ public class VentanaSeleccionAsientos extends JFrame {
         pAsientos.setBorder(BorderFactory.createEmptyBorder(30,40,30,40)); // Dejamos un margen alrededor del panel
         
         asientos = new ArrayList<>(); // Inicializamos el ArrayList
+        Color verdePersonalizado = new Color(89, 169, 106);
+        Color rojoPersonalizado = new Color(164, 3, 31);
+        
         for(int i=0; i<numFila; i++) {
         	for(int j=0; j<asientosFila +2; j++) {
         		if(j==4 || j==15) { // Las columnas 4 y 15 son los pasillos
         			pAsientos.add(new JLabel("")); // Añadimos un espacio en blanco para simular el pasillo
         		}else {
         			JButton btnAsiento = new JButton();
-        			btnAsiento.setBackground(Color.GREEN);
+        			btnAsiento.setBackground(verdePersonalizado);
         			btnAsiento.addActionListener(new ActionListener() {
 						
 						@Override
 						public void actionPerformed(ActionEvent e) {
-							if(btnAsiento.getBackground() == Color.GREEN) {
-								btnAsiento.setBackground(Color.RED);
+							if(btnAsiento.getBackground().equals(verdePersonalizado)) {
+								btnAsiento.setBackground(rojoPersonalizado);
 								totalAsientosSeleccionados++;
 								// si al principio el asiento esta verde, al seleccionarlo cambiará a rojo e implica que tenemos que sumarlo al número total de asiento seleccionados
 							}else {
-								btnAsiento.setBackground(Color.GREEN);
+								btnAsiento.setBackground(verdePersonalizado);
 								totalAsientosSeleccionados--; 
 								// si al principio el asiento esta rojo, al seleccionarlo cambiará a verde e implica que tenemos que restarlo del número total de asientos seleccionados
 							}

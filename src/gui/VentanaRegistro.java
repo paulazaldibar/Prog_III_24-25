@@ -135,7 +135,7 @@ public class VentanaRegistro extends JFrame{
 	    try (BufferedWriter writer = new BufferedWriter(new FileWriter("ficheros/usuarios.txt", true))) {
 	    	writer.write(usuario + ":" + contrasenia);
 	        writer.newLine();
-	        JOptionPane.showMessageDialog(this, "Usuario registrado con éxito");
+	        //JOptionPane.showMessageDialog(this, "Usuario registrado con éxito");
 	        redirigirVentanaInicial();
 	    } catch (IOException ex) {
 	    	ex.printStackTrace();
@@ -160,7 +160,7 @@ public class VentanaRegistro extends JFrame{
                 String[] partes = linea.split(":");
                 if (partes[0].equals(usuario) && partes[1].equals(contrasenia)) {
                     encontrado = true;
-                    JOptionPane.showMessageDialog(this, "Inicio de sesión exitoso");
+                    //JOptionPane.showMessageDialog(this, "Inicio de sesión exitoso");
                     redirigirVentanaInicial();
                     break;
                 }
