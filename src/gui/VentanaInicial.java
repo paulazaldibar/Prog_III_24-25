@@ -46,7 +46,6 @@ public class VentanaInicial extends JFrame {
         "resources/img/portadas/Gran Torino.jpg",
         "resources/img/portadas/Indiana Jones En busca del arca perdida.png",
         "resources/img/portadas/Jurassic Park.jpg",
-        "resources/img/portadas/La Ballena.jpeg",
         "resources/img/portadas/La Guerra de las Galaxias.jpg",
         "resources/img/portadas/Los Infiltrados.jpg",
         "resources/img/portadas/Luca.jpeg",
@@ -59,8 +58,7 @@ public class VentanaInicial extends JFrame {
         "resources/img/portadas/Spider Man Cruzando el multiverso.jpg",
         "resources/img/portadas/Tiempos Modernos.jpg",
         "resources/img/portadas/Titanic.jpg",
-        "resources/img/portadas/Toy Story 4.jpg",
-        "resources/img/portadas/Volver al Futuro.jpg"
+        "resources/img/portadas/Toy Story 4.jpg"
     );
 
     private List<String> titulosPeliculas = List.of(
@@ -69,10 +67,10 @@ public class VentanaInicial extends JFrame {
         "El Club de la Pelea", "El Gran Escape", "El Padrino", "El renacido", "El Rey Leon",
         "El Señor de los Anillos La Comunidad del Anillo", "Encanto", "Forrest Gump", 
         "Frozen II", "Gladiador", "Gran Torino", "Indiana Jones En busca del arca perdida", 
-        "Jurassic Park", "La Ballena", "La Guerra de las Galaxias", "Los Infiltrados", 
+        "Jurassic Park", "La Guerra de las Galaxias", "Los Infiltrados", 
         "Luca", "Matrix", "Minions El Origen de Gru", "MisionImposible Sentencia Mortal - Parte uno",
         "Oppenheimer", "Slumdog Millionaire", "Soul", "Spider Man Cruzando el multiverso", "Tiempos Modernos",
-        "Titanic", "Toy Story 4", "Volver al Futuro"
+        "Titanic", "Toy Story 4"
     );
     
 
