@@ -160,7 +160,7 @@ public class VentanaPelicula extends JFrame {
             portadaLabel.setText("Imagen no disponible");
             portadaLabel.setIcon(null); // No mostrar icono si la imagen no se encuentra
         } else {
-            Image portadaEscalada = portadaIcono.getImage().getScaledInstance(100, 150, Image.SCALE_SMOOTH);
+            Image portadaEscalada = portadaIcono.getImage().getScaledInstance(portadaLabel.getWidth(), portadaLabel.getHeight(), Image.SCALE_SMOOTH);
             portadaLabel.setIcon(new ImageIcon(portadaEscalada));
             portadaLabel.setText("");
         }
