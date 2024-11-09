@@ -8,7 +8,7 @@ import java.awt.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
-public class VentanaPelicula extends JFrame {
+public class VentanaPelicula extends JDialog {
 
 	private JLabel portadaLabel;
     private JLabel tituloLabel;
@@ -38,7 +38,8 @@ public class VentanaPelicula extends JFrame {
         setIconImage(imagen.getImage());
 
         // Conseguir que la ventana ocupe toda la pantalla, teniendo en cuenta el espacio de la barra de tareas para evitarlo. (Chat GPT)
-        setExtendedState(JFrame.MAXIMIZED_BOTH); // Maximiza la ventana automáticamente
+       
+  //      setExtendedState(JFrame.MAXIMIZED_BOTH); // Maximiza la ventana automáticamente
         setUndecorated(false); // Asegura que se vea la barra de título y controles de la ventana
         
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -136,7 +137,9 @@ public class VentanaPelicula extends JFrame {
         setVisible(true);
     }
     
-    public void setPelicula(Pelicula pelicula) {
+
+    
+	public void setPelicula(Pelicula pelicula) {
     	 tituloLabel.setText("Título: " + pelicula.getTitulo());
          directorLabel.setText("Director: " + pelicula.getDirector());
          sinopsisLabel.setText("Sinopsis: " + pelicula.getSinopsis());
@@ -161,6 +164,6 @@ public class VentanaPelicula extends JFrame {
     }
     
     public static void main(String[] args) {
-    	new VentanaPelicula();
+    	VentanaPelicula dialog = new VentanaPelicula();
     }
 }
