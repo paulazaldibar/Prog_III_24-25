@@ -48,8 +48,11 @@ public class VentanaPelicula extends JFrame {
         trailerPanel.setPreferredSize(new Dimension(400, 100));
         trailerPanel.setBorder(BorderFactory.createTitledBorder("Trailer / Fondo"));
                 
-        ImageIcon flecha = new ImageIcon("resources/img/flecha.jpg");
+        ImageIcon flecha = new ImageIcon("resources/img/flecha.png");
+        
         btnVolver = new JButton();
+        btnVolver.setIcon(flecha);
+        
         Image imagenEscalada = flecha.getImage().getScaledInstance(
                 btnVolver.getPreferredSize().width, 
                 btnVolver.getPreferredSize().height, 
@@ -77,6 +80,8 @@ public class VentanaPelicula extends JFrame {
         infoPanel.add(portadaLabel, BorderLayout.WEST);
         
         JPanel textPanel = new JPanel(new GridLayout(6, 1));
+        textPanel.setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 0));
+        
         tituloLabel = new JLabel();
         directorLabel = new JLabel();
         actoresLabel = new JLabel();
@@ -101,7 +106,6 @@ public class VentanaPelicula extends JFrame {
         Color originalColor = new JButton().getBackground();
         
         // Panel de días
-        //EL PUNTERO AL SELECCIONAR UN DIA NO FUNCIONA
         JPanel daysPanel = new JPanel(new GridLayout(1, 5));
         for(int i=0; i<5; i++) {
         	JButton btnDia = new JButton(fechaActual.plusDays(i).format(formatter));
