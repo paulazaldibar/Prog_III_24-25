@@ -8,18 +8,11 @@ import java.awt.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
-public class VentanaPelicula extends JDialog {
+public class VentanaPelicula extends JFrame {
 
-	private JLabel portadaLabel;
-    private JLabel tituloLabel;
-    private JLabel directorLabel;
-    private JLabel actoresLabel;
-    private JLabel sinopsisLabel;
-    private JLabel duracionLabel;
-    private JLabel estrenoLabel;
+	private JLabel portadaLabel, tituloLabel, directorLabel, actoresLabel, sinopsisLabel, duracionLabel, estrenoLabel;
     
-	private JButton btnDia; 
-	private JButton btnVolver;
+	private JButton btnDia, btnVolver; 
 	private LocalDate fechaActual = LocalDate.now(); // Fecha actual del sistema
     private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d MMM"); // Formato de fecha (6 Oct, 7 Oct...)
 
@@ -39,7 +32,7 @@ public class VentanaPelicula extends JDialog {
 
         // Conseguir que la ventana ocupe toda la pantalla, teniendo en cuenta el espacio de la barra de tareas para evitarlo. (Chat GPT)
        
-  //      setExtendedState(JFrame.MAXIMIZED_BOTH); // Maximiza la ventana automáticamente
+        setExtendedState(JFrame.MAXIMIZED_BOTH); // Maximiza la ventana automáticamente
         setUndecorated(false); // Asegura que se vea la barra de título y controles de la ventana
         
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -55,22 +48,32 @@ public class VentanaPelicula extends JDialog {
         trailerPanel.setPreferredSize(new Dimension(400, 100));
         trailerPanel.setBorder(BorderFactory.createTitledBorder("Trailer / Fondo"));
                 
-        btnVolver = new JButton("←");
-        btnVolver.setPreferredSize(new Dimension(50, 50));
+        ImageIcon flecha = new ImageIcon("resources/img/flecha.jpg");
+        btnVolver = new JButton();
+        Image imagenEscalada = flecha.getImage().getScaledInstance(
+                btnVolver.getPreferredSize().width, 
+                btnVolver.getPreferredSize().height, 
+                Image.SCALE_SMOOTH);
+        ImageIcon flechaEscalada = new ImageIcon(imagenEscalada);
+        btnVolver.setIcon(flechaEscalada);
+        btnVolver.setPreferredSize(new Dimension(60, 40));
+        
         btnVolver.addActionListener(e -> {
             new VentanaInicial();
             this.dispose();
         });
+        
         trailerPanel.add(btnVolver, BorderLayout.WEST);
         mainPanel.add(trailerPanel, BorderLayout.NORTH);
         
         JPanel infoPanel = new JPanel(new BorderLayout());
+        infoPanel.setBorder(BorderFactory.createEmptyBorder(20, 40, 20, 40));
 
         //Imagen de portada
         portadaLabel = new JLabel();
         portadaLabel.setHorizontalAlignment(JLabel.CENTER);
         portadaLabel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        portadaLabel.setPreferredSize(new Dimension(100, 150));
+        portadaLabel.setPreferredSize(new Dimension(300, 400));
         infoPanel.add(portadaLabel, BorderLayout.WEST);
         
         JPanel textPanel = new JPanel(new GridLayout(6, 1));
