@@ -28,11 +28,12 @@ import javax.swing.JTextField;
 
 public class VentanaRegistro extends JDialog{
 
-	 	private JButton btnInicioSesion, btnRegistro;
+	 	private JButton btnInicioSesion, btnRegistro, btnMostrarContrasenia;
 	    private JPanel pCentro, pNorte, pEste, pOeste, pSur;
 	    private JLabel lblTitulo, lblNombreUsuario, lblContraseniaUsuario;
 	    private JTextField txtNombreUsuario;
 	    private JPasswordField txtContraseniaUsuario;
+	    private boolean contraseniaVisible = false;
 
 	    public VentanaRegistro(JFrame parent) {
 	        super(parent, "SkyMovie", true);
@@ -93,6 +94,18 @@ public class VentanaRegistro extends JDialog{
 	        txtContraseniaUsuario.setBorder(BorderFactory.createCompoundBorder(
 	                txtContraseniaUsuario.getBorder(), BorderFactory.createEmptyBorder(5, 5, 5, 5)));
 
+	        
+	        //Botones para ocultar y mostrar la contrasenia
+	        btnMostrarContrasenia = new JButton(new ImageIcon("resources/img/ojo.png"));
+	        btnMostrarContrasenia.setPreferredSize(new Dimension(20, 20));
+	        btnMostrarContrasenia.setFocusPainted(false);
+	        btnMostrarContrasenia.setContentAreaFilled(false);
+	        btnMostrarContrasenia.setBorderPainted(false);
+	        
+	        JPanel contraseniaPanel = new JPanel(new BorderLayout());
+	        contraseniaPanel.add(txtContraseniaUsuario, BorderLayout.CENTER);
+	        contraseniaPanel.add(btnMostrarContrasenia, BorderLayout.EAST);
+	        
 	        // Añadir componentes a los paneles
 	        pSur.add(btnInicioSesion);
 	        pSur.add(btnRegistro);
@@ -101,7 +114,22 @@ public class VentanaRegistro extends JDialog{
 	        pCentro.add(lblNombreUsuario);
 	        pCentro.add(txtNombreUsuario);
 	        pCentro.add(lblContraseniaUsuario);
-	        pCentro.add(txtContraseniaUsuario);
+	        pCentro.add(contraseniaPanel);
+	        
+	        btnMostrarContrasenia.addActionListener(new ActionListener() {
+	            @Override
+	            public void actionPerformed(ActionEvent e) {
+	                contraseniaVisible = !contraseniaVisible; // Cambia el estado de visibilidad
+	                if (contraseniaVisible) {
+	                    txtContraseniaUsuario.setEchoChar((char) 0); // Muestra la contraseña
+	                    btnMostrarContrasenia.setIcon(new ImageIcon("resources/img/eye_open.png")); // Cambia a icono de "ojo abierto"
+	                } else {
+	                    txtContraseniaUsuario.setEchoChar('•'); // Oculta la contraseña
+	                    btnMostrarContrasenia.setIcon(new ImageIcon("resources/img/eye_closed.png")); // Cambia a icono de "ojo cerrado"
+	                }
+	            }
+	        });
+
 
 	        btnRegistro.addActionListener(new ActionListener() {
 				
