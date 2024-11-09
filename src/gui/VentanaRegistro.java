@@ -41,6 +41,7 @@ public class VentanaRegistro extends JDialog{
 
 	        ImageIcon imagen = new ImageIcon("resources/img/iconoSkyMovie.png");
 	        setIconImage(imagen.getImage());
+	       
 
 	        pCentro = new JPanel(new GridLayout(2, 2, 5, 5));
 	        pNorte = new JPanel();

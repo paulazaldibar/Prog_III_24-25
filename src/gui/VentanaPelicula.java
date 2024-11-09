@@ -8,6 +8,7 @@ import java.awt.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
+
 public class VentanaPelicula extends JFrame {
 
 	private JLabel portadaLabel, tituloLabel, directorLabel, actoresLabel, sinopsisLabel, duracionLabel, estrenoLabel;
@@ -47,24 +48,28 @@ public class VentanaPelicula extends JFrame {
         JPanel trailerPanel = new JPanel(new BorderLayout());
         trailerPanel.setPreferredSize(new Dimension(400, 100));
         trailerPanel.setBorder(BorderFactory.createTitledBorder("Trailer / Fondo"));
-                
-        ImageIcon flecha = new ImageIcon("resources/img/flecha.png");
-        
+       
+      
         btnVolver = new JButton();
-        btnVolver.setIcon(flecha);
-        
+        btnVolver.setPreferredSize(new Dimension(50, 50)); // Le damos un tamaño al botón
+
+        ImageIcon flecha = new ImageIcon("resources/img/flecha2.jpg"); // Cargamos la imagen de la flecha
+
+        // Escalamos la imagen para que coincida con el tamaño del botón (Chat GPT)
         Image imagenEscalada = flecha.getImage().getScaledInstance(
-                btnVolver.getPreferredSize().width, 
-                btnVolver.getPreferredSize().height, 
-                Image.SCALE_SMOOTH);
+                btnVolver.getPreferredSize().width,
+                btnVolver.getPreferredSize().height,
+                Image.SCALE_SMOOTH
+        );
+
         ImageIcon flechaEscalada = new ImageIcon(imagenEscalada);
         btnVolver.setIcon(flechaEscalada);
-        btnVolver.setPreferredSize(new Dimension(60, 40));
-        
+
         btnVolver.addActionListener(e -> {
             new VentanaInicial();
             this.dispose();
         });
+        
         
         trailerPanel.add(btnVolver, BorderLayout.WEST);
         mainPanel.add(trailerPanel, BorderLayout.NORTH);
