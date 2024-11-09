@@ -126,9 +126,11 @@ public class VentanaSeleccionAsientos extends JFrame {
         });
         
         btnContinuar.addActionListener((e)->{
-        	new VentanaPagar();
+        	double total = totalAsientosSeleccionados * precioEntrada;
+        	new VentanaPagar(total);
         	this.dispose();
         });
+        
         setVisible(true);
     }
     

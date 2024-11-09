@@ -17,15 +17,16 @@ import javax.swing.JTextField;
 public class VentanaPagar extends JFrame {
     private JButton btnPagar, btnVolver;
     private JPanel pCentro, pNorte, pSur, pCentroDatos;
-    private JLabel lblTitulo, lblNombre, lblTarjeta, lblFecha, lblCVV;
-    private JTextField txtNombre, txtTarjeta, txtFecha, txtCVV;
+    private JLabel lblTitulo, lblNombre, lblTarjeta, lblFecha, lblCVV, lblTotal;
+    private JTextField txtNombre, txtTarjeta, txtFecha, txtCVV, txtTotal;
     private JCheckBox checkTerminos;
     private JTextArea txtCondiciones;
 
-    public VentanaPagar() {
+    public VentanaPagar(double total) {
         super();
-        setBounds(300, 200, 600, 400);
-        
+        setBounds(300, 200, 600, 430);
+        setLocationRelativeTo(null); // Con esta línea la ventana se centrará en la pantalla
+
         setTitle("SkyMovie");
 
         ImageIcon imagen = new ImageIcon("resources/img/iconoSkyMovie.png");
@@ -34,7 +35,7 @@ public class VentanaPagar extends JFrame {
         pCentro = new JPanel(new BorderLayout(10, 10));
         pNorte = new JPanel();
         pSur = new JPanel();
-        pCentroDatos = new JPanel(new GridLayout(5, 2, 10, 10));
+        pCentroDatos = new JPanel(new GridLayout(6, 2, 10, 10));
 
         getContentPane().add(pCentro, BorderLayout.CENTER);
         getContentPane().add(pNorte, BorderLayout.NORTH);
@@ -53,11 +54,18 @@ public class VentanaPagar extends JFrame {
         lblTarjeta = new JLabel("Número de tarjeta: ");
         lblFecha = new JLabel("Fecha de caducidad: ");
         lblCVV = new JLabel("CVV: ");
+        lblTotal = new JLabel("Total a pagar: ");
+        lblTotal.setFont(new Font(Font.SANS_SERIF, Font.ITALIC, 16));
+ 
+        
 
         txtNombre = new JTextField(50);
         txtTarjeta = new JTextField(20);
         txtFecha = new JTextField("MM/AA", 5);
         txtCVV = new JTextField(3);
+        txtTotal = new JTextField(String.format("€%.2f", total), 10);
+        txtTotal.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 16));
+        txtTotal.setEditable(false); // No se podrá editar este campo
 
         checkTerminos = new JCheckBox("Aceptar términos y condiciones");
 
@@ -76,6 +84,8 @@ public class VentanaPagar extends JFrame {
         pNorte.add(lblTitulo);
         
         // Añadimos los componentes al panel de datos
+        pCentroDatos.add(lblTotal);
+        pCentroDatos.add(txtTotal);
         pCentroDatos.add(lblNombre);
         pCentroDatos.add(txtNombre);
         pCentroDatos.add(lblTarjeta);
@@ -93,7 +103,8 @@ public class VentanaPagar extends JFrame {
         // Añadimos el botón al panel sur dejando un pequeño borde
         pSur.add(btnVolver); 
         pSur.add(btnPagar);
-        pSur.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
+        pSur.setLayout(new GridLayout(1, 2, 5, 20)); // Distribuye los botones horizontalmente con un espacio de 10px entre ellos
+        pSur.setBorder(BorderFactory.createEmptyBorder(10, 40, 10, 40));
 
         setVisible(true);
         
