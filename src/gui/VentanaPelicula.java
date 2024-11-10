@@ -30,6 +30,8 @@ public class VentanaPelicula extends JFrame {
     	setTitle("SkyMovie");
         ImageIcon imagen = new ImageIcon("resources/img/iconoSkyMovie.png");
         setIconImage(imagen.getImage());
+        //this.getContentPane().setBackground(new Color(255, 255, 255));
+
 
         // Conseguir que la ventana ocupe toda la pantalla, teniendo en cuenta el espacio de la barra de tareas para evitarlo. (Chat GPT)
        
@@ -158,6 +160,9 @@ public class VentanaPelicula extends JFrame {
          duracionLabel.setText("Duración: " + pelicula.getDuracion());
          estrenoLabel.setText("Estreno: " + pelicula.getFechaEstreno());
          actoresLabel.setText("Actores: " + String.join(", ", pelicula.getActores()));
+
+         // Permitir el salto de línea en la sinopsis para que se visualice entera (Chat GPT)
+         sinopsisLabel.setText("<html>" + pelicula.getSinopsis() + "</html>"); 
 
          actualizarPortada(pelicula.getRutaPortada());
     }
