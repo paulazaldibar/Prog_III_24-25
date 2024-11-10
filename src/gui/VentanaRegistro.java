@@ -14,6 +14,10 @@ public class VentanaRegistro extends JDialog {
     private JTextField txtNombreUsuario;
     private JPasswordField txtContraseniaUsuario;
     private boolean contraseniaVisible = false;
+    
+    //Para que la imagen del ojo funcione bien introduzco nuevos parametro
+    private ImageIcon iconoOjoAbierto;
+    private ImageIcon iconoOjoCerrado;
 
     public VentanaRegistro(JFrame parent) {
         super(parent, "SkyMovie", true);
@@ -21,7 +25,17 @@ public class VentanaRegistro extends JDialog {
 
         ImageIcon imagen = new ImageIcon("resources/img/iconoSkyMovie.png");
         setIconImage(imagen.getImage());
-
+        
+        iconoOjoAbierto = new ImageIcon("resources/img/ojo abierto.jpg");
+        iconoOjoCerrado = new ImageIcon("resources/img/ojo cerrado.jpg");
+        
+        Image imgAbierto = iconoOjoAbierto.getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH);
+        Image imgCerrado = iconoOjoCerrado.getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH);
+        
+        iconoOjoAbierto = new ImageIcon(imgAbierto);
+        iconoOjoCerrado = new ImageIcon(imgCerrado);
+        
+        
         // Configuración de paneles
         pCentro = new JPanel();
         pCentro.setLayout(new GridBagLayout()); // Usamos GridBagLayout para que quede alineado
@@ -67,13 +81,13 @@ public class VentanaRegistro extends JDialog {
         txtContraseniaUsuario.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 14));
         
     
-        ImageIcon icon = new ImageIcon("resources/img/ojo.png");
+        //ImageIcon icon = new ImageIcon("resources/img/ojo.png");
 
         // Ajustamos el tamaño de la imagen al tamaño del botón
-        Image img = icon.getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH);
-        icon = new ImageIcon(img);
+       // Image img = icon.getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH);
+        //icon = new ImageIcon(img);
 
-        btnMostrarContrasenia = new JButton(icon);
+        btnMostrarContrasenia = new JButton(iconoOjoCerrado);
         btnMostrarContrasenia.setPreferredSize(new Dimension(20, 20));
         btnMostrarContrasenia.setFocusPainted(false);
         btnMostrarContrasenia.setContentAreaFilled(false);
@@ -120,10 +134,10 @@ public class VentanaRegistro extends JDialog {
                 contraseniaVisible = !contraseniaVisible;
                 if (contraseniaVisible) {
                     txtContraseniaUsuario.setEchoChar((char) 0);
-                    btnMostrarContrasenia.setIcon(new ImageIcon("resources/img/eye_open.png"));
+                    btnMostrarContrasenia.setIcon(iconoOjoAbierto);
                 } else {
                     txtContraseniaUsuario.setEchoChar('•');
-                    btnMostrarContrasenia.setIcon(new ImageIcon("resources/img/eye_closed.png"));
+                    btnMostrarContrasenia.setIcon(iconoOjoCerrado);
                 }
             }
         });
