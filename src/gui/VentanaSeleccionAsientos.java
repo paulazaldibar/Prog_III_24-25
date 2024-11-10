@@ -29,6 +29,13 @@ public class VentanaSeleccionAsientos extends JFrame {
     private JLabel lblTotal, lblTitulo, lblSubtitulo; 
     private JPanel pTitulo, pAsientos, pTotal, pBotones, pSur; 
     
+    public void reiniciarSeleccion() {
+        totalAsientosSeleccionados = 0; 
+        for (JButton asiento : asientos) {
+            asiento.setBackground(new Color(89, 169, 106));
+        }
+        actualizarTotal(); 
+    }
     
     public VentanaSeleccionAsientos() {
         setTitle("SkyMovie"); 

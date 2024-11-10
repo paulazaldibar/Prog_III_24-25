@@ -7,6 +7,7 @@ import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -14,8 +15,8 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
-public class VentanaPagar extends JFrame {
-    private JButton btnPagar, btnVolver;
+public class VentanaPagar extends JDialog {
+    private JButton btnPagar, btnVolver, btnCancelar;
     private JPanel pCentro, pNorte, pSur, pCentroDatos;
     private JLabel lblTitulo, lblNombre, lblTarjeta, lblFecha, lblCVV, lblTotal;
     private JTextField txtNombre, txtTarjeta, txtFecha, txtCVV, txtTotal;
@@ -28,7 +29,6 @@ public class VentanaPagar extends JFrame {
         setLocationRelativeTo(null); // Con esta línea la ventana se centrará en la pantalla
 
         setTitle("SkyMovie");
-
         ImageIcon imagen = new ImageIcon("resources/img/iconoSkyMovie.png");
         setIconImage(imagen.getImage());
 
@@ -48,6 +48,9 @@ public class VentanaPagar extends JFrame {
         
         btnVolver = new JButton("VOLVER"); // Este botón cerrará la ventanaPagar y nos devolverá a la ventanaSeleccionAsientos
         btnVolver.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 18));
+        
+        btnCancelar = new JButton("CANCELAR");
+        btnCancelar.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 18));
 
         lblTitulo = new JLabel("Introduzca sus datos para realizar el pago:");
         lblNombre = new JLabel("Nombre: ");
@@ -103,14 +106,23 @@ public class VentanaPagar extends JFrame {
         // Añadimos el botón al panel sur dejando un pequeño borde
         pSur.add(btnVolver); 
         pSur.add(btnPagar);
+        pSur.add(btnCancelar);
         pSur.setLayout(new GridLayout(1, 2, 5, 20)); // Distribuye los botones horizontalmente con un espacio de 10px entre ellos
         pSur.setBorder(BorderFactory.createEmptyBorder(10, 40, 10, 40));
 
         setVisible(true);
         
         btnVolver.addActionListener((e) ->{
-        	new VentanaSeleccionAsientos();
-        	this.dispose();
+        	VentanaSeleccionAsientos ventanaSeleccionAsientos = new VentanaSeleccionAsientos();
+            ventanaSeleccionAsientos.reiniciarSeleccion();
+            this.dispose();
+        });
+        
+        btnCancelar.addActionListener((e) -> {
+        	VentanaInicial ventanaInicial = new VentanaInicial();
+        	ventanaInicial.setVisible(true); 
+        	
+            this.dispose(); 
         });
         
      // Añadimos un action listener que compruebe que todos los datos se han rellenado para poder realizar la compra
@@ -119,6 +131,8 @@ public class VentanaPagar extends JFrame {
         		JOptionPane.showMessageDialog(this, "Por favor, complete todos los campos y acepte los términos y condiciones.", "No se ha podido realizar el pago", JOptionPane.WARNING_MESSAGE);
         	}else {
         		JOptionPane.showMessageDialog(this, "Su compra se ha realizado con éxito", "Pago completado", JOptionPane.INFORMATION_MESSAGE);
+        		VentanaInicial ventanaInicial = new VentanaInicial();
+        	    ventanaInicial.setVisible(true);
         		this.dispose();
         	}
         });

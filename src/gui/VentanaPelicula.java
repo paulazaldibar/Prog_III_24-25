@@ -34,7 +34,6 @@ public class VentanaPelicula extends JFrame {
 
 
         // Conseguir que la ventana ocupe toda la pantalla, teniendo en cuenta el espacio de la barra de tareas para evitarlo. (Chat GPT)
-       
         setExtendedState(JFrame.MAXIMIZED_BOTH); // Maximiza la ventana automáticamente
         setUndecorated(false); // Asegura que se vea la barra de título y controles de la ventana
         
@@ -45,11 +44,13 @@ public class VentanaPelicula extends JFrame {
         
         // Panel principal
         JPanel mainPanel = new JPanel(new BorderLayout());
+        mainPanel.setBackground(Color.WHITE);
         
         // Panel superior para el trailer/fondo
         JPanel trailerPanel = new JPanel(new BorderLayout());
         trailerPanel.setPreferredSize(new Dimension(400, 100));
         trailerPanel.setBorder(BorderFactory.createTitledBorder("Trailer / Fondo"));
+        trailerPanel.setBackground(Color.WHITE);
        
       
         btnVolver = new JButton();
@@ -78,6 +79,7 @@ public class VentanaPelicula extends JFrame {
         
         JPanel infoPanel = new JPanel(new BorderLayout());
         infoPanel.setBorder(BorderFactory.createEmptyBorder(20, 40, 20, 40));
+        infoPanel.setBackground(Color.WHITE);
 
         //Imagen de portada
         portadaLabel = new JLabel();
@@ -88,6 +90,7 @@ public class VentanaPelicula extends JFrame {
         
         JPanel textPanel = new JPanel(new GridLayout(6, 1));
         textPanel.setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 0));
+        textPanel.setBackground(Color.WHITE);
         
         tituloLabel = new JLabel();
         directorLabel = new JLabel();
@@ -108,19 +111,21 @@ public class VentanaPelicula extends JFrame {
         mainPanel.add(infoPanel, BorderLayout.CENTER);
         
         JPanel schedulePanel = new JPanel(new GridLayout(2, 1));
+        schedulePanel.setBackground(Color.WHITE);
         
         // Para restaurar el color original del boton al cambiar la seleccion
         Color originalColor = new JButton().getBackground();
         
         // Panel de días
         JPanel daysPanel = new JPanel(new GridLayout(1, 5));
+        daysPanel.setBackground(Color.WHITE);
         for(int i=0; i<5; i++) {
         	JButton btnDia = new JButton(fechaActual.plusDays(i).format(formatter));
         	btnDia.setFocusable(false);
         	
         	btnDia.addActionListener(e -> {
                 if (selectedDayButton != null) {
-                    selectedDayButton.setBackground(originalColor); // Restaurar color original
+                    selectedDayButton.setBackground(originalColor);
                 }
                 btnDia.setBackground(Color.WHITE); 
                 selectedDayButton = btnDia; 
@@ -133,6 +138,7 @@ public class VentanaPelicula extends JFrame {
         
         // Panel de horarios
         JPanel timePanel = new JPanel(new GridLayout(2, 2));
+        timePanel.setBackground(Color.WHITE);
         String[] horarios = {"15:00", "18:00", "21:00", "23:00"};
         for (String horario : horarios) {
             JButton timeButton = new JButton(horario);
@@ -146,7 +152,6 @@ public class VentanaPelicula extends JFrame {
         
         mainPanel.add(schedulePanel, BorderLayout.SOUTH);
         add(mainPanel);
-        
        
         setVisible(true);
     }
