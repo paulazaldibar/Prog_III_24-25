@@ -20,7 +20,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class VentanaSeleccionAsientos extends JFrame {
-    private static int numFila = 6; 
+    
+	private static final long serialVersionUID = 1L;
+	private static int numFila = 6; 
     private static int asientosFila = 18;
     private static double precioEntrada = 10.0; 
     private static int totalAsientosSeleccionados = 0; 

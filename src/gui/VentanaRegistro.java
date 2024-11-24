@@ -8,7 +8,8 @@ import java.io.*;
 
 public class VentanaRegistro extends JDialog {
 
-    private JButton btnInicioSesion, btnRegistro, btnMostrarContrasenia;
+	private static final long serialVersionUID = 1L;
+	private JButton btnInicioSesion, btnRegistro, btnMostrarContrasenia;
     private JPanel pCentro, pNorte, pSur;
     private JLabel lblTitulo, lblNombreUsuario, lblContraseniaUsuario;
     private JTextField txtNombreUsuario;

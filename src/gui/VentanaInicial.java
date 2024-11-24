@@ -22,6 +22,8 @@ import domain.Pelicula;
 import domain.PeliculasData;
 
 public class VentanaInicial extends JFrame {
+	
+	private static final long serialVersionUID = 1L;
 	private LocalDate fechaActual = LocalDate.now(); // Fecha actual del sistema
     private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d MMM"); // Formato de fecha (6 Oct, 7 Oct...)
 

@@ -10,6 +10,8 @@ import java.time.format.DateTimeFormatter;
 
 
 public class VentanaPelicula extends JFrame {
+	
+	private static final long serialVersionUID = 1L;
 
 	private JLabel portadaLabel, tituloLabel, directorLabel, actoresLabel, sinopsisLabel, duracionLabel, estrenoLabel;
     

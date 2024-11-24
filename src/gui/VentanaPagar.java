@@ -8,21 +8,80 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JDialog;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JProgressBar;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
 
 public class VentanaPagar extends JDialog {
-    private JButton btnPagar, btnVolver, btnCancelar;
+    
+	private static final long serialVersionUID = 1L;
+	private JButton btnPagar, btnVolver, btnCancelar;
     private JPanel pCentro, pNorte, pSur, pCentroDatos;
     private JLabel lblTitulo, lblNombre, lblTarjeta, lblFecha, lblCVV, lblTotal;
     private JTextField txtNombre, txtTarjeta, txtFecha, txtCVV, txtTotal;
     private JCheckBox checkTerminos;
     private JTextArea txtCondiciones;
 
+    //Requisitos a cumplir a la hora de validar los campos
+    private boolean validarNombre(String nombre) {
+        return nombre.matches("[a-zA-Z]+");  // Validación para que solo se introduzcan letras
+    }
+    private boolean validarTarjeta(String tarjeta) {
+        return tarjeta.matches("\\d{16}[a-zA-Z]{1}"); // Validación para número de tarjeta: 16 números y una letra al final
+    }
+    private boolean validarFecha(String fecha) {
+        return fecha.matches("^(0[1-9]|1[0-2])/(0[1-9]|1[0-9]|2[0-9]|3[0-1])$"); // Validación para fecha de caducidad en formato MM/AA
+    }
+    private boolean validarCVV(String cvv) {
+        return cvv.matches("\\d{3}"); // Validación para el CVV: debe ser solo números y exactamente 3 dígitos
+    }
+    
+    
+    //Hilo que genera al pulsar el boton pagar un hilo con una progress bar, cargando 
+    //la aceptacion de la compra y abriendo al finalizar la ventana inicial
+    public void hiloBarraProgreso(){
+    	
+    	JDialog ventanaProgreso = new JDialog(this, true);
+    	ventanaProgreso.setSize(300,120);
+    	ventanaProgreso.setLayout(new BorderLayout());
+    	ventanaProgreso.setLocationRelativeTo(null); //Para que este centrada en la ventana
+    	ventanaProgreso.setTitle("SkyMovie");
+    	
+        ImageIcon imagen = new ImageIcon("resources/img/iconoSkyMovie.png");
+        ventanaProgreso.setIconImage(imagen.getImage());
+    	
+    	JLabel etiquetaCargando = new JLabel("Procesando la compra...", JLabel.CENTER);
+    	JProgressBar progressBar = new JProgressBar(0, 100);
+    	progressBar.setStringPainted(false); //No aparezca el porcentaje unicamente la barra en crecimiento
+    	
+    	ventanaProgreso.add(etiquetaCargando, BorderLayout.NORTH);
+    	ventanaProgreso.add(progressBar, BorderLayout.CENTER);
+    	
+    	Thread t = new Thread(() -> {
+    		
+                try {
+                	for(int i = 0; i<=100; i++) {
+            			progressBar.setValue(i); //Va actualizando los valores de la progress bar para que vaya progresando
+            			Thread.sleep(30); //Cada cuanto tiene que cargarse de nuevo
+                	}
+                	ventanaProgreso.dispose(); //cerrar el JDialog de ventana progreso
+                	
+                	SwingUtilities.invokeLater(() -> {
+                		VentanaInicial ventanaInicial = new VentanaInicial();
+                		ventanaInicial.setVisible(true);
+                	});
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+    	});
+    	t.start();
+    	ventanaProgreso.setVisible(true);
+    }
+    
     public VentanaPagar(double total) {
         super();
         setBounds(300, 200, 600, 430);
@@ -125,17 +184,40 @@ public class VentanaPagar extends JDialog {
             this.dispose(); 
         });
         
+        
+        
      // Añadimos un action listener que compruebe que todos los datos se han rellenado para poder realizar la compra
         btnPagar.addActionListener(e ->{
+        	String nombre = txtNombre.getText();
+        	String numeroTarjeta = txtTarjeta.getText();
+        	String fecha = txtFecha.getText();
+        	String cvv = txtCVV.getText();
+        	
         	if(txtNombre.getText().isEmpty() || txtTarjeta.getText().isEmpty() || txtFecha.getText().isEmpty() || txtCVV.getText().isEmpty() || !checkTerminos.isSelected()) {
         		JOptionPane.showMessageDialog(this, "Por favor, complete todos los campos y acepte los términos y condiciones.", "No se ha podido realizar el pago", JOptionPane.WARNING_MESSAGE);
-        	}else {
+        	}else if (!validarNombre(nombre)){
+        		JOptionPane.showMessageDialog(this, "El nombre solo contiene letras", "Error en el nombre", JOptionPane.WARNING_MESSAGE);
+        	}else if (!validarTarjeta(numeroTarjeta)){
+        		JOptionPane.showMessageDialog(this, "El número de tarjeta debe contener 16 números seguidos de una letra", "Error en la tarjeta", JOptionPane.WARNING_MESSAGE);
+        	}else if (!validarFecha(fecha)){
+        		JOptionPane.showMessageDialog(this, "La fecha de caducidad debe tener el formato correcto", "Error en la fecha", JOptionPane.WARNING_MESSAGE);
+        	}else if (!validarCVV(cvv)){
+        		JOptionPane.showMessageDialog(this, "El CVV debe ser un número de 3 dígitos.", "Error en el CVV", JOptionPane.WARNING_MESSAGE);
+        	}
+        	else {
+        		JOptionPane.showMessageDialog(this, "Su compra se ha realizado con éxito", "Pago completado", JOptionPane.INFORMATION_MESSAGE);
+        		this.dispose();
+        		hiloBarraProgreso();
+        		/*
         		JOptionPane.showMessageDialog(this, "Su compra se ha realizado con éxito", "Pago completado", JOptionPane.INFORMATION_MESSAGE);
         		VentanaInicial ventanaInicial = new VentanaInicial();
         	    ventanaInicial.setVisible(true);
         		this.dispose();
+        		*/
         	}
         });
+        
+        
         
     }
 
