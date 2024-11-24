@@ -3,6 +3,9 @@ package gui;
 import java.awt.BorderLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -117,16 +120,78 @@ public class VentanaPagar extends JDialog {
         lblFecha = new JLabel("Fecha de caducidad: ");
         lblCVV = new JLabel("CVV: ");
         lblTotal = new JLabel("Total a pagar: ");
-        lblTotal.setFont(new Font(Font.SANS_SERIF, Font.ITALIC, 16));
- 
-        
+        lblTotal.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 14));
 
         txtNombre = new JTextField(50);
+        //IA GENERATIVA 
+        // Hacer que la primera letra del nombre sea mayúscula
+        txtNombre.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent e) {
+                String texto = txtNombre.getText();
+                
+                // Si el texto no está vacío y la primera letra es minúscula
+                if (!texto.isEmpty() && Character.isLowerCase(texto.charAt(0))) {
+                    // Convertimos la primera letra a mayúscula
+                    texto = Character.toUpperCase(texto.charAt(0)) + texto.substring(1);
+                    txtNombre.setText(texto); // Actualizamos el texto del JTextField
+                }
+            }
+        });
+
         txtTarjeta = new JTextField(20);
+        //IA GENERATIVA 
+        //PARA HACER UNA PRUEBA CON EL TEXTFIELD DE LOS NUMEROS DE LA TARJETA
+        txtTarjeta.addKeyListener(new KeyAdapter() {
+        	
+        	@Override
+            public void keyReleased(KeyEvent e) {
+                String tarjeta = txtTarjeta.getText().replaceAll("[^\\dA-Za-z]", ""); // Eliminar cualquier carácter no válido
+                StringBuilder formateado = new StringBuilder();
+
+                // Añadir espacio cada 4 caracteres para el número de tarjeta
+                for (int i = 0; i < tarjeta.length(); i++) {
+                    if (i > 0 && i % 4 == 0) {
+                        formateado.append(" "); // Añadir un espacio después de cada 4 dígitos
+                    }
+                    formateado.append(tarjeta.charAt(i));
+                }
+
+                // Limitar el tamaño máximo de caracteres (16 dígitos y 1 letra)
+                if (formateado.length() > 19) {
+                    formateado.setLength(19); // 16 dígitos + 3 espacios
+                }
+
+                txtTarjeta.setText(formateado.toString()); // Actualizar el texto en el JTextField
+            }
+		});
+        
         txtFecha = new JTextField("MM/AA", 5);
+       
+        
         txtCVV = new JTextField(3);
+        //IA GENERATIVA 
+        // Limitar el campo CVV a 3 dígitos numéricos
+        txtCVV.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                char c = e.getKeyChar();
+                
+                // Verifica si el carácter ingresado es un número
+                if (!Character.isDigit(c)) {
+                    e.consume(); // Evita que se ingrese un carácter no numérico
+                }
+                
+                // Limita la longitud del campo a 3 caracteres
+                if (txtCVV.getText().length() >= 3) {
+                    e.consume(); // Evita que se ingrese más de 3 dígitos
+                }
+            }
+        });
+
+        
         txtTotal = new JTextField(String.format("€%.2f", total), 10);
-        txtTotal.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 16));
+        txtTotal.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 14));
         txtTotal.setEditable(false); // No se podrá editar este campo
 
         checkTerminos = new JCheckBox("Aceptar términos y condiciones");
@@ -215,10 +280,6 @@ public class VentanaPagar extends JDialog {
         		this.dispose();
         		*/
         	}
-        });
-        
-        
-        
+        });   
     }
-
 }
