@@ -33,12 +33,16 @@ public class VentanaPagar extends JDialog {
     private boolean validarNombre(String nombre) {
         return nombre.matches("[a-zA-Z]+");  // Validación para que solo se introduzcan letras
     }
-    private boolean validarTarjeta(String tarjeta) {
-        return tarjeta.matches("\\d{16}[a-zA-Z]{1}"); // Validación para número de tarjeta: 16 números y una letra al final
+    
+    private boolean validarTarjeta(String numeroTarjeta) {
+        numeroTarjeta = numeroTarjeta.replaceAll("\\s", ""); 
+        return numeroTarjeta.matches("\\d{16}"); // Verificar que tiene exactamente 16 dígitos
     }
+    
     private boolean validarFecha(String fecha) {
         return fecha.matches("^(0[1-9]|1[0-2])/(0[1-9]|1[0-9]|2[0-9]|3[0-1])$"); // Validación para fecha de caducidad en formato MM/AA
     }
+    
     private boolean validarCVV(String cvv) {
         return cvv.matches("\\d{3}"); // Validación para el CVV: debe ser solo números y exactamente 3 dígitos
     }
@@ -146,7 +150,10 @@ public class VentanaPagar extends JDialog {
         	
         	@Override
             public void keyReleased(KeyEvent e) {
-                String tarjeta = txtTarjeta.getText().replaceAll("[^\\dA-Za-z]", ""); // Eliminar cualquier carácter no válido
+        		String tarjeta = txtTarjeta.getText().replaceAll("\\s", ""); // Eliminar espacios
+                if (tarjeta.length() > 16) { 
+                    tarjeta = tarjeta.substring(0, 16); // Limitar a 16 dígitos sin formatear
+                }
                 StringBuilder formateado = new StringBuilder();
 
                 // Añadir espacio cada 4 caracteres para el número de tarjeta
@@ -158,10 +165,11 @@ public class VentanaPagar extends JDialog {
                 }
 
                 // Limitar el tamaño máximo de caracteres (16 dígitos y 1 letra)
+                /*
                 if (formateado.length() > 19) {
                     formateado.setLength(19); // 16 dígitos + 3 espacios
                 }
-
+				*/
                 txtTarjeta.setText(formateado.toString()); // Actualizar el texto en el JTextField
             }
 		});
@@ -263,7 +271,7 @@ public class VentanaPagar extends JDialog {
         	}else if (!validarNombre(nombre)){
         		JOptionPane.showMessageDialog(this, "El nombre solo contiene letras", "Error en el nombre", JOptionPane.WARNING_MESSAGE);
         	}else if (!validarTarjeta(numeroTarjeta)){
-        		JOptionPane.showMessageDialog(this, "El número de tarjeta debe contener 16 números seguidos de una letra", "Error en la tarjeta", JOptionPane.WARNING_MESSAGE);
+        		JOptionPane.showMessageDialog(this, "El número de tarjeta debe contener 16 números", "Error en la tarjeta", JOptionPane.WARNING_MESSAGE);
         	}else if (!validarFecha(fecha)){
         		JOptionPane.showMessageDialog(this, "La fecha de caducidad debe tener el formato correcto", "Error en la fecha", JOptionPane.WARNING_MESSAGE);
         	}else if (!validarCVV(cvv)){
