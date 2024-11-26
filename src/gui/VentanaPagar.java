@@ -5,7 +5,6 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -87,6 +86,7 @@ public class VentanaPagar extends JDialog {
     	});
     	t.start();
     	ventanaProgreso.setVisible(true);
+    	
     }
     
     public VentanaPagar(double total) {
@@ -107,7 +107,7 @@ public class VentanaPagar extends JDialog {
         getContentPane().add(pNorte, BorderLayout.NORTH);
         getContentPane().add(pSur, BorderLayout.SOUTH);
 
-        pCentro.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+        pCentro.setBorder(BorderFactory.createEmptyBorder(20, 30, 20, 30));
 
         btnPagar = new JButton("PAGAR");
         btnPagar.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 18));
@@ -256,7 +256,6 @@ public class VentanaPagar extends JDialog {
         	
             this.dispose(); 
         });
-        
         
         
      // Añadimos un action listener que compruebe que todos los datos se han rellenado para poder realizar la compra

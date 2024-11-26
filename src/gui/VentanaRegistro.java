@@ -20,53 +20,91 @@ public class VentanaRegistro extends JDialog {
     private ImageIcon iconoOjoAbierto;
     private ImageIcon iconoOjoCerrado;
 
+ 
     
     /*
-    public void hiloBarraProgreso(){
-    	
-    	JDialog ventanaProgreso = new JDialog(this, true);
-    	ventanaProgreso.setSize(300,120);
-    	ventanaProgreso.setLayout(new BorderLayout());
-    	ventanaProgreso.setLocationRelativeTo(null); //Para que este centrada en la ventana
-    	ventanaProgreso.setTitle("SkyMovie");
-    	
-        ImageIcon imagen = new ImageIcon("resources/img/iconoSkyMovie.png");
-        ventanaProgreso.setIconImage(imagen.getImage());
-    	
-    	JLabel etiquetaCargando = new JLabel("Procesando la compra...", JLabel.CENTER);
-    	JProgressBar progressBar = new JProgressBar(0, 100);
-    	progressBar.setStringPainted(false); //No aparezca el porcentaje unicamente la barra en crecimiento
-    	
-    	ventanaProgreso.add(etiquetaCargando, BorderLayout.NORTH);
-    	ventanaProgreso.add(progressBar, BorderLayout.CENTER);
-    	
-    	Thread t = new Thread(() -> {
-    		
-                try {
-                	for(int i = 0; i<=100; i++) {
-            			progressBar.setValue(i); //Va actualizando los valores de la progress bar para que vaya progresando
-            			Thread.sleep(30); //Cada cuanto tiene que cargarse de nuevo
-                	}
-                	ventanaProgreso.dispose(); //cerrar el JDialog de ventana progreso
-                	
-                	SwingUtilities.invokeLater(() -> {
-                		VentanaInicial ventanaInicial = new VentanaInicial();
-                		ventanaInicial.setVisible(true);
-                	});
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-    	});
-    	t.start();
-    	ventanaProgreso.setVisible(true);
+    public void mostrarCargandoEntreVentanas() {
+        // Crear el JDialog modal
+    	JDialog ventanaCargando = new JDialog(this, true);
+        ventanaCargando.setSize(200, 150);
+        ventanaCargando.setLayout(new BorderLayout());
+        ventanaCargando.setLocationRelativeTo(null);
+        ventanaCargando.setTitle("Cargando...");
+
+        // Añadir una etiqueta con texto centrado
+        JLabel etiquetaCargando = new JLabel("Cargando, por favor espere...", JLabel.CENTER);
+
+        // Crear una ruleta de carga con un ícono animado
+        ImageIcon ruleta = new ImageIcon("resources/img/ruleta.gif"); // Asegúrate de usar un GIF animado
+        JLabel etiquetaRuleta = new JLabel(ruleta, JLabel.CENTER);
+
+        // Añadir componentes al JDialog
+        ventanaCargando.add(etiquetaCargando, BorderLayout.NORTH);
+        ventanaCargando.add(etiquetaRuleta, BorderLayout.CENTER);
+
+        // Crear el hilo para simular la carga
+        Thread t = new Thread(() -> {
+            try {
+                Thread.sleep(3000); // Simular una carga de 3 segundos
+                ventanaCargando.dispose(); // Cerrar la ventana de carga
+                
+                // Lanzar la ventana inicial
+                SwingUtilities.invokeLater(() -> {
+                    VentanaInicial ventanaInicial = new VentanaInicial();
+                    ventanaInicial.setVisible(true);
+                });
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        });
+
+        // Iniciar el hilo y mostrar la ventana de carga
+        t.start();
+        ventanaCargando.setVisible(true);
     }
-     * */
+*/
     
-    public void hiloCargando() {
-    	JDialog cargando = new JDialog();
-    	
+    /*
+    public void mostrarCargandoEntreVentanas() {
+        // Crear el JDialog modal
+        JDialog ventanaCargando = new JDialog((Frame) SwingUtilities.getWindowAncestor(this), true);
+        ventanaCargando.setSize(200, 150);
+        ventanaCargando.setLayout(new BorderLayout());
+        ventanaCargando.setLocationRelativeTo(null);
+        ventanaCargando.setTitle("Cargando...");
+
+        // Añadir una etiqueta con texto centrado
+        JLabel etiquetaCargando = new JLabel("Cargando, por favor espere...", JLabel.CENTER);
+
+        // Crear una ruleta de carga con un ícono animado
+        ImageIcon ruleta = new ImageIcon("resources/img/ruleta.gif"); // Usa un GIF animado válido
+        JLabel etiquetaRuleta = new JLabel(ruleta, JLabel.CENTER);
+
+        // Añadir componentes al JDialog
+        ventanaCargando.add(etiquetaCargando, BorderLayout.NORTH);
+        ventanaCargando.add(etiquetaRuleta, BorderLayout.CENTER);
+
+        // Crear el hilo para simular la carga
+        new Thread(() -> {
+            try {
+                Thread.sleep(3000); // Simular una carga de 3 segundos
+                ventanaCargando.dispose(); // Cerrar la ventana de carga
+
+                // Lanzar la ventana inicial
+                SwingUtilities.invokeLater(() -> {
+                    VentanaInicial ventanaInicial = new VentanaInicial();
+                    ventanaInicial.setVisible(true);
+                });
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }).start();
+
+        // Mostrar la ventana de carga
+        ventanaCargando.setVisible(true);
     }
-    
+
+    */
     
     
     public VentanaRegistro(JFrame parent) {
