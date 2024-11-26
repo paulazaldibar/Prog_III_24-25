@@ -20,6 +20,55 @@ public class VentanaRegistro extends JDialog {
     private ImageIcon iconoOjoAbierto;
     private ImageIcon iconoOjoCerrado;
 
+    
+    /*
+    public void hiloBarraProgreso(){
+    	
+    	JDialog ventanaProgreso = new JDialog(this, true);
+    	ventanaProgreso.setSize(300,120);
+    	ventanaProgreso.setLayout(new BorderLayout());
+    	ventanaProgreso.setLocationRelativeTo(null); //Para que este centrada en la ventana
+    	ventanaProgreso.setTitle("SkyMovie");
+    	
+        ImageIcon imagen = new ImageIcon("resources/img/iconoSkyMovie.png");
+        ventanaProgreso.setIconImage(imagen.getImage());
+    	
+    	JLabel etiquetaCargando = new JLabel("Procesando la compra...", JLabel.CENTER);
+    	JProgressBar progressBar = new JProgressBar(0, 100);
+    	progressBar.setStringPainted(false); //No aparezca el porcentaje unicamente la barra en crecimiento
+    	
+    	ventanaProgreso.add(etiquetaCargando, BorderLayout.NORTH);
+    	ventanaProgreso.add(progressBar, BorderLayout.CENTER);
+    	
+    	Thread t = new Thread(() -> {
+    		
+                try {
+                	for(int i = 0; i<=100; i++) {
+            			progressBar.setValue(i); //Va actualizando los valores de la progress bar para que vaya progresando
+            			Thread.sleep(30); //Cada cuanto tiene que cargarse de nuevo
+                	}
+                	ventanaProgreso.dispose(); //cerrar el JDialog de ventana progreso
+                	
+                	SwingUtilities.invokeLater(() -> {
+                		VentanaInicial ventanaInicial = new VentanaInicial();
+                		ventanaInicial.setVisible(true);
+                	});
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+    	});
+    	t.start();
+    	ventanaProgreso.setVisible(true);
+    }
+     * */
+    
+    public void hiloCargando() {
+    	JDialog cargando = new JDialog();
+    	
+    }
+    
+    
+    
     public VentanaRegistro(JFrame parent) {
         super(parent, "SkyMovie", true);
         setBounds(300, 200, 600, 400);
