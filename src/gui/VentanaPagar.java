@@ -18,6 +18,10 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 
+import bd.GestorBDPagar;
+import bd.GestorBDUsuario;
+import domain.Usuario;
+
 public class VentanaPagar extends JDialog {
     
 	private static final long serialVersionUID = 1L;
@@ -27,6 +31,7 @@ public class VentanaPagar extends JDialog {
     private JTextField txtNombre, txtTarjeta, txtFecha, txtCVV, txtTotal;
     private JCheckBox checkTerminos;
     private JTextArea txtCondiciones;
+    
 
     //Requisitos a cumplir a la hora de validar los campos
     private boolean validarNombre(String nombre) {
@@ -277,15 +282,29 @@ public class VentanaPagar extends JDialog {
         		JOptionPane.showMessageDialog(this, "El CVV debe ser un número de 3 dígitos.", "Error en el CVV", JOptionPane.WARNING_MESSAGE);
         	}
         	else {
-        		JOptionPane.showMessageDialog(this, "Su compra se ha realizado con éxito", "Pago completado", JOptionPane.INFORMATION_MESSAGE);
-        		this.dispose();
-        		hiloBarraProgreso();
-        		/*
-        		JOptionPane.showMessageDialog(this, "Su compra se ha realizado con éxito", "Pago completado", JOptionPane.INFORMATION_MESSAGE);
-        		VentanaInicial ventanaInicial = new VentanaInicial();
-        	    ventanaInicial.setVisible(true);
-        		this.dispose();
-        		*/
+                try {
+                    // Suponiendo que ya tienes el ID del cliente desde el contexto o login previo
+                    GestorBDUsuario gestorUsuario = new GestorBDUsuario();
+                    Usuario usuario = gestorUsuario.obtenerUsuarioPorEmail("correo_del_cliente@example.com");
+
+                    if (usuario != null) {
+                        int idCliente = usuario.getId();
+                        double importe = Double.parseDouble(txtTotal.getText().replace("€", ""));
+
+                        // Guardar el pago en la base de datos
+                        GestorBDPagar gestorPagar = new GestorBDPagar();
+                        gestorPagar.guardarPago(idCliente, importe, numeroTarjeta, fecha, cvv);
+
+                        JOptionPane.showMessageDialog(this, "Su compra se ha realizado con éxito", "Pago completado", JOptionPane.INFORMATION_MESSAGE);
+                        this.dispose();
+                        hiloBarraProgreso();
+                    } else {
+                        JOptionPane.showMessageDialog(this, "No se encontró el usuario. Por favor, inicie sesión nuevamente.", "Error", JOptionPane.ERROR_MESSAGE);
+                    }
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                    JOptionPane.showMessageDialog(this, "Error al procesar el pago. Inténtelo nuevamente.", "Error", JOptionPane.ERROR_MESSAGE);
+                }
         	}
         });   
     }
