@@ -285,7 +285,7 @@ public class VentanaPagar extends JDialog {
                 try {
                     // Suponiendo que ya tienes el ID del cliente desde el contexto o login previo
                     GestorBDUsuario gestorUsuario = new GestorBDUsuario();
-                    Usuario usuario = gestorUsuario.obtenerUsuarioPorEmail("correo_del_cliente@example.com");
+                    Usuario usuario = gestorUsuario.buscarUsuarioPorNombre(nombre);
 
                     if (usuario != null) {
                         int idCliente = usuario.getId();
@@ -293,7 +293,7 @@ public class VentanaPagar extends JDialog {
 
                         // Guardar el pago en la base de datos
                         GestorBDPagar gestorPagar = new GestorBDPagar();
-                        gestorPagar.guardarPago(idCliente, importe, numeroTarjeta, fecha, cvv);
+                        gestorPagar.guardarPago(idCliente, importe, nombre, numeroTarjeta, fecha, cvv);
 
                         JOptionPane.showMessageDialog(this, "Su compra se ha realizado con éxito", "Pago completado", JOptionPane.INFORMATION_MESSAGE);
                         this.dispose();

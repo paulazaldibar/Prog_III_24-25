@@ -14,7 +14,7 @@ public class GestorBDUsuario {
         String sql = "INSERT INTO usuarios (nombre, email, contrasenia) VALUES (?, ?, ?)";
         
         try (Connection conn = ConexionBD.getConexion();
-             PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+             PreparedStatement ps = conn.prepareStatement(sql)) {
              
             ps.setString(1, usuario.getName());
             ps.setString(2, usuario.getEmail());
@@ -58,4 +58,28 @@ public class GestorBDUsuario {
         }
         return null; // Si no se encuentra el usuario
     }
+    
+ // Método para recuperar un usuario por nombre
+    public Usuario buscarUsuarioPorNombre(String nombre) {
+        String sql = "SELECT * FROM usuarios WHERE nombre = ?";
+        try (Connection conn = ConexionBD.getConexion();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, nombre);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return new Usuario(
+                        rs.getInt("id"),
+                        rs.getString("nombre"),
+                        rs.getString("email"),
+                        rs.getString("contrasenia")
+                    );
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Error al buscar el usuario por nombre", e);
+        }
+        return null; // Si no se encuentra el usuario
+    }
+    
 }
