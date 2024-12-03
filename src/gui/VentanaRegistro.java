@@ -27,9 +27,9 @@ public class VentanaRegistro extends JDialog {
 	    ventanaCargando.setSize(300, 150);
 	    ventanaCargando.setLocationRelativeTo(null);
 	    ventanaCargando.setLayout(new BorderLayout());
-	    ventanaCargando.setTitle("SkyMovie");
-	    ImageIcon imagen = new ImageIcon("resources/img/iconoSkyMovie.png");
-	    ventanaCargando.setIconImage(imagen.getImage());
+	    //ventanaCargando.setTitle("SkyMovie");
+	    //ImageIcon imagen = new ImageIcon("resources/img/iconoSkyMovie.png");
+	    //ventanaCargando.setIconImage(imagen.getImage());
 	    ventanaCargando.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE); //No se permite cerrar la ventana del JDialog
 
 	    JLabel lblCargando = new JLabel("Cargando", SwingConstants.CENTER);
