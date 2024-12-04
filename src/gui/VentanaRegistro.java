@@ -126,7 +126,8 @@ public class VentanaRegistro extends JDialog {
        btnMostrarContrasenia.setContentAreaFilled(false);
        btnMostrarContrasenia.setBorderPainted(false);
       
-       // Con esto conseguimos que los componentes queden centrados y en columnas alineadas (Chat GPT)
+       //IAG (Chat GPT)
+       // Con esto conseguimos que los componentes queden centrados y en columnas alineadas 
        GridBagConstraints gbc = new GridBagConstraints();
        gbc.fill = GridBagConstraints.HORIZONTAL;
        gbc.insets = new Insets(10, 10, 10, 10);
@@ -151,8 +152,12 @@ public class VentanaRegistro extends JDialog {
        gbc.gridx = 1;
        gbc.anchor = GridBagConstraints.LINE_START;
        pCentro.add(contraseniaPanel, gbc);
+       
+       
        pSur.add(btnInicioSesion);
        pSur.add(btnRegistro);
+       
+       
        // ActionListener para mostrar/ocultar contraseña
        btnMostrarContrasenia.addActionListener(new ActionListener() {
            @Override
