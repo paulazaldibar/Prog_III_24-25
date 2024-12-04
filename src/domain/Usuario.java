@@ -21,6 +21,7 @@ public class Usuario {
 		this.nombre = nombre;
 		this.contrasenia = contrasenia;
 	}
+	
 	public int getId() {
 		return id;
 	}
@@ -43,9 +44,4 @@ public class Usuario {
 	public String toString() {
 		return "Usuario [id=" + id + ", nombre=" + nombre + ", contrasenia=" + contrasenia + "]";
 	}
-	
-	
-	
-	
-
 }
