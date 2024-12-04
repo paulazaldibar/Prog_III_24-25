@@ -2,6 +2,7 @@ package gui;
 import javax.swing.*;
 
 import bd.GestorBDUsuario;
+import domain.Usuario;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -192,6 +193,19 @@ public class VentanaRegistro extends JDialog {
            JOptionPane.showMessageDialog(this, "Por favor, complete todos los campos", "Error", JOptionPane.ERROR_MESSAGE);
            return;
        }
+       
+       // Verifica si el usuario ya existe en la base de datos
+       if (GestorBDUsuario.existeUsuario(usuario.hashCode())) { 
+           JOptionPane.showMessageDialog(this, "El usuario ya está registrado", "Error", JOptionPane.ERROR_MESSAGE);
+           return;
+       }
+       Usuario nuevoUsuario = new Usuario(usuario.hashCode(), usuario, contrasenia);
+       GestorBDUsuario.insertarUsuario(nuevoUsuario);
+       JOptionPane.showMessageDialog(this, "Usuario registrado correctamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+       iniciarCarga(); 
+       
+       
+       /*
        try (BufferedWriter writer = new BufferedWriter(new FileWriter("ficheros/usuarios.txt", true))) {
            writer.write(usuario + ":" + contrasenia);
            writer.newLine();
@@ -200,6 +214,7 @@ public class VentanaRegistro extends JDialog {
            ex.printStackTrace();
            JOptionPane.showMessageDialog(this, "Error al registrar el usuario", "Error", JOptionPane.ERROR_MESSAGE);
        }
+       */
    }
    
    private void iniciarSesion() {
@@ -209,6 +224,22 @@ public class VentanaRegistro extends JDialog {
            JOptionPane.showMessageDialog(this, "Por favor, complete todos los campos", "Error", JOptionPane.ERROR_MESSAGE);
            return;
        }
+       
+       // Verifica si el usuario existe en la base de datos
+       if (GestorBDUsuario.existeUsuario(usuario.hashCode())) {
+           // Opcional: Recuperar el usuario y comprobar la contraseña
+           Usuario u = GestorBDUsuario.obtenerUsuarioPorId(usuario.hashCode());
+           if (u.getContrasenia().equals(contrasenia)) {
+               JOptionPane.showMessageDialog(this, "Inicio de sesión exitoso", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+               iniciarCarga(); // Simula la transición después de iniciar sesión correctamente
+           } else {
+               JOptionPane.showMessageDialog(this, "Contraseña incorrecta", "Error", JOptionPane.ERROR_MESSAGE);
+           }
+       } else {
+           JOptionPane.showMessageDialog(this, "Usuario no registrado", "Error", JOptionPane.ERROR_MESSAGE);
+       }
+       
+       /*
        try (BufferedReader reader = new BufferedReader(new FileReader("ficheros/usuarios.txt"))) {
            String linea;
            boolean encontrado = false;
@@ -228,13 +259,22 @@ public class VentanaRegistro extends JDialog {
            ex.printStackTrace();
            JOptionPane.showMessageDialog(this, "Error al iniciar sesión", "Error", JOptionPane.ERROR_MESSAGE);
        }
+       */
    }
   
-   public static void main(String[] args) {
-       JFrame parent = new JFrame();
-       new VentanaRegistro(parent);
-       GestorBDUsuario bd = new GestorBDUsuario();
-       bd.initBD("resources/db/SkyMovie.db");
+   @Override
+   public void dispose() {
+       GestorBDUsuario.closeBD(); 
+       super.dispose();
+   }
+
+   
+   public static void main(String[] args) {       
+       GestorBDUsuario.initBD("resources/db/SkyMovie.db");
+       SwingUtilities.invokeLater(() -> {
+           JFrame parent = new JFrame();
+           new VentanaRegistro(parent);
+       });
        //bd.closeBD();
    }
 }
