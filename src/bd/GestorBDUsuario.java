@@ -1,7 +1,5 @@
 package bd;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -10,7 +8,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 import domain.Usuario;
 
@@ -41,10 +38,10 @@ public class GestorBDUsuario {
 	}
 	
 	public static void crearTablas() {
-		String sql = "CREATE TABLE IF NOT EXISTS Usuario(int id, String nombre, String contraseña)";
+		String sql = "CREATE TABLE IF NOT EXISTS Usuario (" +"id INTEGER PRIMARY KEY, " +"nombre TEXT NOT NULL, " +"contraseña TEXT NOT NULL)";
 		try {
 			Statement stmt = con.createStatement();
-			stmt.executeQuery(sql);
+			stmt.executeUpdate(sql);
 			stmt.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -90,6 +87,26 @@ public class GestorBDUsuario {
 		}
 	}
 	
+	public static Usuario obtenerUsuarioPorId(int id) {
+	    Usuario usuario = null;
+	    String sql = "SELECT * FROM Usuario WHERE id = ?";
+	    try {
+	        PreparedStatement ps = con.prepareStatement(sql);
+	        ps.setInt(1, id);
+	        ResultSet rs = ps.executeQuery();
+	        if (rs.next()) { // Si se encuentra un usuario con el ID dado
+	            String nombre = rs.getString("nombre");
+	            String contrasenia = rs.getString("contraseña");
+	            usuario = new Usuario(id, nombre, contrasenia);
+	        }
+	        rs.close();
+	        ps.close();
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	    return usuario;
+	}
+	
 	public static boolean existeUsuario(int idU) {
 		boolean existe = false;
 		String sql = "SELECT * FROM Usuario WHERE id = ?";
@@ -108,8 +125,8 @@ public class GestorBDUsuario {
 		return existe;
 	}
 	
-	public static List<Usuario> obtenerTodosLosProductos(){
-		List<Usuario> lu = new ArrayList<>();
+	public static List<Usuario> obtenerTodosLosUsuarios(){
+		List<Usuario> listaUsuarios = new ArrayList<>();
 		String sql = "SELECT * FROM Usuario";
 		try {
 			Statement stmt = con.createStatement();
@@ -119,14 +136,14 @@ public class GestorBDUsuario {
 				String nombre = rs.getString("nombre");
 				String contrasenia = rs.getString("contraseña");
 				Usuario u = new Usuario(id, nombre, contrasenia);
-				lu.add(u);
+				listaUsuarios.add(u);
 			}
 			rs.close();
 			stmt.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return lu;
+		return listaUsuarios;
 	}
 	
 	
