@@ -2,6 +2,7 @@ package gui;
 
 import javax.swing.*;
 
+import bd.GestorBDUsuario;
 import domain.Pelicula;
 
 import java.awt.*;
@@ -187,6 +188,12 @@ public class VentanaPelicula extends JFrame {
         }
     }
     
+    @Override
+    public void dispose() {
+        GestorBDUsuario.closeBD(); 
+        super.dispose();
+    }
+
     public static void main(String[] args) {
     	VentanaPelicula dialog = new VentanaPelicula();
     }

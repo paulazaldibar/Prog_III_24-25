@@ -7,7 +7,6 @@ import domain.Usuario;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.*;
 
 public class VentanaRegistro extends JDialog {
 	private static final long serialVersionUID = 1L;
@@ -68,7 +67,6 @@ public class VentanaRegistro extends JDialog {
 	    ventanaCargando.setVisible(true);
 	}
    
-  
   
    public VentanaRegistro(JFrame parent) {
        super(parent, "SkyMovie", true);

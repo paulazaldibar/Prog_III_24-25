@@ -18,6 +18,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 
+import bd.GestorBDUsuario;
 import domain.Pelicula;
 import domain.PeliculasData;
 
@@ -182,6 +183,12 @@ public class VentanaInicial extends JFrame {
         VentanaPelicula ventanaPelicula = new VentanaPelicula();
         ventanaPelicula.setVisible(true);
         
+    }
+
+    @Override
+    public void dispose() {
+        GestorBDUsuario.closeBD(); 
+        super.dispose();
     }
 
     public static void main(String[] args) {

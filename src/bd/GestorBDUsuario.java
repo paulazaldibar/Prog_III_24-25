@@ -72,7 +72,6 @@ public class GestorBDUsuario {
 	    }
 	}
 
-	
 	public static void borrarUsuario(Usuario u) {
 		String sql = "DELETE FROM Usuario VALUES (?, ?, ?)";
 		try {
@@ -107,7 +106,6 @@ public class GestorBDUsuario {
 	    return usuario;
 	}
 
-	
 	public static boolean existeUsuario(int idU) {
 		boolean existe = false;
 		String sql = "SELECT * FROM Usuario WHERE id = ?";
@@ -146,9 +144,5 @@ public class GestorBDUsuario {
 		}
 		return listaUsuarios;
 	}
-	
-	
-	
-	
 	
 }

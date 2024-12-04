@@ -19,6 +19,8 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import bd.GestorBDUsuario;
+
 public class VentanaSeleccionAsientos extends JFrame {
     
 	private static final long serialVersionUID = 1L;
@@ -148,6 +150,12 @@ public class VentanaSeleccionAsientos extends JFrame {
     	lblTotal.setText("Total: €" + String.format("%.2f", total));
 	}
     
+    @Override
+    public void dispose() {
+        GestorBDUsuario.closeBD(); 
+        super.dispose();
+    }
+
     public static void main(String[] args) {
         VentanaSeleccionAsientos v1 = new VentanaSeleccionAsientos();
     }
