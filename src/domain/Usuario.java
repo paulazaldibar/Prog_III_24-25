@@ -1,85 +1,51 @@
 package domain;
 
-import java.util.Objects;
 
 public class Usuario {
-	private int id = -1; //clave primaria
+	private int id;
 	private String nombre;
-	private String email;
 	private String contrasenia;
 	
 	public Usuario() {
-		
+		super();
 	}
-	
-	public Usuario(int id, String nombre, String email, String contrasenia) {
-        this.id = id;
-        this.nombre = nombre;
-        this.email = email;
-        this.contrasenia = contrasenia;
-    }
-	
-	public Usuario(String nombre, String email, String contrasenia) {
+	public Usuario(String nombre, String contrasenia) {
+		super();
 		this.nombre = nombre;
-		this.email = email;
 		this.contrasenia = contrasenia;
 	}
 	
-	
-
+	public Usuario(int id, String nombre, String contrasenia) {
+		super();
+		this.id = id;
+		this.nombre = nombre;
+		this.contrasenia = contrasenia;
+	}
 	public int getId() {
 		return id;
 	}
-
 	public void setId(int id) {
 		this.id = id;
 	}
-
-	public String getName() {
+	public String getNombre() {
 		return nombre;
 	}
-
-	public void setName(String nombre) {
+	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public String getPassword() {
+	public String getContrasenia() {
 		return contrasenia;
 	}
-
-	public void setPassword(String contrasenia) {
+	public void setContraseña(String contrasenia) {
 		this.contrasenia = contrasenia;
 	}
-
 	@Override
 	public String toString() {
-		return "Cliente [id=" + id + ", nombre=" + nombre + ", email=" + email + ", contraseña=" + contrasenia + "]";
+		return "Usuario [id=" + id + ", nombre=" + nombre + ", contrasenia=" + contrasenia + "]";
 	}
-
-	//Redefinirlos para trabajar con Collecciones
-	@Override
-	public int hashCode() {
-		return Objects.hash(id);
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Usuario other = (Usuario) obj;
-		return id == other.id;
-	}
+	
+	
+	
+	
 
 }
