@@ -271,6 +271,8 @@ public class VentanaRegistro extends JDialog {
    
    public static void main(String[] args) {       
        GestorBDUsuario.initBD("resources/db/SkyMovie.db");
+       //GestorBDUsuario.borrarTablas();
+       //GestorBDUsuario.crearTablas();
        SwingUtilities.invokeLater(() -> {
            JFrame parent = new JFrame();
            new VentanaRegistro(parent);

@@ -38,7 +38,7 @@ public class GestorBDUsuario {
 	}
 	
 	public static void crearTablas() {
-		String sql = "CREATE TABLE IF NOT EXISTS Usuario (" +"id INTEGER PRIMARY KEY, " +"nombre TEXT NOT NULL, " +"contraseña TEXT NOT NULL)";
+		String sql = "CREATE TABLE IF NOT EXISTS Usuario (" +"id INTEGER PRIMARY KEY AUTOINCREMENT, " +"nombre TEXT NOT NULL, " +"contraseña TEXT NOT NULL)";
 		try {
 			Statement stmt = con.createStatement();
 			stmt.executeUpdate(sql);
@@ -60,18 +60,18 @@ public class GestorBDUsuario {
 	}
 	
 	public static void insertarUsuario(Usuario u) {
-		String sql = "INSERT INTO Usuario VALUES (? , ? , ?)";
-		try {
-			PreparedStatement ps = con.prepareStatement(sql);
-			ps.setInt(1, u.getId());
-			ps.setString(2, u.getNombre());
-			ps.setString(3, u.getContrasenia());
-			ps.execute();
-			ps.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+	    String sql = "INSERT INTO Usuario (nombre, contraseña) VALUES (?, ?)";
+	    try {
+	        PreparedStatement ps = con.prepareStatement(sql);
+	        ps.setString(1, u.getNombre());
+	        ps.setString(2, u.getContrasenia());
+	        ps.execute();
+	        ps.close();
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
 	}
+
 	
 	public static void borrarUsuario(Usuario u) {
 		String sql = "DELETE FROM Usuario VALUES (?, ?, ?)";
@@ -106,6 +106,7 @@ public class GestorBDUsuario {
 	    }
 	    return usuario;
 	}
+
 	
 	public static boolean existeUsuario(int idU) {
 		boolean existe = false;
