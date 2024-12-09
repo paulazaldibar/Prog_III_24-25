@@ -20,6 +20,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import bd.GestorBDUsuario;
+import domain.Asientos;
 
 public class VentanaSeleccionAsientos extends JFrame {
     
@@ -28,18 +29,22 @@ public class VentanaSeleccionAsientos extends JFrame {
     private static int asientosFila = 18;
     private static double precioEntrada = 10.0; 
     private static int totalAsientosSeleccionados = 0; 
-    private ArrayList<JButton> asientos; 
+    private ArrayList<Asientos> asientos; 
     private JButton btnContinuar, btnVolver;
     private JLabel lblTotal, lblTitulo, lblSubtitulo; 
     private JPanel pTitulo, pAsientos, pTotal, pBotones, pSur; 
     
+    private static Color verdePersonalizado = new Color(89, 169, 106);
+    private static Color rojoPersonalizado = new Color(164, 3, 31);
+    
     public void reiniciarSeleccion() {
         totalAsientosSeleccionados = 0; 
-        for (JButton asiento : asientos) {
-            asiento.setBackground(new Color(89, 169, 106));
+        for (Asientos asiento : asientos) {
+        	asiento.reiniciarEstado();
         }
         actualizarTotal(); 
     }
+
     
     public VentanaSeleccionAsientos() {
         setTitle("SkyMovie"); 
@@ -72,10 +77,10 @@ public class VentanaSeleccionAsientos extends JFrame {
         pAsientos.setBorder(BorderFactory.createEmptyBorder(30,40,30,40)); // Dejamos un margen alrededor del panel
         
         asientos = new ArrayList<>(); // Inicializamos el ArrayList
-        Color verdePersonalizado = new Color(89, 169, 106);
-        Color rojoPersonalizado = new Color(164, 3, 31);
+        //Color verdePersonalizado = new Color(89, 169, 106);
+        //Color rojoPersonalizado = new Color(164, 3, 31);
         
-        for(int i=0; i<numFila; i++) {
+        /*for(int i=0; i<numFila; i++) {
         	for(int j=0; j<asientosFila +2; j++) {
         		if(j==4 || j==15) { // Las columnas 4 y 15 son los pasillos
         			pAsientos.add(new JLabel("")); // Añadimos un espacio en blanco para simular el pasillo
@@ -100,6 +105,29 @@ public class VentanaSeleccionAsientos extends JFrame {
 					});
         			asientos.add(btnAsiento); // Añadimos el boton al ArrayList
         			pAsientos.add(btnAsiento);
+        		}
+        	}
+        }*/
+        
+        for(int i=0; i<numFila; i++) {
+        	for(int j=0; j<asientosFila +2; j++) {
+        		if(j==4 || j==15) { // Las columnas 4 y 15 son los pasillos
+        			pAsientos.add(new JLabel("")); // Añadimos un espacio en blanco para simular el pasillo
+        		}else {
+        			Asientos asiento = new Asientos(i, j);
+                    asiento.addMouseListener(new java.awt.event.MouseAdapter() {
+                        public void mouseClicked(java.awt.event.MouseEvent evt) {
+                            asiento.alternarEstado();
+                            if (asiento.isOcupado()) {
+                                totalAsientosSeleccionados++;
+                            } else {
+                                totalAsientosSeleccionados--;
+                            }
+                            actualizarTotal();
+                        }
+					});
+                    asientos.add(asiento); // Añadimos el asiento a la lista
+                    pAsientos.add(asiento);
         		}
         	}
         }
@@ -145,10 +173,16 @@ public class VentanaSeleccionAsientos extends JFrame {
         setVisible(true);
     }
     
-    private void actualizarTotal() {
+    /*private void actualizarTotal() {
     	double total = totalAsientosSeleccionados * precioEntrada;
     	lblTotal.setText("Total: €" + String.format("%.2f", total));
-	}
+	}*/
+    
+    private void actualizarTotal() {
+        double total = totalAsientosSeleccionados * precioEntrada;
+        lblTotal.setText("Total: €" + String.format("%.2f", total));
+    }
+
     
     @Override
     public void dispose() {
