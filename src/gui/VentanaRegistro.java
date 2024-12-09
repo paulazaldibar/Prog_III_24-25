@@ -9,8 +9,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class VentanaRegistro extends JDialog {
-	private static final long serialVersionUID = 1L;
-	private JButton btnInicioSesion, btnRegistro, btnMostrarContrasenia;
+	
+   private static final long serialVersionUID = 1L;
+   private JButton btnInicioSesion, btnRegistro, btnMostrarContrasenia;
    private JPanel pCentro, pNorte, pSur;
    private JLabel lblTitulo, lblNombreUsuario, lblContraseniaUsuario;
    private JTextField txtNombreUsuario;
@@ -21,11 +22,16 @@ public class VentanaRegistro extends JDialog {
    private ImageIcon iconoOjoAbierto;
    private ImageIcon iconoOjoCerrado;
   
-   
+   /*
+   Con este hilo solo conseguimos trasladar el tiempo de espera a antes de que se muestre el hilo en vez de que sea tras el hilo:
    private void iniciarCarga() { // IAG, hilo hecho con ayuda de Chat GPT 
 	    // Cerramos la ventana actual
 	    this.dispose();
 
+	    // Creamos la ventana inicial pero la ponemos en oculto hasta que el hilo termine
+	    VentanaInicial venetanaInicial = new VentanaInicial();
+	    venetanaInicial.setVisible(false);
+	    
 	    JDialog ventanaCargando = new JDialog(this, "Cargando...", true);
 	    ventanaCargando.setSize(300, 150);
 	    ventanaCargando.setLocationRelativeTo(null);
@@ -58,14 +64,74 @@ public class VentanaRegistro extends JDialog {
 	        }
 	        // Cerramos la ventana de carga y abrimos la ventanaInicial
 	        ventanaCargando.dispose();
-	        SwingUtilities.invokeLater(() -> {
-	            VentanaInicial ventanaInicial = new VentanaInicial();
-	            ventanaInicial.setVisible(true);
-	        });
+	        venetanaInicial.setVisible(true);
+	        
 	    });
+	    
 	    hiloCargando.start();
 	    ventanaCargando.setVisible(true);
 	}
+   */
+   
+   // Con este hilo todo el tiempo de espera hasta que cargue la ventanaInicial es ocupado por el hilo
+   private void iniciarCarga() {
+	    // Cerramos la ventana actual
+	    this.dispose();
+
+	    JDialog ventanaCargando = new JDialog(this, "Cargando...", true);
+	    ventanaCargando.setSize(300, 150);
+	    ventanaCargando.setLocationRelativeTo(null);
+	    ventanaCargando.setLayout(new BorderLayout());
+	    //ventanaCargando.setTitle("SkyMovie");
+	    //ImageIcon imagen = new ImageIcon("resources/img/iconoSkyMovie.png");
+	    //ventanaCargando.setIconImage(imagen.getImage());
+	    ventanaCargando.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE); // No permitir cerrar manualmente
+
+	    JLabel lblCargando = new JLabel("Cargando", SwingConstants.CENTER);
+	    lblCargando.setFont(new Font("SansSerif", Font.BOLD, 16));
+	    ventanaCargando.add(lblCargando, BorderLayout.CENTER);
+
+	    // Hilo para "animar" el texto de cargando
+	    Thread hiloCargando = new Thread(() -> {
+	        String[] estados = {"Cargando", "Cargando.", "Cargando..", "Cargando..."}; // Estados animados
+	        int contador = 0;
+
+	        try {
+	            // Mostrar animación mientras se crea la ventana inicial
+	            while (!Thread.currentThread().isInterrupted()) {
+	                lblCargando.setText(estados[contador % estados.length]);
+	                contador++;
+	                Thread.sleep(500); // Cambia el texto cada 500ms
+	            }
+	        } catch (InterruptedException e) {
+	            Thread.currentThread().interrupt();
+	        }
+	    });
+
+	    // Hilo para inicializar la ventana inicial en paralelo
+	    Thread hiloInicializar = new Thread(() -> {
+	        VentanaInicial ventanaInicial = new VentanaInicial(); 
+
+	        try {
+	            Thread.sleep(100); 
+	        } catch (InterruptedException e) {
+	            Thread.currentThread().interrupt();
+	        }
+	        // Ponemos visible la ventanaInicial y cerramos la ventanaCargando
+	        SwingUtilities.invokeLater(() -> {
+	            ventanaInicial.setVisible(true);
+	            ventanaCargando.dispose(); 
+	        });
+
+	        hiloCargando.interrupt();
+	    });
+
+	    hiloCargando.start();
+	    hiloInicializar.start();
+
+	    ventanaCargando.setVisible(true);
+	}
+
    
   
    public VentanaRegistro(JFrame parent) {

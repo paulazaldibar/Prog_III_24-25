@@ -53,6 +53,9 @@ public class VentanaPagar extends JDialog {
     //la aceptacion de la compra y abriendo al finalizar la ventana inicial
     public void hiloBarraProgreso(){
     	
+    	VentanaInicial ventanaInicial = new VentanaInicial();
+    	ventanaInicial.setVisible(false);
+    	
     	JDialog ventanaProgreso = new JDialog(this, true);
     	ventanaProgreso.setSize(300,120);
     	ventanaProgreso.setLayout(new BorderLayout());
@@ -78,10 +81,7 @@ public class VentanaPagar extends JDialog {
                 	}
                 	ventanaProgreso.dispose(); //cerrar el JDialog de ventana progreso
                 	
-                	SwingUtilities.invokeLater(() -> {
-                		VentanaInicial ventanaInicial = new VentanaInicial();
-                		ventanaInicial.setVisible(true);
-                	});
+                    SwingUtilities.invokeLater(() -> ventanaInicial.setVisible(true));
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
@@ -278,7 +278,7 @@ public class VentanaPagar extends JDialog {
         	}
         	else {
         		JOptionPane.showMessageDialog(this, "Su compra se ha realizado con éxito", "Pago completado", JOptionPane.INFORMATION_MESSAGE);
-        		this.dispose();
+        		setVisible(false);
         		hiloBarraProgreso();
         		/*
         		JOptionPane.showMessageDialog(this, "Su compra se ha realizado con éxito", "Pago completado", JOptionPane.INFORMATION_MESSAGE);
