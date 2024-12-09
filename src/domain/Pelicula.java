@@ -12,7 +12,12 @@ public class Pelicula {
 	private List<String> actores;
 	private String rutaPortada;
 	
-	
+	public Pelicula(int idPelicula, String titulo) {
+		super();
+		this.idPelicula = idPelicula;
+		this.titulo = titulo;
+	}
+
 	public Pelicula(int idPelicula, String titulo, String director, String sinopsis, String duracion,
 			String fechaEstreno, List<String> actores, String rutaPortada) {
 		super();

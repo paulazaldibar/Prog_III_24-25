@@ -40,10 +40,23 @@ public class GestorBD {
 	}
 	
 	public static void crearTablas() {
-		String sql1 = "CREATE TABLE IF NOT EXISTS Usuario (" +"id INTEGER PRIMARY KEY AUTOINCREMENT, " +"nombre TEXT NOT NULL, " +"contraseña TEXT NOT NULL)";
-		String sql2 = "CREATE TABLE IF NOT EXISTS Sesion (" +"idSesion INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                "dia DATE NOT NULL, " +"hora TIME NOT NULL, " +"idPelicula INTEGER, " +
-                "FOREIGN KEY (idPelicula) REFERENCES Pelicula(id) ON DELETE CASCADE)";
+		String sql = "CREATE TABLE IF NOT EXISTS Usuario (" +"id INTEGER PRIMARY KEY AUTOINCREMENT, " +"nombre TEXT NOT NULL, " +"contraseña TEXT NOT NULL)";
+		String sql1 = "CREATE TABLE IF NOT EXISTS Usuario (" +"id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+	              "nombre TEXT NOT NULL, " +"contraseña TEXT NOT NULL)";
+
+		String sql2 = "CREATE TABLE IF NOT EXISTS Pelicula (" +"idPelicula INTEGER PRIMARY KEY AUTOINCREMENT, " +
+	              "titulo TEXT NOT NULL, " +"director TEXT, " +"sinopsis TEXT, " +
+	              "duracion TEXT, " +"fechaEstreno DATE, " +"actores TEXT, " +"rutaPortada TEXT)";
+
+		String sql3 = "CREATE TABLE IF NOT EXISTS Sesion (" +"idSesion INTEGER PRIMARY KEY AUTOINCREMENT, " +
+	              "dia DATE NOT NULL, " +"hora TIME NOT NULL, " +"idPelicula INTEGER NOT NULL, " +
+	              "FOREIGN KEY (idPelicula) REFERENCES Pelicula(idPelicula) ON DELETE CASCADE)";
+
+		String sql4 = "CREATE TABLE IF NOT EXISTS Reserva (" +"idReserva INTEGER PRIMARY KEY AUTOINCREMENT, " +
+	              "idUsuario INTEGER NOT NULL, " +"idSesion INTEGER NOT NULL, " +
+	              "FOREIGN KEY (idUsuario) REFERENCES Usuario(id) ON DELETE CASCADE, " +
+	              "FOREIGN KEY (idSesion) REFERENCES Sesion(idSesion) ON DELETE CASCADE)";
+
 		/*
 		String sql2 = "CREATE TABLE IF NOT EXISTS Sesion (" +
                   "idSesion INTEGER PRIMARY KEY AUTOINCREMENT, " +
@@ -52,18 +65,13 @@ public class GestorBD {
                   "idPelicula INTEGER NOT NULL, " +
                   "FOREIGN KEY (idPelicula) REFERENCES Pelicula(idPelicula) ON DELETE CASCADE)";
 		 */
-		String sql3 = "CREATE TABLE IF NOT EXISTS Reserva (" +
-                "idReserva INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                "idUsuario INTEGER NOT NULL, " +
-                "idSesion INTEGER NOT NULL, " +
-                "FOREIGN KEY (idUsuario) REFERENCES Usuario(id) ON DELETE CASCADE, " +
-                "FOREIGN KEY (idSesion) REFERENCES Sesion(idSesion) ON DELETE CASCADE)";
-
+		
 		try {
 			Statement stmt = con.createStatement();
 			stmt.executeUpdate(sql1);
-			stmt.executeUpdate(sql2);
-			stmt.executeUpdate(sql3);
+		    stmt.executeUpdate(sql2);
+		    stmt.executeUpdate(sql3);
+		    stmt.executeUpdate(sql4);
 			stmt.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -84,11 +92,11 @@ public class GestorBD {
 	public static void insertarSesion(Sesion s) {
 	    String sql = "INSERT INTO Sesion (dia, hora, idPelicula) VALUES (?, ?, ?)";
 	    try {
-	        PreparedStatement ps = con.prepareStatement(sql);
-	        ps.setDate(1, java.sql.Date.valueOf(s.getDia())); // Convertir LocalDate a Date
-	        ps.setTime(2, java.sql.Time.valueOf(s.getHora())); // Convertir LocalTime a Time
-	        ps.setInt(3, s.getIdPelicula().getIdPelicula()); // Suponiendo que tienes un método getId() en Pelicula
-	        ps.execute();
+	    	PreparedStatement ps = con.prepareStatement(sql);
+	        ps.setDate(1, java.sql.Date.valueOf(s.getDia())); // LocalDate to SQL Date
+	        ps.setTime(2, java.sql.Time.valueOf(s.getHora())); // LocalTime to SQL Time
+	        ps.setInt(3, s.getIdPelicula().getIdPelicula()); // Relación con Pelicula
+	        ps.executeUpdate();
 	        ps.close();
 	    } catch (SQLException e) {
 	        e.printStackTrace();

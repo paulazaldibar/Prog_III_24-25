@@ -4,9 +4,11 @@ import javax.swing.*;
 
 import bd.GestorBD;
 import domain.Pelicula;
+import domain.Sesion;
 
 import java.awt.*;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
 
@@ -22,11 +24,12 @@ public class VentanaPelicula extends JFrame {
 
     // Para mantener el botón seleccionado
     private JButton selectedDayButton = null;
-	
+    private Pelicula peliculaSeleccionada; // Atributo de la clase
     
     public VentanaPelicula(Pelicula pelicula) {
         this(); // Llama al constructor sin parámetros para inicializar la interfaz
-        setPelicula(pelicula); // Establece la película en la ventana
+    	this.peliculaSeleccionada = pelicula;
+    	setPelicula(pelicula); // Establece la película en la ventana
     }
     public VentanaPelicula() {
     	
@@ -146,6 +149,23 @@ public class VentanaPelicula extends JFrame {
         for (String horario : horarios) {
             JButton timeButton = new JButton(horario);
             timeButton.addActionListener(e -> {
+            	if (selectedDayButton == null) {
+                    JOptionPane.showMessageDialog(this, "Por favor, selecciona un día primero.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+                    return; // No continuar si no hay día seleccionado
+                }
+            	String diaSeleccionado = selectedDayButton.getText(); // Día en formato d MMM
+                LocalDate fechaSesion = fechaActual.plusDays(
+                    Integer.parseInt(diaSeleccionado.split(" ")[0]) - fechaActual.getDayOfMonth()
+                );
+                LocalTime horaSesion = LocalTime.parse(horario);
+                
+                Sesion nuevaSesion = new Sesion();
+                nuevaSesion.setDia(fechaSesion); // Usar LocalDate
+                nuevaSesion.setHora(horaSesion); // Usar LocalTime
+                nuevaSesion.setIdPelicula(peliculaSeleccionada); // Usar la película actual
+
+                GestorBD.insertarSesion(nuevaSesion);
+            	
                 new VentanaSeleccionAsientos();
                 this.dispose();
             });
