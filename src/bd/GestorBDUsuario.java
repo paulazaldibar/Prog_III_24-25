@@ -9,6 +9,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import domain.Sesion;
 import domain.Usuario;
 
 public class GestorBDUsuario {
@@ -38,10 +39,14 @@ public class GestorBDUsuario {
 	}
 	
 	public static void crearTablas() {
-		String sql = "CREATE TABLE IF NOT EXISTS Usuario (" +"id INTEGER PRIMARY KEY AUTOINCREMENT, " +"nombre TEXT NOT NULL, " +"contraseña TEXT NOT NULL)";
+		String sql1 = "CREATE TABLE IF NOT EXISTS Usuario (" +"id INTEGER PRIMARY KEY AUTOINCREMENT, " +"nombre TEXT NOT NULL, " +"contraseña TEXT NOT NULL)";
+		String sql2 = "CREATE TABLE IF NOT EXISTS Sesion (" +"idSesion INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                "dia DATE NOT NULL, " +"hora TIME NOT NULL, " +"idPelicula INTEGER, " +
+                "FOREIGN KEY (idPelicula) REFERENCES Pelicula(id) ON DELETE CASCADE)";
 		try {
 			Statement stmt = con.createStatement();
-			stmt.executeUpdate(sql);
+			stmt.executeUpdate(sql1);
+			stmt.executeUpdate(sql2);
 			stmt.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -57,6 +62,20 @@ public class GestorBDUsuario {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public static void insertarSesion(Sesion s) {
+	    String sql = "INSERT INTO Sesion (dia, hora, idPelicula) VALUES (?, ?, ?)";
+	    try {
+	        PreparedStatement ps = con.prepareStatement(sql);
+	        ps.setDate(1, java.sql.Date.valueOf(s.getDia())); // Convertir LocalDate a Date
+	        ps.setTime(2, java.sql.Time.valueOf(s.getHora())); // Convertir LocalTime a Time
+	        ps.setInt(3, s.getIdPelicula().getIdPelicula()); // Suponiendo que tienes un método getId() en Pelicula
+	        ps.execute();
+	        ps.close();
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
 	}
 	
 	public static void insertarUsuario(Usuario u) {
@@ -105,6 +124,27 @@ public class GestorBDUsuario {
 	    }
 	    return usuario;
 	}
+	
+	// Método para obtener un usuario por nombre y contraseña
+    public static Usuario obtenerUsuarioPorNombreYContrasenia(String nombre, String contrasenia) {
+        Usuario usuario = null;
+        String sql = "SELECT * FROM Usuario WHERE nombre = ? AND contraseña = ?";
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setString(1, nombre);
+            ps.setString(2, contrasenia);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                int id = rs.getInt("id");
+                usuario = new Usuario(id, nombre, contrasenia);
+            }
+            rs.close();
+            ps.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return usuario;
+    }
 
 	public static boolean existeUsuario(int idU) {
 		boolean existe = false;
