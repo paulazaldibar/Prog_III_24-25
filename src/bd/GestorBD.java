@@ -14,7 +14,7 @@ import domain.Sesion;
 import domain.Usuario;
 
 public class GestorBD {
-	private static Connection con;
+	public static Connection con;
 	
 	public static void initBD(String nombreBD)  {
 		con = null;
@@ -22,6 +22,12 @@ public class GestorBD {
 		try {
 			Class.forName("org.sqlite.JDBC");
 			con = DriverManager.getConnection("jdbc:sqlite:" + nombreBD);
+			if (con != null) {
+			    System.out.println("Conexión establecida correctamente.");
+			} else {
+			    System.err.println("Error al conectar con la base de datos.");
+			}
+
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} catch (SQLException e) {

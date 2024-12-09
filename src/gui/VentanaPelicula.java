@@ -7,6 +7,8 @@ import domain.Pelicula;
 import domain.Sesion;
 
 import java.awt.*;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -210,11 +212,24 @@ public class VentanaPelicula extends JFrame {
     
     @Override
     public void dispose() {
-        GestorBD.closeBD(); 
+       // GestorBD.closeBD(); 
         super.dispose();
     }
 
     public static void main(String[] args) {
+    	GestorBD.initBD("miBaseDatos.db");
+        GestorBD.crearTablas();
+        try {
+            ResultSet rs = GestorBD.con.createStatement().executeQuery("SELECT name FROM sqlite_master WHERE type='table';");
+            System.out.println("Tablas existentes:");
+            while (rs.next()) {
+                System.out.println(rs.getString("name"));
+            }
+            rs.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        GestorBD.closeBD();
     	VentanaPelicula dialog = new VentanaPelicula();
     }
 }
