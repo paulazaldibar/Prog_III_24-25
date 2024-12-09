@@ -8,8 +8,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-
 import domain.Asientos;
+import domain.Pelicula;
 import domain.Sesion;
 import domain.Usuario;
 
@@ -123,6 +123,25 @@ public class GestorBD {
 	        e.printStackTrace();
 	    }
 	}
+	
+	
+	public static void insertarPelicula(Pelicula pelicula) {
+        String sql = "INSERT INTO Pelicula (titulo, director, sinopsis, duracion, fechaEstreno, actores, rutaPortada) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setString(1, pelicula.getTitulo());
+            ps.setString(2, pelicula.getDirector());
+            ps.setString(3, pelicula.getSinopsis());
+            ps.setString(4, pelicula.getDuracion());
+            ps.setString(5, pelicula.getFechaEstreno()); // Usa formato "YYYY-MM-DD"
+            ps.setString(6, String.join(",", pelicula.getActores())); // Lista separada por comas
+            ps.setString(7, pelicula.getRutaPortada());
+            ps.executeUpdate();
+            ps.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
 	
 	public static void borrarUsuario(Usuario u) {
@@ -171,6 +190,19 @@ public class GestorBD {
 	    try {
 	        PreparedStatement ps = con.prepareStatement(sql);
 	        ps.setInt(1, idReserva);
+	        ps.executeUpdate();
+	        ps.close();
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	}
+	
+	
+	public static void borrarPelicula(int idPelicula) {
+	    String sql = "DELETE FROM Pelicula WHERE idPelicula = ?";
+	    try {
+	        PreparedStatement ps = con.prepareStatement(sql);
+	        ps.setInt(1, idPelicula);
 	        ps.executeUpdate();
 	        ps.close();
 	    } catch (SQLException e) {
