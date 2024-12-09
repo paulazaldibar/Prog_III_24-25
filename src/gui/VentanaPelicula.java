@@ -217,7 +217,7 @@ public class VentanaPelicula extends JFrame {
     }
 
     public static void main(String[] args) {
-    	GestorBD.initBD("miBaseDatos.db");
+    	GestorBD.initBD("SkyMovie.db");
         GestorBD.crearTablas();
         try {
             ResultSet rs = GestorBD.con.createStatement().executeQuery("SELECT name FROM sqlite_master WHERE type='table';");
