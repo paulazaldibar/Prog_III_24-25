@@ -294,6 +294,16 @@ public class VentanaRegistro extends JDialog {
            return;
        }
        
+       // Verifica si el usuario existe en la base de datos por nombre y contraseña
+       Usuario u = GestorBDUsuario.obtenerUsuarioPorNombreYContrasenia(usuario, contrasenia);
+       if (u != null) {
+           JOptionPane.showMessageDialog(this, "Inicio de sesión exitoso", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+           iniciarCarga(); // Simula la transición después de iniciar sesión correctamente
+       } else {
+           JOptionPane.showMessageDialog(this, "Usuario o contraseña incorrectos", "Error", JOptionPane.ERROR_MESSAGE);
+       }
+       
+       /*
        // Verifica si el usuario existe en la base de datos
        if (GestorBDUsuario.existeUsuario(usuario.hashCode())) {
            // Opcional: Recuperar el usuario y comprobar la contraseña
@@ -306,7 +316,8 @@ public class VentanaRegistro extends JDialog {
            }
        } else {
            JOptionPane.showMessageDialog(this, "Usuario no registrado", "Error", JOptionPane.ERROR_MESSAGE);
-       }
+       }*/
+       
        
        /*
        try (BufferedReader reader = new BufferedReader(new FileReader("ficheros/usuarios.txt"))) {

@@ -3,6 +3,7 @@ package domain;
 import java.util.List;
 
 public class Reserva {
+	private int idReserva;
 	private Usuario id;
 	private Sesion idSesion;
 	private List<Asientos> listaAsientos;
@@ -13,6 +14,14 @@ public class Reserva {
 
 	public Reserva(Usuario id, Sesion idSesion, List<Asientos> listaAsientos) {
 		super();
+		this.id = id;
+		this.idSesion = idSesion;
+		this.listaAsientos = listaAsientos;
+	}
+
+	public Reserva(int idReserva, Usuario id, Sesion idSesion, List<Asientos> listaAsientos) {
+		super();
+		this.idReserva = idReserva;
 		this.id = id;
 		this.idSesion = idSesion;
 		this.listaAsientos = listaAsientos;

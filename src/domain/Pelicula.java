@@ -3,7 +3,7 @@ package domain;
 import java.util.List;
 
 public class Pelicula {
-	private String idPelicula;
+	private int idPelicula;
 	private String titulo;
 	private String director;
 	private String sinopsis;
@@ -13,7 +13,7 @@ public class Pelicula {
 	private String rutaPortada;
 	
 	
-	public Pelicula(String idPelicula, String titulo, String director, String sinopsis, String duracion,
+	public Pelicula(int idPelicula, String titulo, String director, String sinopsis, String duracion,
 			String fechaEstreno, List<String> actores, String rutaPortada) {
 		super();
 		this.idPelicula = idPelicula;
@@ -38,11 +38,11 @@ public class Pelicula {
 		this.rutaPortada = rutaPortada;
 	}
 
-	public String getIdPelicula() {
+	public int getIdPelicula() {
 		return idPelicula;
 	}
 
-	public void setIdPelicula(String idPelicula) {
+	public void setIdPelicula(int idPelicula) {
 		this.idPelicula = idPelicula;
 	}
 	
