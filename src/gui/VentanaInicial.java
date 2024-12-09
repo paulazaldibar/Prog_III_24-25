@@ -18,7 +18,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 
-import bd.GestorBDUsuario;
+import bd.GestorBD;
 import domain.Pelicula;
 import domain.PeliculasData;
 
@@ -187,7 +187,7 @@ public class VentanaInicial extends JFrame {
 
     @Override
     public void dispose() {
-        GestorBDUsuario.closeBD(); 
+        GestorBD.closeBD(); 
         super.dispose();
     }
 

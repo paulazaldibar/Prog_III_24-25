@@ -2,7 +2,7 @@ package gui;
 
 import javax.swing.*;
 
-import bd.GestorBDUsuario;
+import bd.GestorBD;
 import domain.Pelicula;
 
 import java.awt.*;
@@ -190,7 +190,7 @@ public class VentanaPelicula extends JFrame {
     
     @Override
     public void dispose() {
-        GestorBDUsuario.closeBD(); 
+        GestorBD.closeBD(); 
         super.dispose();
     }
 

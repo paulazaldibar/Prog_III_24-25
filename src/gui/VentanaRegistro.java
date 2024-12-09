@@ -1,7 +1,7 @@
 package gui;
 import javax.swing.*;
 
-import bd.GestorBDUsuario;
+import bd.GestorBD;
 import domain.Usuario;
 
 import java.awt.*;
@@ -264,12 +264,12 @@ public class VentanaRegistro extends JDialog {
        }
        
        // Verifica si el usuario ya existe en la base de datos
-       if (GestorBDUsuario.existeUsuario(usuario.hashCode())) { 
+       if (GestorBD.existeUsuario(usuario.hashCode())) { 
            JOptionPane.showMessageDialog(this, "El usuario ya está registrado", "Error", JOptionPane.ERROR_MESSAGE);
            return;
        }
        Usuario nuevoUsuario = new Usuario(usuario.hashCode(), usuario, contrasenia);
-       GestorBDUsuario.insertarUsuario(nuevoUsuario);
+       GestorBD.insertarUsuario(nuevoUsuario);
        JOptionPane.showMessageDialog(this, "Usuario registrado correctamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
        iniciarCarga(); 
        
@@ -295,7 +295,7 @@ public class VentanaRegistro extends JDialog {
        }
        
        // Verifica si el usuario existe en la base de datos por nombre y contraseña
-       Usuario u = GestorBDUsuario.obtenerUsuarioPorNombreYContrasenia(usuario, contrasenia);
+       Usuario u = GestorBD.obtenerUsuarioPorNombreYContrasenia(usuario, contrasenia);
        if (u != null) {
            JOptionPane.showMessageDialog(this, "Inicio de sesión exitoso", "Éxito", JOptionPane.INFORMATION_MESSAGE);
            iniciarCarga(); // Simula la transición después de iniciar sesión correctamente
@@ -344,13 +344,13 @@ public class VentanaRegistro extends JDialog {
   
    @Override
    public void dispose() {
-       GestorBDUsuario.closeBD(); 
+       GestorBD.closeBD(); 
        super.dispose();
    }
 
    
    public static void main(String[] args) {       
-       GestorBDUsuario.initBD("resources/db/SkyMovie.db");
+       GestorBD.initBD("resources/db/SkyMovie.db");
        //GestorBDUsuario.borrarTablas();
        //GestorBDUsuario.crearTablas();
        SwingUtilities.invokeLater(() -> {
@@ -360,5 +360,3 @@ public class VentanaRegistro extends JDialog {
        //bd.closeBD();
    }
 }
-
-

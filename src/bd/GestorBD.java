@@ -9,10 +9,11 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import domain.Asientos;
 import domain.Sesion;
 import domain.Usuario;
 
-public class GestorBDUsuario {
+public class GestorBD {
 	private static Connection con;
 	
 	public static void initBD(String nombreBD)  {
@@ -43,10 +44,26 @@ public class GestorBDUsuario {
 		String sql2 = "CREATE TABLE IF NOT EXISTS Sesion (" +"idSesion INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "dia DATE NOT NULL, " +"hora TIME NOT NULL, " +"idPelicula INTEGER, " +
                 "FOREIGN KEY (idPelicula) REFERENCES Pelicula(id) ON DELETE CASCADE)";
+		/*
+		String sql2 = "CREATE TABLE IF NOT EXISTS Sesion (" +
+                  "idSesion INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                  "dia DATE NOT NULL, " +
+                  "hora TIME NOT NULL, " +
+                  "idPelicula INTEGER NOT NULL, " +
+                  "FOREIGN KEY (idPelicula) REFERENCES Pelicula(idPelicula) ON DELETE CASCADE)";
+		 */
+		String sql3 = "CREATE TABLE IF NOT EXISTS Reserva (" +
+                "idReserva INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                "idUsuario INTEGER NOT NULL, " +
+                "idSesion INTEGER NOT NULL, " +
+                "FOREIGN KEY (idUsuario) REFERENCES Usuario(id) ON DELETE CASCADE, " +
+                "FOREIGN KEY (idSesion) REFERENCES Sesion(idSesion) ON DELETE CASCADE)";
+
 		try {
 			Statement stmt = con.createStatement();
 			stmt.executeUpdate(sql1);
 			stmt.executeUpdate(sql2);
+			stmt.executeUpdate(sql3);
 			stmt.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -91,6 +108,23 @@ public class GestorBDUsuario {
 	    }
 	}
 
+	
+	public static void insertarAsientoReservado(int idReserva, Asientos asiento) {
+	    String sql = "INSERT INTO AsientoReservado (idReserva, fila, columna, ocupado) VALUES (?, ?, ?, ?)";
+	    try {
+	        PreparedStatement ps = con.prepareStatement(sql);
+	        ps.setInt(1, idReserva);
+	        ps.setInt(2, asiento.getFila());
+	        ps.setInt(3, asiento.getColumna());
+	        ps.setBoolean(4, asiento.isOcupado());
+	        ps.executeUpdate();
+	        ps.close();
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	}
+
+	
 	public static void borrarUsuario(Usuario u) {
 		String sql = "DELETE FROM Usuario VALUES (?, ?, ?)";
 		try {
@@ -104,6 +138,46 @@ public class GestorBDUsuario {
 			e.printStackTrace();
 		}
 	}
+	
+	
+	public static void borrarSesion(int idSesion) {
+	    String sql = "DELETE FROM Sesion WHERE idSesion = ?";
+	    try {
+	        PreparedStatement ps = con.prepareStatement(sql);
+	        ps.setInt(1, idSesion);
+	        ps.executeUpdate();
+	        ps.close();
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	}
+	
+	
+	public static void borrarReserva(int idReserva) {
+	    String sql = "DELETE FROM Reserva WHERE idReserva = ?";
+	    try {
+	        PreparedStatement ps = con.prepareStatement(sql);
+	        ps.setInt(1, idReserva);
+	        ps.executeUpdate();
+	        ps.close();
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	}
+	
+	
+	public static void borrarAsientosDeReserva(int idReserva) {
+	    String sql = "DELETE FROM AsientoReservado WHERE idReserva = ?";
+	    try {
+	        PreparedStatement ps = con.prepareStatement(sql);
+	        ps.setInt(1, idReserva);
+	        ps.executeUpdate();
+	        ps.close();
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	}
+	
 	
 	public static Usuario obtenerUsuarioPorId(int id) {
 	    Usuario usuario = null;
@@ -185,4 +259,42 @@ public class GestorBDUsuario {
 		return listaUsuarios;
 	}
 	
+	
+	public static List<Asientos> obtenerAsientosPorReserva(int idReserva) {
+	    List<Asientos> asientos = new ArrayList<>();
+	    String sql = "SELECT fila, columna FROM AsientoReservado WHERE idReserva = ?";
+	    try {
+	        PreparedStatement ps = con.prepareStatement(sql);
+	        ps.setInt(1, idReserva);
+	        ResultSet rs = ps.executeQuery();
+	        while (rs.next()) {
+	            int fila = rs.getInt("fila");
+	            int columna = rs.getInt("columna");
+	            asientos.add(new Asientos(fila, columna)); // Constructor para Asientos
+	        }
+	        rs.close();
+	        ps.close();
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	    return asientos;
+	}
+
+	
+	public static void actualizarEstadoAsiento(int idReserva, int fila, int columna, boolean ocupado) {
+	    String sql = "UPDATE AsientoReservado SET ocupado = ? WHERE idReserva = ? AND fila = ? AND columna = ?";
+	    try {
+	        PreparedStatement ps = con.prepareStatement(sql);
+	        ps.setBoolean(1, ocupado);
+	        ps.setInt(2, idReserva);
+	        ps.setInt(3, fila);
+	        ps.setInt(4, columna);
+	        ps.executeUpdate();
+	        ps.close();
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	}
+
+
 }

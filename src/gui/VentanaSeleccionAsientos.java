@@ -19,7 +19,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import bd.GestorBDUsuario;
+import bd.GestorBD;
 import domain.Asientos;
 
 public class VentanaSeleccionAsientos extends JFrame {
@@ -186,7 +186,7 @@ public class VentanaSeleccionAsientos extends JFrame {
     
     @Override
     public void dispose() {
-        GestorBDUsuario.closeBD(); 
+        GestorBD.closeBD(); 
         super.dispose();
     }
 
