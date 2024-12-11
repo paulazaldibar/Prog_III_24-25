@@ -47,9 +47,9 @@ public class VentanaSeleccionAsientos extends JFrame {
     }
     
     public void reiniciarSeleccion() {
-        totalAsientosSeleccionados = 0; 
+    	totalAsientosSeleccionados = 0; 
         for (Asientos asiento : asientos) {
-        	asiento.reiniciarEstado();
+            asiento.reiniciarEstado(); // Método que puedes implementar en la clase Asientos para restablecer el estado.
         }
         actualizarTotal(); 
     }
@@ -207,7 +207,7 @@ public class VentanaSeleccionAsientos extends JFrame {
                     asientosOcupados.add(asiento);
                 }
             }
-        	new VentanaPagar(total, asientosOcupados);
+        	new VentanaPagar(total, asientosOcupados, this);
         	this.dispose();
         });
         

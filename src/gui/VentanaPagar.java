@@ -25,7 +25,8 @@ import domain.Asientos;
 
 
 public class VentanaPagar extends JDialog {
-    
+    private VentanaSeleccionAsientos ventanaSeleccion; // Referencia a la ventana de selección
+	
 	private static final long serialVersionUID = 1L;
 	private JButton btnPagar, btnVolver, btnCancelar;
     private JPanel pCentro, pNorte, pSur, pCentroDatos;
@@ -106,10 +107,11 @@ public class VentanaPagar extends JDialog {
     private double total;
     private List<Asientos> asientosOcupados;
     
-    public VentanaPagar(double total, List<Asientos> asientosSeleccionados) {
+    public VentanaPagar(double total, List<Asientos> asientosSeleccionados, VentanaSeleccionAsientos ventanaSeleccion) {
         super();
         this.total = total;
         this.asientosSeleccionados = asientosSeleccionados;
+        this.ventanaSeleccion = ventanaSeleccion;
         setBounds(300, 200, 600, 430);
         setLocationRelativeTo(null); // Con esta línea la ventana se centrará en la pantalla
 
@@ -270,9 +272,9 @@ public class VentanaPagar extends JDialog {
         });
         
         btnCancelar.addActionListener((e) -> {
+        	ventanaSeleccion.reiniciarSeleccion();
         	VentanaInicial ventanaInicial = new VentanaInicial();
-        	ventanaInicial.setVisible(true); 
-        	
+        	ventanaInicial.setVisible(true);         	
             this.dispose(); 
         });
         
