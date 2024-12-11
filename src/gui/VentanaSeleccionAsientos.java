@@ -11,6 +11,7 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -34,8 +35,16 @@ public class VentanaSeleccionAsientos extends JFrame {
     private JLabel lblTotal, lblTitulo, lblSubtitulo; 
     private JPanel pTitulo, pAsientos, pTotal, pBotones, pSur; 
     
+    // Lista para almacenar asientos seleccionados
+    private List<Asientos> asientosSeleccionados = new ArrayList<>();
+    
     private static Color verdePersonalizado = new Color(89, 169, 106);
     private static Color rojoPersonalizado = new Color(164, 3, 31);
+    
+    // Método para agregar asientos seleccionados
+    public void agregarAsientoSeleccionado(Asientos asiento) {
+        asientosSeleccionados.add(asiento);
+    }
     
     public void reiniciarSeleccion() {
         totalAsientosSeleccionados = 0; 
@@ -115,15 +124,30 @@ public class VentanaSeleccionAsientos extends JFrame {
         			pAsientos.add(new JLabel("")); // Añadimos un espacio en blanco para simular el pasillo
         		}else {
         			Asientos asiento = new Asientos(i, j);
+        			boolean ocupado = GestorBD.consultarAsiento(i, j);
+        			if (ocupado) {
+                        asiento.setOcupado(true);
+                        asiento.setEnabled(false); // Deshabilitar interacción
+                        asiento.setBackground(Color.BLACK); // Asiento pagado
+                    }
                     asiento.addMouseListener(new java.awt.event.MouseAdapter() {
                         public void mouseClicked(java.awt.event.MouseEvent evt) {
-                            asiento.alternarEstado();
+                        	if (asiento.isEnabled()) {
+                                asiento.alternarEstado();
+                                if (asiento.isOcupado()) {
+                                    totalAsientosSeleccionados++;
+                                } else {
+                                    totalAsientosSeleccionados--;
+                                }
+                                actualizarTotal();
+                        	}
+                        	/*asiento.alternarEstado();
                             if (asiento.isOcupado()) {
                                 totalAsientosSeleccionados++;
                             } else {
                                 totalAsientosSeleccionados--;
                             }
-                            actualizarTotal();
+                            actualizarTotal();*/
                         }
 					});
                     asientos.add(asiento); // Añadimos el asiento a la lista
@@ -166,7 +190,24 @@ public class VentanaSeleccionAsientos extends JFrame {
         
         btnContinuar.addActionListener((e)->{
         	double total = totalAsientosSeleccionados * precioEntrada;
-        	new VentanaPagar(total);
+        	
+        	// Guardar asientos ocupados en la base de datos
+            for (Asientos asiento : asientos) {
+                if (asiento.isOcupado()) {
+                    GestorBD.guardarAsiento(asiento.getFila(), asiento.getColumna(), true); // true para ocupado
+                    asiento.setEnabled(false); // Deshabilitar interacción
+                    asiento.setBackground(Color.BLACK); // Cambiar a negro
+                }
+            }
+            
+            // Crear lista de asientos ocupados
+            List<Asientos> asientosOcupados = new ArrayList<>();
+            for (Asientos asiento : asientos) {
+                if (asiento.isOcupado()) {
+                    asientosOcupados.add(asiento);
+                }
+            }
+        	new VentanaPagar(total, asientosOcupados);
         	this.dispose();
         });
         

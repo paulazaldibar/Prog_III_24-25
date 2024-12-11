@@ -5,6 +5,8 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.util.List;
+
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -18,6 +20,9 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 
+import bd.GestorBD;
+import domain.Asientos;
+
 
 public class VentanaPagar extends JDialog {
     
@@ -29,7 +34,14 @@ public class VentanaPagar extends JDialog {
     private JCheckBox checkTerminos;
     private JTextArea txtCondiciones;
     
+    private List<Asientos> asientosSeleccionados; // Lista de asientos seleccionados
+    
+    private void marcarAsientoComoOcupado(Asientos asiento) {
+        // Implementa la lógica para actualizar el estado del asiento en la base de datos
+        GestorBD.guardarAsiento(asiento.getFila(), asiento.getColumna(), true); // true para ocupado
+    }
 
+    
     //Requisitos a cumplir a la hora de validar los campos
     private boolean validarNombre(String nombre) {
         return nombre.matches("[a-zA-Z]+");  // Validación para que solo se introduzcan letras
@@ -91,8 +103,13 @@ public class VentanaPagar extends JDialog {
     	
     }
     
-    public VentanaPagar(double total) {
+    private double total;
+    private List<Asientos> asientosOcupados;
+    
+    public VentanaPagar(double total, List<Asientos> asientosSeleccionados) {
         super();
+        this.total = total;
+        this.asientosSeleccionados = asientosSeleccionados;
         setBounds(300, 200, 600, 430);
         setLocationRelativeTo(null); // Con esta línea la ventana se centrará en la pantalla
 
@@ -277,9 +294,17 @@ public class VentanaPagar extends JDialog {
         		JOptionPane.showMessageDialog(this, "El CVV debe ser un número de 3 dígitos.", "Error en el CVV", JOptionPane.WARNING_MESSAGE);
         	}
         	else {
-        		JOptionPane.showMessageDialog(this, "Su compra se ha realizado con éxito", "Pago completado", JOptionPane.INFORMATION_MESSAGE);
-        		setVisible(false);
-        		hiloBarraProgreso();
+        		boolean validacionesCorrectas = true;
+        		if (validacionesCorrectas) {
+                    // Actualiza la base de datos para marcar los asientos como ocupados
+                    for (Asientos asiento : asientosSeleccionados) {
+                        marcarAsientoComoOcupado(asiento); // Método para actualizar el estado del asiento en la base de datos
+                    }
+                    // Mensaje de éxito
+                    JOptionPane.showMessageDialog(this, "Su compra se ha realizado con éxito", "Pago completado", JOptionPane.INFORMATION_MESSAGE);
+                    setVisible(false);
+                    hiloBarraProgreso();
+                }
         		/*
         		JOptionPane.showMessageDialog(this, "Su compra se ha realizado con éxito", "Pago completado", JOptionPane.INFORMATION_MESSAGE);
         		VentanaInicial ventanaInicial = new VentanaInicial();

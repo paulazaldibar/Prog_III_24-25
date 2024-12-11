@@ -51,6 +51,9 @@ public class Asientos extends JPanel{
         } else {
             this.setBackground(new Color(89, 169, 106)); // Verde para disponible
         }
+        if (!isEnabled()) {
+            this.setBackground(Color.BLACK); // Negro para pagado
+        }
     }
 
     // Alternar el estado del asiento

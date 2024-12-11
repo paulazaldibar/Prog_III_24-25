@@ -140,6 +140,8 @@ public class VentanaRegistro extends JDialog {
        ImageIcon imagen = new ImageIcon("resources/img/iconoSkyMovie.png");
        setIconImage(imagen.getImage());
       
+     //  this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+       
        iconoOjoAbierto = new ImageIcon("resources/img/ojo abierto.jpg");
        iconoOjoCerrado = new ImageIcon("resources/img/ojo cerrado.jpg");
       
@@ -251,6 +253,12 @@ public class VentanaRegistro extends JDialog {
            }
        });
        setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+       addWindowListener(new java.awt.event.WindowAdapter() {
+    	    @Override
+    	    public void windowClosing(java.awt.event.WindowEvent e) {
+    	        System.exit(0); // Cierra toda la aplicación
+    	    }
+       });
        setVisible(true);
    }
    
@@ -346,15 +354,17 @@ public class VentanaRegistro extends JDialog {
    public void dispose() {
        GestorBD.closeBD(); 
        super.dispose();
+       System.out.println("cerrada la conexion");
    }
 
    
    public static void main(String[] args) {       
        GestorBD.initBD("resources/db/SkyMovie.db");
        //GestorBDUsuario.borrarTablas();
-       //GestorBDUsuario.crearTablas();
+       GestorBD.crearTablas();
        SwingUtilities.invokeLater(() -> {
            JFrame parent = new JFrame();
+           //parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Cierra toda la aplicación al cerrar
            new VentanaRegistro(parent);
        });
        //bd.closeBD();

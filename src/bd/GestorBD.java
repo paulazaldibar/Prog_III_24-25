@@ -46,7 +46,7 @@ public class GestorBD {
 	}
 	
 	public static void crearTablas() {
-		String sql = "CREATE TABLE IF NOT EXISTS Usuario (" +"id INTEGER PRIMARY KEY AUTOINCREMENT, " +"nombre TEXT NOT NULL, " +"contraseña TEXT NOT NULL)";
+		//String sql = "CREATE TABLE IF NOT EXISTS Usuario (" +"id INTEGER PRIMARY KEY AUTOINCREMENT, " +"nombre TEXT NOT NULL, " +"contraseña TEXT NOT NULL)";
 		String sql1 = "CREATE TABLE IF NOT EXISTS Usuario (" +"id INTEGER PRIMARY KEY AUTOINCREMENT, " +
 	              "nombre TEXT NOT NULL, " +"contraseña TEXT NOT NULL)";
 
@@ -63,6 +63,9 @@ public class GestorBD {
 	              "FOREIGN KEY (idUsuario) REFERENCES Usuario(id) ON DELETE CASCADE, " +
 	              "FOREIGN KEY (idSesion) REFERENCES Sesion(idSesion) ON DELETE CASCADE)";
 
+		String sql5 = "CREATE TABLE IF NOT EXISTS asientos (" +"id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+	              "fila INTEGER NOT NULL, " +"columna INTEGER NOT NULL, " +"ocupado BOOLEAN NOT NULL)";
+
 		/*
 		String sql2 = "CREATE TABLE IF NOT EXISTS Sesion (" +
                   "idSesion INTEGER PRIMARY KEY AUTOINCREMENT, " +
@@ -78,6 +81,7 @@ public class GestorBD {
 		    stmt.executeUpdate(sql2);
 		    stmt.executeUpdate(sql3);
 		    stmt.executeUpdate(sql4);
+		    stmt.executeUpdate(sql5);
 			stmt.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -94,6 +98,47 @@ public class GestorBD {
 			e.printStackTrace();
 		}
 	}
+	
+	public static void guardarAsiento(int fila, int columna, boolean ocupado) {
+	    // Código para insertar o actualizar el estado del asiento en la base de datos
+		String sql = "UPDATE asientos SET ocupado = ? WHERE fila = ? AND columna = ?";
+		try (PreparedStatement stmt = con.prepareStatement(sql)) {
+		    stmt.setBoolean(1, ocupado);
+		    stmt.setInt(2, fila);
+		    stmt.setInt(3, columna);
+		    stmt.executeUpdate();
+		} catch (SQLException e) {
+		    e.printStackTrace();
+		}
+	}
+	
+	public static boolean consultarAsiento(int fila, int columna) {
+		 String sql = "SELECT ocupado FROM asientos WHERE fila = ? AND columna = ?";
+		    try (PreparedStatement stmt = con.prepareStatement(sql)) {
+		        stmt.setInt(1, fila);
+		        stmt.setInt(2, columna);
+		        ResultSet rs = stmt.executeQuery();
+		        if (rs.next()) {
+		            return rs.getBoolean("ocupado");
+		        }
+		    } catch (SQLException e) {
+		        e.printStackTrace();
+		    }
+		    return false;	
+	}
+
+	
+	public static void marcarAsientoComoOcupado(Asientos asiento) {
+	    String sql = "UPDATE asientos SET ocupado = TRUE WHERE fila = ? AND columna = ?";
+	    try (PreparedStatement stmt = con.prepareStatement(sql)) {
+	        stmt.setInt(1, asiento.getFila());
+	        stmt.setInt(2, asiento.getColumna());
+	        stmt.executeUpdate(); // Ejecuta la actualización
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	}
+
 	
 	public static void insertarSesion(Sesion s) {
 	    String sql = "INSERT INTO Sesion (dia, hora, idPelicula) VALUES (?, ?, ?)";
