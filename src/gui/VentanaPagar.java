@@ -107,6 +107,7 @@ public class VentanaPagar extends JDialog {
     private double total;
     private List<Asientos> asientosOcupados;
     
+    
     public VentanaPagar(double total, List<Asientos> asientosSeleccionados, VentanaSeleccionAsientos ventanaSeleccion) {
         super();
         this.total = total;

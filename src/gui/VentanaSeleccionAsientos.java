@@ -189,7 +189,9 @@ public class VentanaSeleccionAsientos extends JFrame {
         });
         
         btnContinuar.addActionListener((e)->{
-        	double total = totalAsientosSeleccionados * precioEntrada;
+        	//double total = totalAsientosSeleccionados * precioEntrada;
+            double total = calcularPrecioRecursivo(totalAsientosSeleccionados, precioEntrada, 0.0);
+
         	
         	// Guardar asientos ocupados en la base de datos
             for (Asientos asiento : asientos) {
@@ -213,17 +215,29 @@ public class VentanaSeleccionAsientos extends JFrame {
         
         setVisible(true);
     }
+
     
     /*private void actualizarTotal() {
-    	double total = totalAsientosSeleccionados * precioEntrada;
-    	lblTotal.setText("Total: €" + String.format("%.2f", total));
-	}*/
-    
-    private void actualizarTotal() {
         double total = totalAsientosSeleccionados * precioEntrada;
+        lblTotal.setText("Total: €" + String.format("%.2f", total));
+    }*/
+    
+    //METODO RECURSIVO
+    private void actualizarTotal() {
+        double total = calcularPrecioRecursivo(totalAsientosSeleccionados, precioEntrada, 0.0);
         lblTotal.setText("Total: €" + String.format("%.2f", total));
     }
 
+    // Método recursivo para calcular el precio con descuento progresivo
+    private double calcularPrecioRecursivo(int entradas, double precioBase, double descuento) {
+        if (entradas == 0) {
+            return 0; // Condición base: No hay más entradas
+        }
+        // Cálculo del precio de esta entrada con descuento del 10%
+        double precioConDescuento = precioBase * (1 - descuento);
+        // Llamada recursiva para las entradas restantes
+        return precioConDescuento + calcularPrecioRecursivo(entradas - 1, precioBase, descuento + 0.1);
+    }
     
     @Override
     public void dispose() {
@@ -232,6 +246,9 @@ public class VentanaSeleccionAsientos extends JFrame {
     }
 
     public static void main(String[] args) {
+    	GestorBD.initBD("resources/db/SkyMovie.db");
+    	
         VentanaSeleccionAsientos v1 = new VentanaSeleccionAsientos();
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> GestorBD.closeBD()));
     }
 }

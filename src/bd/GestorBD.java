@@ -29,8 +29,10 @@ public class GestorBD {
 			}
 
 		} catch (ClassNotFoundException e) {
+	        System.err.println("Controlador JDBC no encontrado.");
 			e.printStackTrace();
 		} catch (SQLException e) {
+	        System.err.println("Error al conectar a la base de datos.");
 			e.printStackTrace();
 		}
 	}
