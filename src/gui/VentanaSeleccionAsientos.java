@@ -131,6 +131,7 @@ public class VentanaSeleccionAsientos extends JFrame {
                         asiento.setOcupado(true);
                         asiento.setEnabled(false); // Deshabilitar interacción
                         asiento.setBackground(Color.BLACK); // Asiento pagado
+                        System.out.println("Asiento [" + i + "][" + j + "] ocupado: " + ocupado);
                     }
                     asiento.addMouseListener(new java.awt.event.MouseAdapter() {
                         public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -193,7 +194,6 @@ public class VentanaSeleccionAsientos extends JFrame {
         btnContinuar.addActionListener((e)->{
         	//double total = totalAsientosSeleccionados * precioEntrada;
             double total = calcularPrecioRecursivo(totalAsientosSeleccionados, precioEntrada, 0.0);
-
         	
         	// Guardar asientos ocupados en la base de datos
             for (Asientos asiento : asientos) {
@@ -201,6 +201,7 @@ public class VentanaSeleccionAsientos extends JFrame {
                     GestorBD.guardarAsiento(asiento.getFila(), asiento.getColumna(), true); // true para ocupado
                     asiento.setEnabled(false); // Deshabilitar interacción
                     asiento.setBackground(Color.BLACK); // Cambiar a negro
+                    System.out.println("Guardando asiento: Fila " + asiento.getFila() + ", Columna " + asiento.getColumna() + ", Ocupado: " + true);
                 }
             }
             
@@ -243,7 +244,7 @@ public class VentanaSeleccionAsientos extends JFrame {
     
     @Override
     public void dispose() {
-        GestorBD.closeBD(); 
+        //GestorBD.closeBD(); 
         super.dispose();
     }
 
