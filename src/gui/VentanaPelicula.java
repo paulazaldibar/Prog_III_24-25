@@ -22,6 +22,8 @@ public class VentanaPelicula extends JFrame {
     
 	private JButton btnDia, btnVolver; 
 	private LocalDate fechaActual = LocalDate.now(); // Fecha actual del sistema
+	
+	//IAG (Chat GPT)
     private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d MMM"); // Formato de fecha (6 Oct, 7 Oct...)
 
     // Para mantener el botón seleccionado
@@ -66,7 +68,8 @@ public class VentanaPelicula extends JFrame {
 
         ImageIcon flecha = new ImageIcon("resources/img/flecha2.jpg"); // Cargamos la imagen de la flecha
 
-        // Escalamos la imagen para que coincida con el tamaño del botón (Chat GPT)
+    	//IAG (Chat GPT)
+        // Escalamos la imagen para que coincida con el tamaño del botón
         Image imagenEscalada = flecha.getImage().getScaledInstance(
                 btnVolver.getPreferredSize().width,
                 btnVolver.getPreferredSize().height,
@@ -191,7 +194,8 @@ public class VentanaPelicula extends JFrame {
          estrenoLabel.setText("Estreno: " + pelicula.getFechaEstreno());
          actoresLabel.setText("Actores: " + String.join(", ", pelicula.getActores()));
 
-         // Permitir el salto de línea en la sinopsis para que se visualice entera (Chat GPT)
+     	//IAG (Chat GPT)
+        // Permitir el salto de línea en la sinopsis para que se visualice entera
          sinopsisLabel.setText("<html>" + pelicula.getSinopsis() + "</html>"); 
 
          actualizarPortada(pelicula.getRutaPortada());

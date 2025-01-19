@@ -42,6 +42,8 @@ public class VentanaPagar extends JDialog {
         GestorBD.guardarAsiento(asiento.getFila(), asiento.getColumna(), true); // true para ocupado
     }
 
+    //IAG (Chat GPT)
+    //Para la parte de requisitos a verificar
     
     //Requisitos a cumplir a la hora de validar los campos
     private boolean validarNombre(String nombre) {
@@ -149,7 +151,8 @@ public class VentanaPagar extends JDialog {
         lblTotal.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 14));
 
         txtNombre = new JTextField(50);
-        //IA GENERATIVA 
+        
+    	//IAG (Chat GPT)
         // Hacer que la primera letra del nombre sea mayúscula
         txtNombre.addKeyListener(new KeyAdapter() {
             @Override
@@ -166,7 +169,8 @@ public class VentanaPagar extends JDialog {
         });
 
         txtTarjeta = new JTextField(20);
-        //IA GENERATIVA 
+        
+    	//IAG (Chat GPT)
         //PARA HACER UNA PRUEBA CON EL TEXTFIELD DE LOS NUMEROS DE LA TARJETA
         txtTarjeta.addKeyListener(new KeyAdapter() {
         	
@@ -200,7 +204,8 @@ public class VentanaPagar extends JDialog {
        
         
         txtCVV = new JTextField(3);
-        //IA GENERATIVA 
+        
+    	//IAG (Chat GPT)
         // Limitar el campo CVV a 3 dígitos numéricos
         txtCVV.addKeyListener(new KeyAdapter() {
             @Override

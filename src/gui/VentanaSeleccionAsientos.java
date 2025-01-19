@@ -1,3 +1,4 @@
+//IAG (Chat GPT)
 // El for para recorrer las lista de los botones de los asientos y el método para actualizar el precio total
 // esta hecho con ayuda de chat GPT
 package gui;
@@ -60,7 +61,8 @@ public class VentanaSeleccionAsientos extends JFrame {
         ImageIcon imagen = new ImageIcon("resources/img/iconoSkyMovie.png");
         setIconImage(imagen.getImage());
         
-        // Conseguir que la ventana ocupe toda la pantalla, teniendo en cuenta el espacio de la barra de tareas para evitarlo. (Chat GPT)
+    	//IAG (Chat GPT)
+        // Conseguir que la ventana ocupe toda la pantalla, teniendo en cuenta el espacio de la barra de tareas para evitarlo.
         setExtendedState(JFrame.MAXIMIZED_BOTH); // Maximiza la ventana automáticamente
         setUndecorated(false); // Asegura que se vea la barra de título y controles de la ventana
   
@@ -249,6 +251,8 @@ public class VentanaSeleccionAsientos extends JFrame {
     	GestorBD.initBD("resources/db/SkyMovie.db");
     	
         VentanaSeleccionAsientos v1 = new VentanaSeleccionAsientos();
+    	
+        //IAG (Chat GPT)
         Runtime.getRuntime().addShutdownHook(new Thread(() -> GestorBD.closeBD()));
     }
 }

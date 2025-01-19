@@ -101,6 +101,7 @@ public class GestorBD {
 		}
 	}
 	
+	//IAG (Chat GPT)
 	public static void guardarAsiento(int fila, int columna, boolean ocupado) {
 	    // Código para insertar o actualizar el estado del asiento en la base de datos
 		String sql = "UPDATE asientos SET ocupado = ? WHERE fila = ? AND columna = ?";
@@ -114,6 +115,7 @@ public class GestorBD {
 		}
 	}
 	
+	//IAG (Chat GPT)
 	public static boolean consultarAsiento(int fila, int columna) {
 		 String sql = "SELECT ocupado FROM asientos WHERE fila = ? AND columna = ?";
 		    try (PreparedStatement stmt = con.prepareStatement(sql)) {
@@ -129,7 +131,7 @@ public class GestorBD {
 		    return false;	
 	}
 
-	
+	//IAG (Chat GPT)
 	public static void marcarAsientoComoOcupado(Asientos asiento) {
 	    String sql = "UPDATE asientos SET ocupado = TRUE WHERE fila = ? AND columna = ?";
 	    try (PreparedStatement stmt = con.prepareStatement(sql)) {
@@ -141,7 +143,7 @@ public class GestorBD {
 	    }
 	}
 
-	
+	//IAG (Chat GPT)
 	public static void insertarSesion(Sesion s) {
 	    String sql = "INSERT INTO Sesion (dia, hora, idPelicula) VALUES (?, ?, ?)";
 	    try {
@@ -169,7 +171,7 @@ public class GestorBD {
 	    }
 	}
 
-	
+	//IAG (Chat GPT)
 	public static void insertarAsientoReservado(int idReserva, Asientos asiento) {
 	    String sql = "INSERT INTO AsientoReservado (idReserva, fila, columna, ocupado) VALUES (?, ?, ?, ?)";
 	    try {
@@ -219,7 +221,7 @@ public class GestorBD {
 		}
 	}
 	
-	
+	//IAG (Chat GPT)
 	public static void borrarSesion(int idSesion) {
 	    String sql = "DELETE FROM Sesion WHERE idSesion = ?";
 	    try {
@@ -232,7 +234,7 @@ public class GestorBD {
 	    }
 	}
 	
-	
+	//IAG (Chat GPT)
 	public static void borrarReserva(int idReserva) {
 	    String sql = "DELETE FROM Reserva WHERE idReserva = ?";
 	    try {
@@ -245,7 +247,7 @@ public class GestorBD {
 	    }
 	}
 	
-	
+	//IAG (Chat GPT)
 	public static void borrarAsientosDeReserva(int idReserva) {
 	    String sql = "DELETE FROM AsientoReservado WHERE idReserva = ?";
 	    try {
@@ -258,7 +260,7 @@ public class GestorBD {
 	    }
 	}
 	
-	
+	//IAG (Chat GPT)
 	public static void borrarPelicula(int idPelicula) {
 	    String sql = "DELETE FROM Pelicula WHERE idPelicula = ?";
 	    try {
@@ -352,7 +354,7 @@ public class GestorBD {
 		return listaUsuarios;
 	}
 	
-	
+	//IAG (Chat GPT)
 	public static List<Asientos> obtenerAsientosPorReserva(int idReserva) {
 	    List<Asientos> asientos = new ArrayList<>();
 	    String sql = "SELECT fila, columna FROM AsientoReservado WHERE idReserva = ?";
@@ -373,7 +375,7 @@ public class GestorBD {
 	    return asientos;
 	}
 
-	
+	//IAG (Chat GPT)
 	public static void actualizarEstadoAsiento(int idReserva, int fila, int columna, boolean ocupado) {
 	    String sql = "UPDATE AsientoReservado SET ocupado = ? WHERE idReserva = ? AND fila = ? AND columna = ?";
 	    try {
